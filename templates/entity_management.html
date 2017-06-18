@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--Vue.js-->
+    <script src="https://unpkg.com/vue"></script>
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+
+    <!--Custom CSS-->
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/index.css' %}">
+</head>
+<body>
+
+<!--Nav Bar-->
+<nav class="navbar navbar-toggleable-md navbar-light" id="navigation-bar">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <h1 class="navbar-brand mb-0" href="#">Iris</h1>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/entity_management/">Manage Entities <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+        </ul>
+
+        <div class="my-2 my-lg-0">
+            <a class="nav-link" href="#">Sign out</a>
+        </div>
+    </div>
+</nav>
+
+<div id="master-detail">
+
+    <div id="stall-list">
+        <ul class="list-group">
+            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
+                <h1 class="navbar-nav navbar-brand mr-auto" href="#">Stalls</h1>
+                <div class="nav-item my-2 my-lg-0">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#create-stall-modal">Add</a>
+                </div>
+            </nav>
+
+            {% if stalls %}
+
+                {% for stall in stalls %}
+
+                    {% if stall.id == active_stall.id %}
+                        <li class="list-group-item active">{{ stall.name }}</li>
+                    {% else %}
+                        <a class="list-group-item" href="/entity_management/stalls/{{ stall.id }}/">
+                            {{ stall.name }}
+                        </a>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% else %}
+                <!--TNo stall message-->
+                <div class="list-group-item empty-message">
+                    <div>
+                        <h5 class="empty-message-text">There's nothing here.</h5>
+                        <div>Stalls added to Iris will be shown here.</div>
+                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#create-stall-modal">
+                            Create
+                            Stall
+                        </button>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </ul>
+    </div>
+
+    <div id="product-list">
+
+        {% if active_stall %}
+            <nav class="navbar navbar-toggleable-md navbar-light" id="stall-navbar">
+                <h1 class="navbar-nav navbar-brand mr-auto">
+                    {{ active_stall.name }}
+                </h1>
+
+                <div class="nav-item my-2 my-lg-0">
+                    <button class="nav-link btn btn-secondary" href="#">Rename</button>
+                </div>
+
+                <div class="nav-item my-2 my-lg-0">
+                    <button class="nav-link btn btn-outline-danger" href="#">Delete</button>
+                </div>
+            </nav>
+
+        {% endif %}
+
+
+        <ul class="list-group">
+            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
+
+                <h1 class="navbar-nav navbar-brand mr-auto">
+                    Products
+                </h1>
+
+
+                <div class="nav-item my-2 my-lg-0">
+                    <a class="nav-link" href="#">Add</a>
+                </div>
+            </nav>
+
+            <!--Select a stall message-->
+
+            {% if not active_stall %}
+
+                <div class="list-group-item empty-message">
+                    <h5 class="empty-message-text">Select a stall from the left to see its products</h5>
+                </div>
+
+            {% else %}
+
+                <!--No products message-->
+                <div class="list-group-item empty-message" id="empty-stall-message">
+                    <div>
+                        <h5 class="empty-message-text">There are no products on this stall.</h5>
+                        <div>Products added to this stall will be shown here.</div>
+                        <button class="btn btn-outline-primary" type="submit">Create Product</button>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </ul>
+    </div>
+</div>
+
+
+<!--Create stall modal-->
+<div class="modal fade" id="create-stall-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Stall</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/entity_management/stalls/" method="post">{% csrf_token %}
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">Stall name</span>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Create Stall</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--Import custom JS here-->
+
+
+</body>
+</html>

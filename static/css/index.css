@@ -1,0 +1,49 @@
+body {
+    background-color : #f4f4f4;
+}
+
+#navigation-bar {
+    border-bottom : 0.25px solid #dddddd;
+    background    : white;
+}
+
+#master-detail {
+    display    : flex;
+    margin-top : 20px;
+}
+
+div#master-detail > * {
+    padding : 15px;
+}
+
+div#stall-list {
+    flex-grow : 1;
+}
+
+nav#stall-navbar {
+    margin-bottom: 20px;
+}
+
+div#product-list {
+    flex-grow : 6;
+}
+
+.empty-message {
+    height          : 200px;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+}
+
+.empty-message > div {
+    text-align : center;
+}
+
+.empty-message > div > * {
+    margin: 10px 0;
+}
+
+.empty-message-text {
+    width      : 100%;
+    text-align : center;
+}
