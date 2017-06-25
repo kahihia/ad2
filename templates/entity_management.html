@@ -21,8 +21,13 @@
             crossorigin="anonymous"></script>
 
     <!--Custom CSS-->
-    {% load static %}
+    {% load staticfiles %}
     <link rel="stylesheet" href="{% static '/css/index.css' %}">
+    <script type="text/javascript" src="{%static "/js/jquery-3.1.1.js"%}"> </script>
+    <script type="text/javascript" src="{%static "/js/entity_management.js"%}"> </script>
+    <script type="text/javascript" src="{%static "/js/cookie.js"%}"> </script>
+
+
 </head>
 <body>
 
@@ -107,7 +112,7 @@
                 </div>
 
                 <div class="nav-item my-2 my-lg-0">
-                    <button class="nav-link btn btn-outline-danger" href="#">Delete</button>
+                    <button id="delete-button" class="nav-link btn btn-outline-danger" href="#">Delete</button>
                 </div>
             </nav>
 
@@ -163,19 +168,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/entity_management/stalls/" method="post">{% csrf_token %}
+            <div>
+                {% csrf_token %}
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-addon">Stall name</span>
-                        <input type="text" class="form-control" name="name">
+                        <input id ="stallname" type="text" class="form-control" name="name">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create Stall</button>
+                    <button id ="create-stall-button" class="btn btn-primary">Create Stall</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
 
-            </form>
+            </div>
         </div>
     </div>
 </div>

@@ -3,7 +3,8 @@ from django.views import View
 from .models import Stall, Product
 from django.shortcuts import Http404, redirect
 from .forms import StallForm
-
+from django.http import HttpResponse,HttpRequest
+import json
 
 class EntityManagementView(View):
     @staticmethod
@@ -31,15 +32,40 @@ class StallView(View):
 
     @staticmethod
     def post(request):
-        new_stall = StallForm(request.POST)
-        print(request.POST)
-        if new_stall.is_valid():
-            print("Valid!")
-            new_stall.save()
-        else:
-            print("NOT VALID")
-        return redirect('/entity_management/')
+        dict = json.loads(request.body)
+        new_stall = Stall()
+        new_stall.name = dict["stall_name"]
+        new_stall.save()
+
+        data = {
+            "new_stall": new_stall.name
+        }
+        return HttpResponse(
+            json.dumps(data),
+            content_type="application/json"
+        )
 
     @staticmethod
     def put(request):
         pass
+
+    @staticmethod
+    def delete(self, stall_id) :
+
+        try:
+            Stall.objects.get(pk = stall_id).delete()
+
+        except:
+            raise Http404("Stall does not exist")
+
+        data = {
+
+        }
+        return HttpResponse(
+            json.dumps(data),
+            content_type="application/json"
+        )
+
+
+
+
