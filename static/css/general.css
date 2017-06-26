@@ -1,0 +1,14 @@
+
+/*File Upload Field*/
+.custom-file-control:after {
+    content: attr(data-content) !important;
+}
+
+.product-card .col-sm-5 {
+    padding-left: 0;
+}
+
+.card.product-card {
+    display: inline-block;
+    margin: 1rem;
+}

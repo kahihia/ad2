@@ -25,7 +25,7 @@ nav#stall-navbar {
 }
 
 div#product-list {
-    flex-grow : 6;
+    flex-grow : 4;
 }
 
 .empty-message {

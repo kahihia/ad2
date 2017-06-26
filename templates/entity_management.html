@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <!--Vue.js-->
-    <script src="https://unpkg.com/vue"></script>
-
     <!--Bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
@@ -21,8 +18,12 @@
             crossorigin="anonymous"></script>
 
     <!--Custom CSS-->
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static '/css/index.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">
+
+    <!--Import custom JS here-->
+    <script type="text/javascript" src="{%  static "/js/general.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/jquery-3.1.1.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/entity_management.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
@@ -303,11 +304,6 @@
         </div>
     </div>
 </div>
-
-
-
-<!--Import custom JS here-->
-
 
 </body>
 </html>
