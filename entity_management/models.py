@@ -3,27 +3,26 @@ from django.db.models import (
     CharField,
     DecimalField,
     ForeignKey,
+    ImageField,
+    PositiveIntegerField,
     CASCADE
 )
 
 
 class Stall(Model):
-    name = CharField(max_length = 64)
+    name = CharField(max_length=64)
 
     def __str__(self):
         return self.name
 
 
 class Product(Model):
-    name = CharField(max_length = 64)
-    price = DecimalField(decimal_places = 2, max_digits = 10)
-    stall = ForeignKey(Stall, on_delete = CASCADE)
-    description = CharField(max_length = 256)
+    name = CharField(max_length=64)
+    description = CharField(max_length=256)
+    photo = ImageField(default='/static/images/product.png')
+    price = DecimalField(decimal_places=2, max_digits=10)
+    stall = ForeignKey(Stall, on_delete=CASCADE)
+    quantity = PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} - {self.stall}"
-
-
-class ProductTag(Model):
-    product = ForeignKey(Product, on_delete = CASCADE)
-    content = CharField(max_length = 64)

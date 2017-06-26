@@ -60,6 +60,138 @@
 
 <div id="master-detail">
 
+    <div id="stall-list">
+        <ul class="list-group">
+            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
+                <h1 class="navbar-nav navbar-brand mr-auto" href="#">Stalls</h1>
+                <div class="nav-item my-2 my-lg-0">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#create-stall-modal">Add</a>
+                </div>
+            </nav>
+
+            {% if stalls %}
+
+                {% for stall in stalls %}
+
+                    {% if stall.id == active_stall.id %}
+                        <li class="list-group-item active">{{ stall.name }}</li>
+                    {% else %}
+                        <a class="list-group-item" href="/entity_management/stalls/{{ stall.id }}/">
+                            {{ stall.name }}
+                        </a>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% else %}
+                <!--No stall message-->
+                <div class="list-group-item empty-message">
+                    <div>
+                        <h5 class="empty-message-text">There's nothing here.</h5>
+                        <div>Stalls added to Iris will be shown here.</div>
+                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#create-stall-modal">
+                            Create
+                            Stall
+                        </button>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </ul>
+    </div>
+
+    <div id="product-list">
+
+        {% if active_stall %}
+            <nav class="navbar navbar-toggleable-md navbar-light" id="stall-navbar">
+                <h1 class="navbar-nav navbar-brand mr-auto">
+                    {{ active_stall.name }}
+                </h1>
+
+                <div class="nav-item mr-sm-2">
+                    <button class="nav-link btn btn-secondary" href="#" data-toggle="modal"
+                            data-target="#rename-stall-modal">Rename
+                    </button>
+                </div>
+
+
+                <button class="nav-item nav-link btn btn-outline-danger" href="#" data-toggle="modal"
+                        data-target="#confirm-delete-stall-modal">Delete
+                </button>
+            </nav>
+
+        {% endif %}
+
+
+        <ul class="list-group">
+            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
+
+                <h1 class="navbar-nav navbar-brand mr-auto">
+                    Products
+                </h1>
+
+
+                <div class="nav-item my-2 my-lg-0">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#create-product-modal">Add</a>
+                </div>
+            </nav>
+
+            <!--Select a stall message-->
+
+            {% if not active_stall %}
+
+                <div class="list-group-item empty-message">
+                    <h5 class="empty-message-text">Select a stall from the left to see its products</h5>
+                </div>
+
+            {% else %}
+
+                {% if products %}
+
+                    {% for product in products %}
+                        <div class="card product-card" style="width: 20rem;">
+                            <img class="card-img-top img-fluid" src="{{ product.photo }}" alt="Card image cap">
+                            <div class="card-block">
+                                <h4 class="card-title">{{ product.name }}</h4>
+                                <p class="card-text">{{ product.description }}</p>
+
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item "><b
+                                        class="col-sm-5">Price</b> {{ product.price }}</li>
+                                <li class="list-group-item"><b
+                                        class="col-sm-5">Quantity</b> {{ product.quantity }}</li>
+                            </ul>
+                            <div class="card-block">
+                                <a href="#" class="btn btn-primary" data-toggle="modal"
+                                   data-target="#edit-product-{{ product.id }}-modal">Modify</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+
+                    <!--No products message-->
+                    <div class="list-group-item empty-message" id="empty-stall-message">
+                        <div>
+                            <h5 class="empty-message-text">There are no products on this stall.</h5>
+                            <div>Products added to this stall will be shown here.</div>
+                            <button class="btn btn-outline-primary" data-toggle="modal"
+                                    data-target="#create-product-modal">
+                                Create Product
+                            </button>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
+
+        </ul>
+    </div>
+</div>
+
 {# TODO: Delete old#}
 {#<div id="master-detail">#}
 {##}
