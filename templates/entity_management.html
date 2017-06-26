@@ -23,9 +23,9 @@
     <!--Custom CSS-->
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static '/css/index.css' %}">
-    <script type="text/javascript" src="{%static "/js/jquery-3.1.1.js"%}"> </script>
-    <script type="text/javascript" src="{%static "/js/entity_management.js"%}"> </script>
-    <script type="text/javascript" src="{%static "/js/cookie.js"%}"> </script>
+    <script type="text/javascript" src="{% static "/js/jquery-3.1.1.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/entity_management.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
 
 
 </head>
@@ -43,7 +43,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/entity_management/">Manage Entities <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/entity_management/">Manage Entities <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -58,104 +59,113 @@
 
 <div id="master-detail">
 
-    <div id="stall-list">
-        <ul class="list-group">
-            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
-                <h1 class="navbar-nav navbar-brand mr-auto" href="#">Stalls</h1>
-                <div class="nav-item my-2 my-lg-0">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#create-stall-modal">Add</a>
-                </div>
-            </nav>
-
-            {% if stalls %}
-
-                {% for stall in stalls %}
-
-                    {% if stall.id == active_stall.id %}
-                        <li class="list-group-item active">{{ stall.name }}</li>
-                    {% else %}
-                        <a class="list-group-item" href="/entity_management/stalls/{{ stall.id }}/">
-                            {{ stall.name }}
-                        </a>
-                    {% endif %}
-
-                {% endfor %}
-
-            {% else %}
-                <!--TNo stall message-->
-                <div class="list-group-item empty-message">
-                    <div>
-                        <h5 class="empty-message-text">There's nothing here.</h5>
-                        <div>Stalls added to Iris will be shown here.</div>
-                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#create-stall-modal">
-                            Create
-                            Stall
-                        </button>
-                    </div>
-                </div>
-
-            {% endif %}
-
-        </ul>
-    </div>
-
-    <div id="product-list">
-
-        {% if active_stall %}
-            <nav class="navbar navbar-toggleable-md navbar-light" id="stall-navbar">
-                <h1 class="navbar-nav navbar-brand mr-auto">
-                    {{ active_stall.name }}
-                </h1>
-
-                <div class="nav-item my-2 my-lg-0">
-                    <button class="nav-link btn btn-secondary" href="#">Rename</button>
-                </div>
-
-                <div class="nav-item my-2 my-lg-0">
-                    <button id="delete-button" class="nav-link btn btn-outline-danger" href="#">Delete</button>
-                </div>
-            </nav>
-
-        {% endif %}
-
-
-        <ul class="list-group">
-            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
-
-                <h1 class="navbar-nav navbar-brand mr-auto">
-                    Products
-                </h1>
-
-
-                <div class="nav-item my-2 my-lg-0">
-                    <a class="nav-link" href="#">Add</a>
-                </div>
-            </nav>
-
-            <!--Select a stall message-->
-
-            {% if not active_stall %}
-
-                <div class="list-group-item empty-message">
-                    <h5 class="empty-message-text">Select a stall from the left to see its products</h5>
-                </div>
-
-            {% else %}
-
-                <!--No products message-->
-                <div class="list-group-item empty-message" id="empty-stall-message">
-                    <div>
-                        <h5 class="empty-message-text">There are no products on this stall.</h5>
-                        <div>Products added to this stall will be shown here.</div>
-                        <button class="btn btn-outline-primary" type="submit">Create Product</button>
-                    </div>
-                </div>
-
-            {% endif %}
-
-        </ul>
-    </div>
-</div>
+{# TODO: Delete old#}
+{#<div id="master-detail">#}
+{##}
+{#    <div id="stall-list">#}
+{#        <ul class="list-group">#}
+{#            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">#}
+{#                <h1 class="navbar-nav navbar-brand mr-auto" href="#">Stalls</h1>#}
+{#                <div class="nav-item my-2 my-lg-0">#}
+{#                    <a class="nav-link" href="#" data-toggle="modal" data-target="#create-stall-modal">Add</a>#}
+{#                </div>#}
+{#            </nav>#}
+{##}
+{#            {% if stalls %}#}
+{##}
+{#                {% for stall in stalls %}#}
+{##}
+{#                    {% if stall.id == active_stall.id %}#}
+{#                        <li class="list-group-item active">{{ stall.name }}</li>#}
+{#                    {% else %}#}
+{#                        <a class="list-group-item" href="/entity_management/stalls/{{ stall.id }}/">#}
+{#                            {{ stall.name }}#}
+{#                        </a>#}
+{#                    {% endif %}#}
+{##}
+{#                {% endfor %}#}
+{##}
+{#            {% else %}#}
+{#                <!--TNo stall message-->#}
+{#                <div class="list-group-item empty-message">#}
+{#                    <div>#}
+{#                        <h5 class="empty-message-text">There's nothing here.</h5>#}
+{#                        <div>Stalls added to Iris will be shown here.</div>#}
+{#                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#create-stall-modal">#}
+{#                            Create#}
+{#                            Stall#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#            {% endif %}#}
+{##}
+{#        </ul>#}
+{#    </div>#}
+{##}
+{#    <div id="product-list">#}
+{##}
+{#        {% if active_stall %}#}
+{#            <nav class="navbar navbar-toggleable-md navbar-light" id="stall-navbar">#}
+{#                <h1 class="navbar-nav navbar-brand mr-auto">#}
+{#                    {{ active_stall.name }}#}
+{#                </h1>#}
+{##}
+{#                <div class="nav-item mr-sm-2">#}
+{#                    <button class="nav-link btn btn-secondary" href="#" data-toggle="modal"#}
+{#                            data-target="#rename-stall-modal">Rename#}
+{#                    </button>#}
+{#                </div>#}
+{##}
+{##}
+{#                <button class="nav-item nav-link btn btn-outline-danger" href="#" data-toggle="modal"#}
+{#                        data-target="#confirm-delete-stall-modal">Delete#}
+{#                </button>#}
+{#            </nav>#}
+{##}
+{#        {% endif %}#}
+{##}
+{##}
+{#        <ul class="list-group">#}
+{#            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">#}
+{##}
+{#                <h1 class="navbar-nav navbar-brand mr-auto">#}
+{#                    Products#}
+{#                </h1>#}
+{##}
+{##}
+{#                <div class="nav-item my-2 my-lg-0">#}
+{#                    <a class="nav-link" href="#" data-toggle="modal" data-target="#create-product-modal">Add</a>#}
+{#                </div>#}
+{#            </nav>#}
+{##}
+{#            <!--Select a stall message-->#}
+{##}
+{#            {% if not active_stall %}#}
+{##}
+{#                <div class="list-group-item empty-message">#}
+{#                    <h5 class="empty-message-text">Select a stall from the left to see its products</h5>#}
+{#                </div>#}
+{##}
+{#            {% else %}#}
+{##}
+{#                <!--No products message-->#}
+{#                <div class="list-group-item empty-message" id="empty-stall-message">#}
+{#                    <div>#}
+{#                        <h5 class="empty-message-text">There are no products on this stall.</h5>#}
+{#                        <div>Products added to this stall will be shown here.</div>#}
+{#                        <button class="btn btn-outline-primary" data-toggle="modal"#}
+{#                                data-target="#create-product-modal">#}
+{#                            Create Product#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#            {% endif %}#}
+{##}
+{#        </ul>#}
+{#    </div>#}
+{#</div>#}
 
 
 <!--Create stall modal-->
@@ -173,11 +183,11 @@
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-addon">Stall name</span>
-                        <input id ="stallname" type="text" class="form-control" name="name">
+                        <input id="stallname" type="text" class="form-control" name="name">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id ="create-stall-button" class="btn btn-primary">Create Stall</button>
+                    <button id="create-stall-button" class="btn btn-primary">Create Stall</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
 
@@ -186,6 +196,113 @@
     </div>
 </div>
 
+<!--Edit stall modal-->
+{% if active_stall %}
+    <div class="modal fade" id="rename-stall-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rename {{ active_stall.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <input type="hidden" name="_method" value="PUT">
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">Stall name</span>
+                        <input type="text" class="form-control" name="name" value="{{ active_stall.name }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Rename</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Confirm Delete Modal-->
+    <div class="modal fade" id="confirm-delete-stall-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm delete {{ active_stall.name }}?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <b>{{ active_stall.name }}</b>? This action cannot be undone.</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!--Create Product Modal-->
+<div class="modal fade" id="create-product-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+                <input type="hidden" name="stall" value="{{ active_stall.id }}">
+
+                <div class="modal-body container">
+                    <div class="input-group form-group row">
+                        <label for="create-product-name-input" class="col-sm-4 col-form-label">Product name</label>
+                        <input type="text" class="form-control" name="name" id="create-product-name-input">
+                    </div>
+
+                    <div class="input-group form-group row">
+                        <label for="create-product-price-input" class="col-sm-4 col-form-label">Price</label>
+                        <span class="input-group-addon">₱</span>
+                        <input type="text" class="form-control" name="price" id="create-product-price-input">
+                    </div>
+
+                    <div class="input-group form-group row">
+                        <label for="create-product-description-input"
+                               class="col-sm-4 col-form-label">Description</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+
+                    <div class="input-group form-group row">
+                        <label for="create-product-quantity-input" class="col-sm-4 col-form-label">Quantity</label>
+                        <input type="text" class="form-control" name="quantity" id="create-product-quantity-input">
+                    </div>
+
+                    <div class="input-group form-group row">
+                        <label for="create-product-photo-input" class="col-sm-4 col-form-label">Display Photo</label>
+                        <label class="custom-file">
+                            <input type="file" id="file" class="custom-file-input" name="photo">
+                            <span class="custom-file-control"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Create Product</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+        </div>
+    </div>
+</div>
 
 
 

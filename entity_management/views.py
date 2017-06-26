@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.views import View
-from .models import Stall, Product
-from django.shortcuts import Http404, redirect
-from .forms import StallForm
-from django.http import HttpResponse,HttpRequest
+from .models import Stall
+from django.shortcuts import Http404
+from django.http import HttpResponse
 import json
+
 
 class EntityManagementView(View):
     @staticmethod
@@ -50,10 +50,10 @@ class StallView(View):
         pass
 
     @staticmethod
-    def delete(self, stall_id) :
+    def delete(self, stall_id):
 
         try:
-            Stall.objects.get(pk = stall_id).delete()
+            Stall.objects.get(pk=stall_id).delete()
 
         except:
             raise Http404("Stall does not exist")
@@ -65,7 +65,3 @@ class StallView(View):
             json.dumps(data),
             content_type="application/json"
         )
-
-
-
-

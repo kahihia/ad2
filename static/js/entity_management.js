@@ -12,9 +12,9 @@ $(document).ready(function () {
 
 
     function attachCSRF() {
-        var csrftoken = $.cookie('csrftoken');
+        const csrftoken = $.cookie('csrftoken');
 
-        const csrfSafeMethod = function(method){
+        const csrfSafeMethod = function (method) {
             return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
         };
 
@@ -35,11 +35,11 @@ $(document).ready(function () {
             url: window.location.pathname,
             method: "DELETE",
             success: function () {
-                location.href = "/entity_management/"
+                location.href = "/entity_management/";
             },
             error: function () {
                 alert("something went wrong");
-                location.href = "/entity_management/"
+                location.href = "/entity_management/";
             }
 
         })
@@ -58,11 +58,11 @@ $(document).ready(function () {
             data: JSON.stringify(dict),
             success: function () {
                 alert(dict["stall_name"] + " created");
-                location.href = "/entity_management/"
+                location.href = "/entity_management/";
             },
             error: function () {
                 alert("something went wrong");
-                location.href = "/entity_management/"
+                location.href = "/entity_management/";
             }
 
         })
