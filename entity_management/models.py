@@ -5,7 +5,8 @@ from django.db.models import (
     ForeignKey,
     ImageField,
     PositiveIntegerField,
-    CASCADE
+    CASCADE,
+    FileField
 )
 
 
@@ -19,7 +20,8 @@ class Stall(Model):
 class Product(Model):
     name = CharField(max_length=64)
     description = CharField(max_length=256)
-    photo = ImageField(default='/static/images/product.png')
+    # photo = ImageField(default='/static/images/product.png')
+    photo = FileField(null=True,blank=True, default="/static/images/product.png")
     price = DecimalField(decimal_places=2, max_digits=10)
     stall = ForeignKey(Stall, on_delete=CASCADE)
     quantity = PositiveIntegerField(default=0)

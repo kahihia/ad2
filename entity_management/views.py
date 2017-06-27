@@ -46,8 +46,26 @@ class StallView(View):
         )
 
     @staticmethod
-    def put(request):
-        pass
+    def put(request, stall_id):
+        dict = json.loads(request.body)
+        try:
+            stall = Stall.objects.get(pk=stall_id)
+            print(stall)
+            old_name = stall.name # old name stored for debugging purposes (sent in JSON response)
+            stall.name = dict["modified_name"]
+            stall.save()
+
+        except:
+            raise Http404("Stall does not exist")
+        data = {
+            "old_name": old_name,
+            "new_name": stall.name
+        }
+        return HttpResponse(
+            json.dumps(data),
+            content_type="application/json"
+        )
+
 
     @staticmethod
     def delete(self, stall_id):

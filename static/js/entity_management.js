@@ -9,6 +9,9 @@ $(document).ready(function () {
     $("#create-stall-button").click(function () {
         createStall();
     });
+    $("#rename-stall-button").click(function () {
+        renameStall();
+    });
 
 
     function attachCSRF() {
@@ -68,5 +71,30 @@ $(document).ready(function () {
         })
 
     }
+
+    function renameStall() {
+        //performs Ajax function to rename stall
+        attachCSRF();
+        dict = {
+            "modified_name": $("#modified_stall_name").val()
+        };
+        $.ajax({
+            url: window.location.pathname,
+            method: "PUT",
+            data: JSON.stringify(dict),
+            success: function (data) {
+                alert( data["old_name"] + " successfully renamed to "+ data["new_name"]);
+                location.href = "/entity_management/";
+            },
+            error: function () {
+                alert("something went wrong");
+                location.href = "/entity_management/";
+            }
+
+        })
+
+    }
+
+
 
 });

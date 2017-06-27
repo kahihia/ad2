@@ -345,11 +345,11 @@
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-addon">Stall name</span>
-                        <input type="text" class="form-control" name="name" value="{{ active_stall.name }}">
+                        <input type="text" id="modified_stall_name" class="form-control" name="name" value="{{ active_stall.name }}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Rename</button>
+                    <button id= "rename-stall-button" type="submit" class="btn btn-primary">Rename</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
 
@@ -373,7 +373,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button id="delete-button" class="btn btn-danger">Delete</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
 
