@@ -33,7 +33,11 @@
   </component>
   <component name="FileEditorManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <splitter split-orientation="horizontal" split-proportion="0.25371748">
+=======
+    <splitter split-orientation="horizontal" split-proportion="0.44119796">
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
 =======
     <splitter split-orientation="horizontal" split-proportion="0.44119796">
 >>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
@@ -91,6 +95,7 @@
             <entry file="file://$PROJECT_DIR$/static/js/entity_management.js">
               <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <state relative-caret-position="126">
                   <caret line="84" column="38" lean-forward="false" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
 =======
@@ -112,11 +117,18 @@
                   <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
+=======
+                <state relative-caret-position="168">
+                  <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+                  <folding>
+                    <element signature="e#0#49#0" expanded="false" />
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
           <file leaf-file-name="entity_management.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/templates/entity_management.html">
               <provider selected="true" editor-type-id="text-editor">
@@ -156,6 +168,13 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="0">
                   <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+          <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/IrisOnline/settings.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2688">
+                  <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
                   <folding />
                 </state>
               </provider>
@@ -199,6 +218,8 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="1029">
                   <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+<<<<<<< HEAD
+=======
                   <folding />
                 </state>
               </provider>
@@ -209,11 +230,25 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="168">
                   <caret line="8" column="2" lean-forward="false" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
+<<<<<<< HEAD
+          <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/static/js/index.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="168">
+                  <caret line="8" column="2" lean-forward="false" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+=======
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
           <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/entity_management/admin.py">
               <provider selected="true" editor-type-id="text-editor">
@@ -331,7 +366,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
               <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -346,6 +384,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
+=======
 >>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -380,7 +421,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -413,6 +457,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
+=======
 >>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
               <option name="myItemId" value="entity_management" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -1114,6 +1161,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
         </state>
       </provider>
     </entry>
@@ -1134,10 +1182,28 @@
         </state>
       </provider>
     </entry>
+=======
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/entity_management.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#49#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
     <entry file="file://$PROJECT_DIR$/static/js/general.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="48" lean-forward="false" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
+<<<<<<< HEAD
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
+=======
 >>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
         </state>
       </provider>
@@ -1193,6 +1259,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
           <caret line="106" column="96" lean-forward="false" selection-start-line="106" selection-start-column="96" selection-end-line="106" selection-end-column="96" />
+<<<<<<< HEAD
           <folding />
         </state>
       </provider>
@@ -1217,6 +1284,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="2" lean-forward="false" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+=======
+>>>>>>> 7770d475d828633566a4508bc740f0e2571288b4
           <folding />
         </state>
       </provider>
