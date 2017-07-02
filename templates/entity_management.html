@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{% static 'css/general.css' %}">
 
     <!--Import custom JS here-->
-    <script type="text/javascript" src="{%  static "/js/general.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/general.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/jquery-3.1.1.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/entity_management.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
@@ -102,6 +102,10 @@
     </div>
 
     <div id="product-list">
+
+        <div class="alert alert-danger" role="alert">
+            <strong>Product not saved.</strong> Found string in Integer Field. Please try again.
+        </div>
 
         {% if active_stall %}
             <nav class="navbar navbar-toggleable-md navbar-light" id="stall-navbar">
@@ -345,11 +349,12 @@
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-addon">Stall name</span>
-                        <input type="text" id="modified_stall_name" class="form-control" name="name" value="{{ active_stall.name }}">
+                        <input type="text" id="modified_stall_name" class="form-control" name="name"
+                               value="{{ active_stall.name }}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id= "rename-stall-button" type="submit" class="btn btn-primary">Rename</button>
+                    <button id="rename-stall-button" type="submit" class="btn btn-primary">Rename</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
 
@@ -393,44 +398,44 @@
                 </button>
             </div>
 
-                <input type="hidden" name="stall" value="{{ active_stall.id }}">
+            <input type="hidden" name="stall" value="{{ active_stall.id }}">
 
-                <div class="modal-body container">
-                    <div class="input-group form-group row">
-                        <label for="create-product-name-input" class="col-sm-4 col-form-label">Product name</label>
-                        <input type="text" class="form-control" name="name" id="create-product-name-input">
-                    </div>
-
-                    <div class="input-group form-group row">
-                        <label for="create-product-price-input" class="col-sm-4 col-form-label">Price</label>
-                        <span class="input-group-addon">₱</span>
-                        <input type="text" class="form-control" name="price" id="create-product-price-input">
-                    </div>
-
-                    <div class="input-group form-group row">
-                        <label for="create-product-description-input"
-                               class="col-sm-4 col-form-label">Description</label>
-                        <textarea class="form-control" name="description"></textarea>
-                    </div>
-
-                    <div class="input-group form-group row">
-                        <label for="create-product-quantity-input" class="col-sm-4 col-form-label">Quantity</label>
-                        <input type="text" class="form-control" name="quantity" id="create-product-quantity-input">
-                    </div>
-
-                    <div class="input-group form-group row">
-                        <label for="create-product-photo-input" class="col-sm-4 col-form-label">Display Photo</label>
-                        <label class="custom-file">
-                            <input type="file" id="file" class="custom-file-input" name="photo">
-                            <span class="custom-file-control"></span>
-                        </label>
-                    </div>
+            <div class="modal-body container">
+                <div class="input-group form-group row">
+                    <label for="create-product-name-input" class="col-sm-4 col-form-label">Product name</label>
+                    <input type="text" class="form-control" name="name" id="create-product-name-input">
                 </div>
 
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create Product</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <div class="input-group form-group row">
+                    <label for="create-product-price-input" class="col-sm-4 col-form-label">Price</label>
+                    <span class="input-group-addon">₱</span>
+                    <input type="text" class="form-control" name="price" id="create-product-price-input">
                 </div>
+
+                <div class="input-group form-group row">
+                    <label for="create-product-description-input"
+                           class="col-sm-4 col-form-label">Description</label>
+                    <textarea class="form-control" name="description"></textarea>
+                </div>
+
+                <div class="input-group form-group row">
+                    <label for="create-product-quantity-input" class="col-sm-4 col-form-label">Quantity</label>
+                    <input type="text" class="form-control" name="quantity" id="create-product-quantity-input">
+                </div>
+
+                <div class="input-group form-group row">
+                    <label for="create-product-photo-input" class="col-sm-4 col-form-label">Display Photo</label>
+                    <label class="custom-file">
+                        <input type="file" id="file" class="custom-file-input" name="photo">
+                        <span class="custom-file-control"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Create Product</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
 
 
         </div>
