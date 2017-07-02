@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from .models import Stall
+from .models import *
 from django.shortcuts import Http404
 from django.http import HttpResponse
 import json
@@ -10,8 +10,9 @@ class EntityManagementView(View):
     @staticmethod
     def get(request):
         stalls = Stall.objects.all()
+        products = Product.objects.all()
         return render(request, 'entity_management.html', {
-            "stalls": stalls
+            "stalls": stalls,
         })
 
 
@@ -21,13 +22,18 @@ class StallView(View):
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
+            products = Product.objects.all().filter(stall=stall)
+            for product in products:
+                print(product.photo)
         except:
             raise Http404("Stall does not exist")
 
         stalls = Stall.objects.all()
         return render(request, 'entity_management.html', {
             "stalls": stalls,
-            "active_stall": stall
+            "active_stall": stall,
+            "products":products,
+
         })
 
     @staticmethod
