@@ -12,6 +12,9 @@ $(document).ready(function () {
     $("#rename-stall-button").click(function () {
         renameStall();
     });
+    $("#create-product-button").click(function () {
+        createProduct();
+    });
 
 
     function attachCSRF() {
@@ -83,7 +86,7 @@ $(document).ready(function () {
             method: "PUT",
             data: JSON.stringify(dict),
             success: function (data) {
-                alert( data["old_name"] + " successfully renamed to "+ data["new_name"]);
+                alert(data["old_name"] + " successfully renamed to " + data["new_name"]);
                 location.href = "/entity_management/";
             },
             error: function () {
@@ -95,6 +98,56 @@ $(document).ready(function () {
 
     }
 
+    function createProduct() {
+        attachCSRF();
+
+        const form = new FormData();
+
+        const name = $("#create-product-name-input").val();
+        const price = $("#create-product-price-input").val();
+        const description = $("#create-product-description-input").val();
+        const quantity = $("#create-product-quantity-input").val();
+        const photo = $("#create-product-photo");
+
+        console.log(name);
+        console.log(price);
+        console.log(description);
+        console.log(quantity);
+        console.log(extractPhoto(photo));
+
+        form.append('photo', extractPhoto(photo));
+        form.append('name', name);
+        form.append('price', price);
+        form.append('description', description);
+        form.append('quantity', quantity);
+
+
+        $.ajax({
+            url: window.location.pathname + "products/",
+            method: "POST",
+            data: form,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert(data["new_product"]+" created");
+                location.reload()
+            },
+            error: function () {
+                alert("something went wrong");
+            }
+
+        })
+
+    }
+
+    function extractPhoto(input) {
+        var files = input[0].files;
+        if (!files.length) {
+            alert('Unable to upload: no image/s selected');
+            return false;
+        }
+        return files[0]
+    }
 
 
 });

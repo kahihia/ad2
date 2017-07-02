@@ -415,7 +415,7 @@
                 <div class="input-group form-group row">
                     <label for="create-product-description-input"
                            class="col-sm-4 col-form-label">Description</label>
-                    <textarea class="form-control" name="description"></textarea>
+                    <textarea class="form-control" name="description" id="create-product-description-input"></textarea>
                 </div>
 
                 <div class="input-group form-group row">
@@ -426,14 +426,14 @@
                 <div class="input-group form-group row">
                     <label for="create-product-photo-input" class="col-sm-4 col-form-label">Display Photo</label>
                     <label class="custom-file">
-                        <input type="file" id="file" class="custom-file-input" name="photo">
+                        <input type="file" id="create-product-photo" class="custom-file-input" name="photo">
                         <span class="custom-file-control"></span>
                     </label>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Create Product</button>
+                <button id="create-product-button" type="submit" class="btn btn-primary">Create Product</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
 

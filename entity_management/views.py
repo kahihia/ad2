@@ -15,6 +15,37 @@ class EntityManagementView(View):
             "stalls": stalls,
         })
 
+class ProductView(View):
+    @staticmethod
+    def post(request,stall_id):
+
+        if 'photo' not in request.FILES:
+            return HttpResponse(status=400)
+
+        dict = {
+            "product_name":request.POST.get('name'),
+            "description":request.POST.get('description'),
+            "price":request.POST.get('price'),
+            "quantity":request.POST.get('quantity')
+        }
+
+        new_product = Product()
+        new_product.name = dict["product_name"]
+        new_product.description = dict["description"]
+        new_product.photo = request.FILES.get('photo')
+        new_product.price = dict["price"]
+        new_product.stall = Stall.objects.get(pk=stall_id)
+        new_product.quantity = dict["quantity"]
+
+        new_product.save()
+
+        data = {
+            "new_product": new_product.name
+        }
+        return HttpResponse(
+            json.dumps(data),
+            content_type="application/json"
+        )
 
 class StallView(View):
     # noinspection PyBroadException
@@ -23,8 +54,6 @@ class StallView(View):
         try:
             stall = Stall.objects.get(id=stall_id)
             products = Product.objects.all().filter(stall=stall)
-            for product in products:
-                print(product.photo)
         except:
             raise Http404("Stall does not exist")
 
