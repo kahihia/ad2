@@ -47,3 +47,7 @@ div#product-list {
     width      : 100%;
     text-align : center;
 }
+
+div#create-product-errors {
+    padding: 15px 10px;
+}

@@ -103,22 +103,15 @@
 
     <div id="product-list">
 
-        <div class="alert alert-danger" role="alert">
-            <strong>Product not saved.</strong> Found string in Integer Field. Please try again.
-        </div>
-
         {% if active_stall %}
             <nav class="navbar navbar-toggleable-md navbar-light" id="stall-navbar">
                 <h1 class="navbar-nav navbar-brand mr-auto">
                     {{ active_stall.name }}
                 </h1>
 
-                <div class="nav-item mr-sm-2">
-                    <button class="nav-link btn btn-secondary" href="#" data-toggle="modal"
+                <button class="nav-item mr-sm-2 nav-link btn btn-secondary" href="#" data-toggle="modal"
                             data-target="#rename-stall-modal">Rename
                     </button>
-                </div>
-
 
                 <button class="nav-item nav-link btn btn-outline-danger" href="#" data-toggle="modal"
                         data-target="#confirm-delete-stall-modal">Delete
@@ -137,7 +130,7 @@
 
 
                 <div class="nav-item my-2 my-lg-0">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#create-product-modal">Add</a>
+                    <a id="create-product-button-1" class="nav-link" href="#" data-toggle="modal" data-target="#create-product-modal">Add</a>
                 </div>
             </nav>
 
@@ -168,8 +161,9 @@
                                         class="col-sm-5">Quantity</b> {{ product.quantity }}</li>
                             </ul>
                             <div class="card-block">
-                                <a href="#" class="btn btn-primary" data-toggle="modal"
-                                   data-target="#edit-product-{{ product.id }}-modal">Modify</a>
+                                <input id="product-id" type="hidden" value="{{ product.id }}">
+                                <a href="#" id="edit-product-button" class="btn btn-primary" data-toggle="modal"
+                                   data-target="#edit-product-modal">Modify</a>
                             </div>
                         </div>
                     {% endfor %}
@@ -181,7 +175,7 @@
                         <div>
                             <h5 class="empty-message-text">There are no products on this stall.</h5>
                             <div>Products added to this stall will be shown here.</div>
-                            <button class="btn btn-outline-primary" data-toggle="modal"
+                            <button id = "create-product-button-2" class="btn btn-outline-primary" data-toggle="modal"
                                     data-target="#create-product-modal">
                                 Create Product
                             </button>
@@ -398,6 +392,15 @@
                 </button>
             </div>
 
+            <div id="create-product-errors" class="container">
+
+            </div>
+
+
+            <div id="error-text" class="alert alert-danger" role="alert">
+                <strong class="error-strong-text">Product not saved.</strong>
+            </div>
+
             <input type="hidden" name="stall" value="{{ active_stall.id }}">
 
             <div class="modal-body container">
@@ -434,6 +437,70 @@
 
             <div class="modal-footer">
                 <button id="create-product-button" type="submit" class="btn btn-primary">Create Product</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!--Edit Product Modal-->
+<div class="modal fade" id="edit-product-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modify Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div id="edit-product-errors" class="container">
+
+            </div>
+
+
+            <div id="error-text-2" class="alert alert-danger" role="alert">
+                <strong class="error-strong-text">Product not saved.</strong>
+            </div>
+
+            <input type="hidden" name="stall" value="{{ active_stall.id }}">
+
+            <div class="modal-body container">
+                <div class="input-group form-group row">
+                    <label for="edit-product-name-input" class="col-sm-4 col-form-label">Product name</label>
+                    <input type="text" class="form-control" name="name" id="edit-product-name-input">
+                </div>
+
+                <div class="input-group form-group row">
+                    <label for="edit-product-price-input" class="col-sm-4 col-form-label">Price</label>
+                    <span class="input-group-addon">₱</span>
+                    <input type="text" class="form-control" name="price" id="edit-product-price-input">
+                </div>
+
+                <div class="input-group form-group row">
+                    <label for="edit-product-description-input"
+                           class="col-sm-4 col-form-label">Description</label>
+                    <textarea class="form-control" name="description" id="edit-product-description-input"></textarea>
+                </div>
+
+                <div class="input-group form-group row">
+                    <label for="edit-product-quantity-input" class="col-sm-4 col-form-label">Quantity</label>
+                    <input type="text" class="form-control" name="quantity" id="edit-product-quantity-input">
+                </div>
+
+                <div class="input-group form-group row">
+                    <label for="edit-product-photo-input" class="col-sm-4 col-form-label">Display Photo</label>
+                    <label class="custom-file">
+                        <input type="file" id="edit-product-photo" class="custom-file-input" name="photo">
+                        <span class="custom-file-control"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="edit-product-button" type="submit" class="btn btn-primary">Save Changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
 

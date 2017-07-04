@@ -1,20 +1,20 @@
 /**
  * Created by JasonDeniega on 25/06/2017.
  */
-$(document).ready(function () {
+$(function () {
 
-    $("#delete-button").click(function () {
-        deleteStall();
-    });
-    $("#create-stall-button").click(function () {
-        createStall();
-    });
-    $("#rename-stall-button").click(function () {
-        renameStall();
-    });
-    $("#create-product-button").click(function () {
-        createProduct();
-    });
+    const errorText = $('#error-text');
+    const errorText2 = $('#error-text-2');
+    errorText.hide();
+    errorText2.hide();
+
+    $("#delete-button").click(deleteStall);
+    $("#create-stall-button").click(createStall);
+    $("#rename-stall-button").click(renameStall);
+    $("#create-product-button").click(createProduct);
+    $("#create-product-button-1").click(removeErrors);
+    $("#create-product-button-2").click(removeErrors);
+    // $("#edit-product-button").click(populateProductModal);
 
 
     function attachCSRF() {
@@ -99,6 +99,7 @@ $(document).ready(function () {
     }
 
     function createProduct() {
+
         attachCSRF();
 
         const form = new FormData();
@@ -108,12 +109,6 @@ $(document).ready(function () {
         const description = $("#create-product-description-input").val();
         const quantity = $("#create-product-quantity-input").val();
         const photo = $("#create-product-photo");
-
-        console.log(name);
-        console.log(price);
-        console.log(description);
-        console.log(quantity);
-        console.log(extractPhoto(photo));
 
         form.append('photo', extractPhoto(photo));
         form.append('name', name);
@@ -129,8 +124,30 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                alert(data["new_product"]+" created");
-                location.reload()
+                alert(data["new_product"] + " created");
+                location.reload();
+            },
+            error: function (data) {
+                displayErrors(data.responseJSON);
+            }
+
+        })
+
+    }
+
+    function populateProductModal() {
+        console.log(window.location.pathname);
+        attachCSRF();
+        dict = {
+            "product_id": $("#product-id")
+        };
+
+        $.ajax({
+            url: window.location.pathname +"products/",
+            method: "GET",
+            data: JSON.stringify(dict),
+            success: function (data) {
+                console.log(data["name"]);
             },
             error: function () {
                 alert("something went wrong");
@@ -138,6 +155,38 @@ $(document).ready(function () {
 
         })
 
+    }
+
+
+    function displayErrors(errorArray) {
+
+        if (errorArray.length == 0) {
+            return;
+        }
+
+        const errorContainer = $('#create-product-errors');
+        removeErrors();
+
+
+        // errorText.show();
+
+        errorArray.forEach((error) => {
+
+            const errorBox = errorText.clone();
+            const strong = errorBox.find('.error-strong-text');
+
+            if (error) {
+                strong.html(error);
+            }
+            errorContainer.append(errorBox);
+            errorBox.show();
+
+        });
+
+    }
+
+    function removeErrors() {
+        $('#create-product-errors').html('');
     }
 
     function extractPhoto(input) {
@@ -150,4 +199,5 @@ $(document).ready(function () {
     }
 
 
-});
+})
+;
