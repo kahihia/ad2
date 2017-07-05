@@ -5,13 +5,13 @@ from django.shortcuts import Http404
 from django.http import HttpResponse
 import json
 from django.core import serializers
+from django.http import QueryDict
 
 
 class EntityManagementView(View):
     @staticmethod
     def get(request):
         stalls = Stall.objects.all()
-        products = Product.objects.all()
         return render(request, 'entity_management.html', {
             "stalls": stalls,
         })
@@ -19,7 +19,7 @@ class EntityManagementView(View):
 
 class ProductView(View):
     @staticmethod
-    def post(request):
+    def post(request,stall_id):
 
         if 'photo' not in request.FILES:
             return HttpResponse(status=400)
@@ -60,20 +60,44 @@ class ProductView(View):
         )
 
     @staticmethod
-    def get(request,stall_id):
-        dict = json.loads(request.body)
-        product = Product.objects.get(id=dict["product_id"])
-
-        data = {
-            "name": product.name,
-            "price": product.price,
-            "quantity": product.quantity,
-            "photo" : product.photo.url
+    def put(self, request, stall_id):
+        # this function is never used
+        put = QueryDict(request.body)
+        dict = {
+            "product_name": put.get("product_name"),
+            "description": put.get('description'),
+            "price": put.get('price'),
+            "quantity": put.get('quantity')
         }
 
+        print(dict)
+        errors = handle_errors(dict)
+        print(errors)
+
+        if not errors:
+            product = Product.objects.get(id=put.get("product_id"))
+            product.name = put.get("product_name")
+            product.description = put.get("description")
+            product.price = put.get("price")
+            product.quantity = put.get("quantity")
+            if 'photo' in request.FILES:
+                product.photo = request.FILES.get('photo')
+            product.save()
+
+
+            data = {
+                "product": product.name
+            }
+
+            return HttpResponse(
+                json.dumps(data),
+                content_type="application/json"
+            )
+
         return HttpResponse(
-            json.dumps(data),
-            content_type="application/json"
+            json.dumps(errors),
+            content_type="application/json",
+            status=400
         )
 
 
@@ -92,7 +116,6 @@ class StallView(View):
             "stalls": stalls,
             "active_stall": stall,
             "products": products,
-
         })
 
     @staticmethod
@@ -165,3 +188,46 @@ def handle_errors(dict):
 
 def is_invalid(item):
     return item == None or item == ""
+
+def update_product(request,stall_id):
+    # dict = {
+    #     "product_name": request.POST('name'),
+    #     "description": request.POST('description'),
+    #     "price": request.POST('price'),
+    #     "quantity": request.POST('quantity')
+    # }
+    # put = QueryDict(request.body)
+    dict = {
+        "product_name": request.POST.get('name'),
+        "description": request.POST.get('description'),
+        "price": request.POST.get('price'),
+        "quantity": request.POST.get('quantity')
+    }
+
+    errors = handle_errors(dict)
+    print(errors)
+
+    if not errors:
+        product = Product.objects.get(id=request.POST.get("product_id"))
+        product.name = dict["product_name"]
+        product.description = dict["description"]
+        product.price = dict["price"]
+        product.quantity = dict["quantity"]
+        if 'photo' in request.FILES:
+            product.photo = request.FILES.get('photo')
+        product.save()
+
+        data = {
+            "product": product.name
+        }
+
+        return HttpResponse(
+            json.dumps(data),
+            content_type="application/json"
+        )
+
+    return HttpResponse(
+        json.dumps(errors),
+        content_type="application/json",
+        status=400
+    )

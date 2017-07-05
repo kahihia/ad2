@@ -14,7 +14,7 @@ $(function () {
     $("#create-product-button").click(createProduct);
     $("#create-product-button-1").click(removeErrors);
     $("#create-product-button-2").click(removeErrors);
-    $("#edit-product-button").click(populateProductModal);
+    // $("#edit-product-button").click(populateProductModal);
 
 
     function attachCSRF() {
@@ -136,7 +136,11 @@ $(function () {
     }
 
     function populateProductModal() {
-        console.log(window.location.pathname +"products/");
+
+        const location = window.location.pathname + "products/";
+
+
+        console.log(location);
         attachCSRF();
         dict = {
             "product_id": $("#product-id").val()
@@ -144,7 +148,7 @@ $(function () {
         console.log(JSON.stringify(dict["product_id"]));
 
         $.ajax({
-            url: window.location.pathname +"products/",
+            url: location,
             method: "GET",
             data: JSON.stringify(dict),
             success: function (data) {
@@ -199,5 +203,99 @@ $(function () {
     }
 
 
-})
-;
+});
+
+const errorText2 = $("#error-text-2");
+// errorText2.hide();
+
+function displayErrors(errorArray) {
+    console.log(errorArray)
+    if (errorArray.length == 0) {
+        return;
+    }
+
+    const errorContainer = $('#edit-product-errors');
+    removeErrors();
+
+
+    // errorText.show();
+
+    errorArray.forEach((error) => {
+
+        const errorBox = errorText2.clone();
+        const strong = errorBox.find('.error-strong-text');
+
+        if (error) {
+            strong.html(error);
+        }
+        errorContainer.append(errorBox);
+        errorBox.show();
+    });
+
+}
+
+function removeErrors() {
+    $('#edit-product-errors').html('');
+}
+
+function attachCSRF() {
+    const csrftoken = $.cookie('csrftoken');
+
+    const csrfSafeMethod = function (method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    };
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+}
+
+function extractPhoto(input) {
+    const files = input[0].files;
+    return files[0]
+}
+
+function editProduct(productID) {
+
+    const form = new FormData();
+    const name = $('#edit-product-name-input-' + productID).val();
+    const quantity = $('#edit-product-quantity-input-' + productID).val();
+    const description = $('#edit-product-description-input-' + productID).val();
+    const price = $('#edit-product-price-input-' + productID).val();
+    const photo = $('#edit-product-photo-' + productID);
+
+    if (extractPhoto(photo)) {
+        form.append('photo', extractPhoto(photo));
+    }
+    form.append('name', name);
+    form.append('price', price);
+    form.append('description', description);
+    form.append('quantity', quantity);
+    form.append('product_id', productID);
+
+    attachCSRF();
+    $.ajax({
+        url: window.location.pathname + "products/update/",
+        method: "POST",
+        data: form,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            alert(data["product"] + " edited");
+            location.reload();
+        },
+        error: function (data) {
+            if (data.responseJSON) {
+                displayErrors(data.responseJSON);
+            }
+        }
+
+    })
+
+
+}

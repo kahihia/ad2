@@ -10,6 +10,7 @@ urlpatterns = [
 
     url(r'^stalls/(?P<stall_id>(\d+))/products/$', views.ProductView.as_view()),
     url(r'^stalls/(?P<stall_id>(\d+))/products/(?P<product_id>(\d+))/$', views.ProductView.as_view()),
+    url(r'^stalls/(?P<stall_id>(\d+))/products/update/$', views.update_product, name="update_product"),
 
 ]
 
