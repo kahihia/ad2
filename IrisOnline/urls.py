@@ -23,6 +23,7 @@ from customer_profile.views import SignInView, SignUpView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^entity_management/', include('entity_management.urls')),
+    url(r'^product_catalog/', include('product_catalog.urls'))
     url(r'^customer_sign_in/', SignInView.as_view()),
     url(r'^customer_sign_up/', SignUpView.as_view()),
 ]
