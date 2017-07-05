@@ -14,7 +14,7 @@ $(function () {
     $("#create-product-button").click(createProduct);
     $("#create-product-button-1").click(removeErrors);
     $("#create-product-button-2").click(removeErrors);
-    // $("#edit-product-button").click(populateProductModal);
+    $("#edit-product-button").click(populateProductModal);
 
 
     function attachCSRF() {
@@ -136,11 +136,12 @@ $(function () {
     }
 
     function populateProductModal() {
-        console.log(window.location.pathname);
+        console.log(window.location.pathname +"products/");
         attachCSRF();
         dict = {
-            "product_id": $("#product-id")
+            "product_id": $("#product-id").val()
         };
+        console.log(JSON.stringify(dict["product_id"]));
 
         $.ajax({
             url: window.location.pathname +"products/",
@@ -156,7 +157,6 @@ $(function () {
         })
 
     }
-
 
     function displayErrors(errorArray) {
 

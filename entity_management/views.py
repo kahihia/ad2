@@ -4,6 +4,7 @@ from .models import *
 from django.shortcuts import Http404
 from django.http import HttpResponse
 import json
+from django.core import serializers
 
 
 class EntityManagementView(View):
@@ -18,7 +19,7 @@ class EntityManagementView(View):
 
 class ProductView(View):
     @staticmethod
-    def post(request, stall_id):
+    def post(request):
 
         if 'photo' not in request.FILES:
             return HttpResponse(status=400)
@@ -69,7 +70,7 @@ class ProductView(View):
             "quantity": product.quantity,
             "photo" : product.photo.url
         }
-        print(product.name)
+
         return HttpResponse(
             json.dumps(data),
             content_type="application/json"
