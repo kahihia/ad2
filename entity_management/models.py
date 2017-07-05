@@ -3,7 +3,6 @@ from django.db.models import (
     CharField,
     DecimalField,
     ForeignKey,
-    ImageField,
     PositiveIntegerField,
     CASCADE,
     FileField
