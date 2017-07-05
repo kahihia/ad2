@@ -20,7 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^entity_management/', include('entity_management.urls'))
+    url(r'^entity_management/', include('entity_management.urls')),
+    url(r'^product_catalog/', include('product_catalog.urls'))
 ]
 
 

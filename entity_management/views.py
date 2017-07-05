@@ -19,7 +19,7 @@ class EntityManagementView(View):
 
 class ProductView(View):
     @staticmethod
-    def post(request):
+    def post(request,stall_id):
 
         if 'photo' not in request.FILES:
             return HttpResponse(status=400)
