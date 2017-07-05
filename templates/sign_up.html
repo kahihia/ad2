@@ -17,11 +17,12 @@
     </script>
 
     <!-- Custom CSS go here -->
-    <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/sign-in.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/nav.css' %}">
+    <link rel="stylesheet" href="{% static '/css/sign_in.css' %}">
 
     <!-- Custom JS go here -->
-    <script type="text/javascript" src="../js/sign-up.js"></script>
+    <script type="text/javascript" src="{% static '/js/sign-up.js' %}"></script>
 
 </head>
 <body>
@@ -51,7 +52,7 @@
     <!-- User-related Items -->
     <a id="shopping-cart" href="#">
         <div>
-            <img src="../img/cart.png" id="cart-image" draggable="false">
+            <img src="{% static '/images/cart.png' %}" id="cart-image" draggable="false">
         </div>
     </a>
     <a href="iris-online-home.html">&nbsp&nbspBack to Home</a>
