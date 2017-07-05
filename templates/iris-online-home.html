@@ -1,0 +1,141 @@
+<!-- TODO: Custom stepper for each card. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Strings Manila</title>
+
+    <!-- Bootstrap 4 Alpha and JQuery CDNs -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+          crossorigin="anonymous">
+    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous">
+    </script>
+
+    <!-- Custom CSS go here -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/nav.css' %}">
+    <link rel="stylesheet" href="{% static '/css/stalls.css' %}">
+
+    <!-- Custom JS go here -->
+    <script type="text/javascript" src="{% static 'js/nav.js' %}/"></script>
+    <script type="text/javascript" src="{% static '/js/stalls.js' %}"></script>
+
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-toggleable-md navbar-full" id="nav-main">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Logo -->
+    <a href="iris-online-home.html" class="navbar-brand col-sm-2" id="logo">STRINGS MANILA</a>
+
+    <!-- Search Bar -->
+    <!-- I'm assuming this needs an 'enter' pressing detector? -->
+    <div class="collapse navbar-collapse col-8 input-group" id="navbarSupportedContent">
+        <form action="" class="form-group row my-2 my-lg-0 col-12" id="searchbar">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- User-related Items -->
+    <a id="shopping-cart" href="#">
+        <div>
+            <img src="{% static '/images/cart.png' %}" id="cart-image" draggable="false">
+        </div>
+    </a>
+    <a href="sign-in.html">Sign In/Sign Up</a>
+</nav>
+
+<!-- Content -->
+<div id="content">
+    <!-- Stalls -->
+    <section id="stall-list">
+        <!-- Items to be retrieved by the database -->
+        <ul class="list-group">
+            {% if stalls %}
+
+                {% for stall in stalls %}
+
+                    {% if stall.id == active_stall.id %}
+                        <li class="list-group-item active">{{ stall.name }}</li>
+                    {% else %}
+                        <a class="list-group-item" href="/product_catalog/stalls/{{ stall.id }}/">
+                            {{ stall.name }}
+                        </a>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% else %}
+                <!--TNo stall message-->
+                <div class="list-group-item empty-message">
+                    <div>
+                        <h5 class="empty-message-text">There's nothing here.</h5>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </ul>
+    </section>
+
+    <!-- Products of the Selected Stall -->
+    <!-- Items to be retrieved by the database -->
+    <section id="product-showcase">
+
+     {% if products %}
+
+         {% for product in products %}
+            <div class="card" style="width: 20rem;">
+                <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image" draggable="false">
+                <div class="card-block">
+                    <h4 class="card-title">{{ product.name }}</h4>
+                    <p class="card-text">{{ product.description }}</p>
+                    <div class="col-12 card-purchase-div">
+                        <!-- This is the spinner -->
+                        <div class="input-group spinner">
+                            <input type="text" class="form-control" value="0">
+                            <div class="input-group-btn-vertical">
+                                <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+         {% endfor %}
+
+
+     {% else %}
+         <!--No products message -->
+         <!-- TODO it's impossible for a stall to be up without products??? -->
+         <div class="list-group-item empty-message" id="empty-stall-message">
+             <div>
+                 <h5 class="empty-message-text">Nothing here.</h5>
+             </div>
+
+     {% endif %}
+
+
+    </section>
+</div>
+
+
+</body>
+</html>

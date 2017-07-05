@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
+from customer_profile.views import SignInView, SignUpView
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^entity_management/', include('entity_management.urls'))
+    url(r'^entity_management/', include('entity_management.urls')),
+    url(r'^product_catalog/', include('product_catalog.urls')),
+    url(r'^customer_sign_in/', SignInView.as_view()),
+    url(r'^customer_sign_up/', SignUpView.as_view()),
 ]
-
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
