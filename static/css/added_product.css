@@ -1,0 +1,65 @@
+/* This is the CSS for when a product is added to the cart */
+
+#content {
+    position : relative;
+    margin   : 50px;
+    padding-top: 70px;
+    padding-left  : 215px;
+    padding-right: 80px;
+    display  : flex;
+}
+
+#product-div, #options-div {
+    width : 650px;
+}
+
+#product-div {
+    margin : 10px;
+}
+
+#product-div > div {
+    display : flex;
+}
+
+#product-div > div > img {
+    max-height : 150px;
+    max-width  : 150px;
+    min-height : 150px;
+    object-fit : cover;
+}
+
+#product {
+    margin-top : 15px;
+}
+
+#product-details {
+    margin-top  : 20px;
+    margin-left : 15px;
+}
+
+#product-details > p {
+    margin : 0;
+}
+
+#options-div {
+    display : flex;
+}
+
+#options-div > form {
+    margin : 7px;
+}
+
+#cost-div {
+    width : 200px;
+    height: 278px;
+    background-color: #f5f3f1;
+    padding: 15px;
+}
+
+h4 {
+    font-weight : bold;
+}
+
+h5 {
+    font-weight : bold;
+}

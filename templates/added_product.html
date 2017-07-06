@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Strings Manila</title>
+
+    <!-- Bootstrap 4 Alpha and JQuery CDNs -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+          crossorigin="anonymous">
+    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous">
+    </script>
+
+    <!-- Custom CSS go here -->
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/added_product.css">
+
+    <!-- Custom JS go here -->
+
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-toggleable-md navbar-full" id="nav-main">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Logo -->
+    <a href="iris_online_home.html" class="navbar-brand col-sm-2" id="logo">STRINGS MANILA</a>
+
+    <!-- Search Bar -->
+    <div class="collapse navbar-collapse col-8 input-group" id="navbarSupportedContent">
+        <form action="" class="form-group row my-2 my-lg-0 col-12" id="searchbar">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- User-related Items -->
+    <a id="shopping-cart" href="#">
+        <p class="" id="cart-quantity">48</p>
+        <img src="../img/cart.png" id="cart-image" draggable="false">
+    </a>
+    <a href="../html/sign_in.html">Sign In/Sign Up</a>
+</nav>
+
+<!-- Content -->
+<div id="content">
+    <div>
+        <div id="product-div">
+            <h2>Added to Cart</h2>
+            <div id="product">
+                <img src="../img/dave.jpg">
+                <!-- These come from the previous page -->
+                <div id="product-details">
+
+                    <!-- Name -->
+                    <h4>Dave Gilmour</h4>
+                    <!-- Description-->
+                    <p>Guitarist for Pink Floyd</p>
+                    <!-- Stall -->
+                    <p>Stall: Pink Floyd Records</p>
+                    <!-- Quantity -->
+                    <p>Quantity: 20</p>
+
+                </div>
+            </div>
+        </div>
+        <div id="options-div">
+            <form action="iris_online_home.html">
+                <button class="btn btn-secondary btn-lg">Continue Shopping</button>
+            </form>
+            <form action="">
+                <button class="btn btn-secondary btn-lg">View Cart</button>
+            </form>
+            <form action="">
+                <button class="btn btn-secondary btn-lg">Proceed to Checkout</button>
+            </form>
+        </div>
+    </div>
+    <div id="cost-div">
+        <h5>Product Subtotal</h5>
+        <!-- TODO: Price -->
+        <div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
