@@ -10,7 +10,6 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
           crossorigin="anonymous">
-    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
@@ -23,8 +22,9 @@
     <link rel="stylesheet" href="{% static '/css/stalls.css' %}">
 
     <!-- Custom JS go here -->
-    <script type="text/javascript" src="{% static 'js/nav.js' %}/"></script>
     <script type="text/javascript" src="{% static '/js/stalls.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/nav.js' %}/"></script>
+    <script type="text/javascript" src="{% static '/js/jquery-3.2.1.js' %}"></script>
 
 </head>
 
@@ -46,8 +46,8 @@
     <!-- Search Bar -->
     <!-- I'm assuming this needs an 'enter' pressing detector? -->
     <div class="collapse navbar-collapse col-8 input-group" id="navbarSupportedContent">
-        <form action="" class="form-group row my-2 my-lg-0 col-12" id="searchbar">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <form action="/product_catalog/search" method="GET" class="form-group row my-2 my-lg-0 col-12" id="searchbar">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search-key">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>

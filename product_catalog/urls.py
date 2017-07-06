@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.ProductCatalogView.as_view()),
-    url(r'^stalls/(?P<stall_id>(\d+))/$', views.StallView.as_view())
+    url(r'^stalls/(?P<stall_id>(\d+))/$', views.StallView.as_view()),
+    url(r'^search/$', views.search),
 ]
