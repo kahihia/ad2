@@ -19,4 +19,10 @@ class SignUpView(View):
 
     @staticmethod
     def post(request):
+
+        email = request.POST["email"]
+        password = request.POST["password"]
+        fullname = request.POST['fullname']
+
+
         pass
