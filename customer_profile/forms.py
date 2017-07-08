@@ -12,4 +12,11 @@ class UserForm(ModelForm):
 
     class Meta:
         model = Customer
-        fields = ['username', 'password', 'phone_number', 'city', 'address', 'postal_code']
+        fields = ('username', 'password', 'phone_number', 'city', 'address', 'postal_code', 'full_name')
+        labels = {
+            "phone_number": "Phone number",
+            "full_name": "Full Name",
+            "city": "City",
+            "address": "Address",
+            "postal_code": "Postal Code"
+        }

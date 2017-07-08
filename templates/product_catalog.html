@@ -41,7 +41,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <!-- Logo -->
-    <a href="iris-online-home.html" class="navbar-brand col-sm-2" id="logo">STRINGS MANILA</a>
+    <a href="product_catalog.html" class="navbar-brand col-sm-2" id="logo">STRINGS MANILA</a>
 
     <!-- Search Bar -->
     <!-- I'm assuming this needs an 'enter' pressing detector? -->
@@ -57,7 +57,12 @@
         <p class="" id="cart-quantity">48</p>
         <img src="{% static '/images/cart.png' %}" id="cart-image" draggable="false">
     </a>
-    <a href="sign-in.html">Sign In/Sign Up</a>
+
+    {% if name %}
+        <strong>Hello, {{ name }}. </strong><a href="/sign_out/">Sign Out</a>
+    {% else %}
+        <a href="/customer_sign_in/">Sign In/Sign Up</a>
+    {% endif %}
 </nav>
 
 <!-- Content -->
@@ -98,35 +103,35 @@
     <!-- Items to be retrieved by the database -->
     <section id="product-showcase">
 
-     {% if products %}
+        {% if products %}
 
-         {% for product in products %}
-            <div class="card" style="width: 20rem;">
-                <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image" draggable="false">
-                <div class="card-block">
-                    <h4 class="card-title">{{ product.name }}</h4>
-                    <p class="card-text">{{ product.description }}</p>
-                    <div class="col-12 card-purchase-div">
-                        <!-- This is the spinner -->
+            {% for product in products %}
+                <div class="card" style="width: 20rem;">
+                    <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image" draggable="false">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ product.name }}</h4>
+                        <p class="card-text">{{ product.description }}</p>
                         <div class="col-12 card-purchase-div">
-                            <input class="form-control col-3" type="text" value="0" placeholder="Qty.">
-                            <a href="../html/added_product.html" class="btn btn-primary">Add to Cart</a>
+                            <!-- This is the spinner -->
+                            <div class="col-12 card-purchase-div">
+                                <input class="form-control col-3" type="text" value="0" placeholder="Qty.">
+                                <a href="../html/added_product.html" class="btn btn-primary">Add to Cart</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+            {% endfor %}
+
+
+        {% else %}
+            <!--No products message -->
+            <!-- TODO it's impossible for a stall to be up without products??? -->
+            <div class="list-group-item empty-message" id="empty-stall-message">
+            <div>
+                <h5 class="empty-message-text">Nothing here.</h5>
             </div>
-         {% endfor %}
 
-
-     {% else %}
-         <!--No products message -->
-         <!-- TODO it's impossible for a stall to be up without products??? -->
-         <div class="list-group-item empty-message" id="empty-stall-message">
-             <div>
-                 <h5 class="empty-message-text">Nothing here.</h5>
-             </div>
-
-     {% endif %}
+        {% endif %}
 
 
     </section>
