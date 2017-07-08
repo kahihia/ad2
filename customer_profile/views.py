@@ -62,6 +62,7 @@ class SignUpView(View):
                                 address=address, postal_code=postal_code)
 
         login(request, user)
+        request.session['cart'] = None
         return redirect('/')  # TODO Redirect to customer profile page
 
 

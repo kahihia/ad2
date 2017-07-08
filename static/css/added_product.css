@@ -1,40 +1,23 @@
 /* This is the CSS for when a product is added to the cart */
 
-#content {
-    position : relative;
-    margin   : 50px;
-    padding-top: 70px;
-    padding-left  : 215px;
-    padding-right: 80px;
-    display  : flex;
-}
-
-#product-div, #options-div {
-    width : 650px;
-}
-
-#product-div {
-    margin : 10px;
-}
-
-#product-div > div {
+#added-to-cart-notification > div {
     display : flex;
 }
 
-#product-div > div > img {
+#added-to-cart-notification > div > img {
     max-height : 150px;
     max-width  : 150px;
     min-height : 150px;
     object-fit : cover;
 }
 
-#product {
-    margin-top : 15px;
+div#product-preview {
+    display     : flex;
+    align-items : center;
 }
 
 #product-details {
-    margin-top  : 20px;
-    margin-left : 15px;
+    display : inline-block;
 }
 
 #product-details > p {
@@ -50,16 +33,14 @@
 }
 
 #cost-div {
-    width : 200px;
-    height: 278px;
-    background-color: #f5f3f1;
-    padding: 15px;
+    width            : 200px;
+    height           : 278px;
+    background-color : #f5f3f1;
+    padding          : 15px;
 }
 
-h4 {
-    font-weight : bold;
-}
-
-h5 {
-    font-weight : bold;
+#added-image {
+    width      : 150px;
+    height     : 150px;
+    object-fit : cover;
 }

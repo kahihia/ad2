@@ -80,7 +80,7 @@
     text-align  : center;
 }
 
-.card {
+#content .card {
     max-width     : 300px;
     margin-bottom : 10px;
 }

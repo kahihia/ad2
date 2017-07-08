@@ -24,6 +24,8 @@
     {% load static %}
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
     <link rel="stylesheet" href="{% static '/css/stalls.css' %}">
+    <link rel="stylesheet" href="{% static '/css/added_product.css' %}">
+
 
     <!-- Custom JS go here -->
     <script type="text/javascript" src="{% static '/js/stalls.js' %}"></script>
@@ -41,8 +43,10 @@
     <a href="/" class="navbar-brand mr-3 ml-3 mt-1 mb-1" id="logo">STRINGS MANILA</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form method="GET" action="/product_catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3" id="search-group">
-            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar" name="search_query" value="{{ search_term }}">
+        <form method="GET" action="/product_catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
+              id="search-group">
+            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar"
+                   name="search_query" value="{{ search_term }}">
             <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
         </form>
 
@@ -67,6 +71,35 @@
         </ul>
     </div>
 </nav>
+
+<div id="added-to-cart-notification" class="card">
+    <h6 class="card-header">Added to cart</h6>
+    <div class="card-block">
+        <div id="product-preview">
+            <img id="added-image" src="{% static "/images/product.png" %}" draggable="false">
+            <!-- These come from the previous page -->
+            <div id="product-details" class="ml-3">
+                <!-- Name -->
+                <h4 class="ml-2">EarPods</h4>
+                <!-- Stall -->
+                <p class="ml-2">Music Match Corporation</p>
+                <!-- Quantity -->
+                <p class="ml-2">Quantity: 20</p>
+
+                <div id="options-div">
+                    <form action="">
+                        <button class="btn btn-secondary">View Cart</button>
+                    </form>
+                    <form action="">
+                        <button class="btn btn-secondary">Proceed to Checkout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 <!-- Content -->
 <div id="content">
