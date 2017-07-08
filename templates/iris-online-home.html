@@ -10,7 +10,6 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
           crossorigin="anonymous">
-    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
@@ -23,8 +22,9 @@
     <link rel="stylesheet" href="{% static '/css/stalls.css' %}">
 
     <!-- Custom JS go here -->
-    <script type="text/javascript" src="{% static 'js/nav.js' %}/"></script>
     <script type="text/javascript" src="{% static '/js/stalls.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/nav.js' %}/"></script>
+    <script type="text/javascript" src="{% static '/js/jquery-3.2.1.js' %}"></script>
 
 </head>
 
@@ -54,9 +54,8 @@
 
     <!-- User-related Items -->
     <a id="shopping-cart" href="#">
-        <div>
-            <img src="{% static '/images/cart.png' %}" id="cart-image" draggable="false">
-        </div>
+        <p class="" id="cart-quantity">48</p>
+        <img src="{% static '/images/cart.png' %}" id="cart-image" draggable="false">
     </a>
     <a href="sign-in.html">Sign In/Sign Up</a>
 </nav>
@@ -66,6 +65,7 @@
     <!-- Stalls -->
     <section id="stall-list">
         <!-- Items to be retrieved by the database -->
+        <h3>&nbsp&nbsp&nbspStalls</h3>
         <ul class="list-group">
             {% if stalls %}
 
@@ -108,14 +108,10 @@
                     <p class="card-text">{{ product.description }}</p>
                     <div class="col-12 card-purchase-div">
                         <!-- This is the spinner -->
-                        <div class="input-group spinner">
-                            <input type="text" class="form-control" value="0">
-                            <div class="input-group-btn-vertical">
-                                <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                                <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
-                            </div>
+                        <div class="col-12 card-purchase-div">
+                            <input class="form-control col-3" type="text" value="0" placeholder="Qty.">
+                            <a href="../html/added_product.html" class="btn btn-primary">Add to Cart</a>
                         </div>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
                     </div>
                 </div>
             </div>
