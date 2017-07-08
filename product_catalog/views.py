@@ -5,10 +5,14 @@ from customer_profile.models import Customer
 from django.db.models import Q
 
 
+def available_stalls():
+    return [stall for stall in Stall.objects.all() if len(stall.product_set.all()) > 0]
+
+
 class ProductCatalogView(View):
     @staticmethod
     def get(request):
-        stalls = Stall.objects.all()
+        stalls = available_stalls()
         products = Product.objects.all()
 
         context = {
@@ -18,7 +22,7 @@ class ProductCatalogView(View):
 
         if request.user.is_authenticated:
             user = request.user
-            customer = Customer.objects.all().filter(user=user)[0]
+            customer = Customer.objects.filter(user=user)[0]
             full_name = customer.full_name
             context["name"] = full_name
 
@@ -34,7 +38,7 @@ class StallView(View):
         except:
             raise Http404("Stall does not exist")
 
-        stalls = Stall.objects.all()
+        stalls = available_stalls()
         return render(request, 'product_catalog.html', {
             "stalls": stalls,
             "active_stall": stall,
@@ -46,18 +50,15 @@ def search(request):
     if request.method != 'GET':
         return redirect('/product_catalog')
 
-    key = request.GET["search-key"]
-    print(key)
+    key = request.GET["search_query"]
     products = Product.objects.filter(
-
         Q(name__icontains=key) |
         Q(description__icontains=key)
-
     ).order_by("pk").reverse()
 
-    print(products)
-    stalls = Stall.objects.all()
+    stalls = available_stalls()
     return render(request, 'product_catalog.html', {
         "stalls": stalls,
-        "products": products
+        "products": products,
+        "search_term": key
     })

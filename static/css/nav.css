@@ -1,8 +1,8 @@
-/* This is the CSS for the navigation bar. */
+/*!* This is the CSS for the navigation bar. *!*/
 
-#nav-main {
-    margin : 10px;
-}
+/*#nav-main {*/
+/*margin : 10px;*/
+/*}*/
 
 #logo {
     margin-right   : 0;
@@ -11,47 +11,52 @@
     text-align     : center;
 }
 
-#navbarSupportedContent {
-    padding    : 0;
-    margin     : 0;
-    text-align : center;
+#search-group,
+#search-bar {
+    flex-grow : 2;
 }
 
-#user-section {
-    padding : 0;
-    display : flex;
-}
+/*#navbarSupportedContent {*/
+/*padding    : 0;*/
+/*margin     : 0;*/
+/*text-align : center;*/
+/*}*/
 
-#shopping-cart {
-    position     : relative;
-    margin-left  : 5px;
-    margin-right : 29px;
-}
+/*#user-section {*/
+/*padding : 0;*/
+/*display : flex;*/
+/*}*/
 
-#cart-quantity {
-    z-index  : 1;
-    padding  : 0;
-    color    : white;
-    position : absolute;
-    top      : 5px;
-    left     : 6px;
-    width    : 40px;
-}
+/*#shopping-cart {*/
+/*position     : relative;*/
+/*margin-left  : 5px;*/
+/*margin-right : 29px;*/
+/*}*/
 
-#cart-image {
-    z-index : 0;
-    width   : 43px;
-    height  : 43px;
-}
+/*#cart-quantity {*/
+/*z-index  : 1;*/
+/*padding  : 0;*/
+/*color    : white;*/
+/*position : absolute;*/
+/*top      : 5px;*/
+/*left     : 6px;*/
+/*width    : 40px;*/
+/*}*/
 
-a:hover {
-    text-decoration : none;
-}
+/*#cart-image {*/
+/*z-index : 0;*/
+/*width   : 43px;*/
+/*height  : 43px;*/
+/*}*/
 
-nav > a {
-    color : black !important;
-}
+/*a:hover {*/
+/*text-decoration : none;*/
+/*}*/
 
-nav > a > p {
-    text-align : center;
-}
+/*nav > a {*/
+/*color : black !important;*/
+/*}*/
+
+/*nav > a > p {*/
+/*text-align : center;*/
+/*}*/

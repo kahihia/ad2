@@ -49,6 +49,12 @@ class SignUpView(View):
         postal_code = request.POST["postal_code"]
         phone_number = request.POST["phone_number"]
 
+        conflicts = User.objects.filter(username=username)
+        if conflicts:
+            return render(request, 'sign_up.html', {
+                'error': f'User with e-mail {username} already exists.'
+            })
+
         user = User.objects.create_user(username=username, password=password)
 
         Customer.objects.create(user=user, phone_number=phone_number,
@@ -56,10 +62,9 @@ class SignUpView(View):
                                 address=address, postal_code=postal_code)
 
         login(request, user)
-        return redirect('/') # TODO Redirect to customer profile page
+        return redirect('/')  # TODO Redirect to customer profile page
 
 
 def sign_out(request):
     logout(request)
     return redirect('/')
-
