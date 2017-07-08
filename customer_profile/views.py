@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from customer_profile.forms import UserForm
 
 
 class SignInView(View):
@@ -19,10 +20,12 @@ class SignUpView(View):
 
     @staticmethod
     def post(request):
+        form = UserForm(request.POST)
 
-        email = request.POST["email"]
-        password = request.POST["password"]
-        fullname = request.POST['fullname']
+        if form.is_valid():
+            print("valid")
+        else:
+            return render(request, form.errors)
 
 
-        pass
+
