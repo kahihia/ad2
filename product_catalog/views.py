@@ -1,21 +1,33 @@
 from django.shortcuts import render, Http404, redirect
 from django.views import View
 from entity_management.models import Stall, Product
-import json
-from django.http import HttpResponse
-from django.core import serializers
+from customer_profile.models import Customer
 from django.db.models import Q
+
+
+def available_stalls():
+    return [stall for stall in Stall.objects.all() if len(stall.product_set.all()) > 0]
 
 
 class ProductCatalogView(View):
     @staticmethod
     def get(request):
-        stalls = Stall.objects.all()
+        stalls = available_stalls()
         products = Product.objects.all()
-        return render(request, 'iris-online-home.html', {
+
+        context = {
             "stalls": stalls,
-            "products": products
-        })
+            "products": products,
+        }
+
+        if request.user.is_authenticated:
+            user = request.user
+            customer = Customer.objects.filter(user=user)[0]
+            full_name = customer.full_name
+            context["name"] = full_name
+
+        return render(request, 'product_catalog.html', context)
+
 
 class StallView(View):
     @staticmethod
@@ -26,29 +38,27 @@ class StallView(View):
         except:
             raise Http404("Stall does not exist")
 
-        stalls = Stall.objects.all()
-        return render(request, 'iris-online-home.html', {
+        stalls = available_stalls()
+        return render(request, 'product_catalog.html', {
             "stalls": stalls,
             "active_stall": stall,
             "products": products,
         })
 
+
 def search(request):
     if request.method != 'GET':
         return redirect('/product_catalog')
 
-    key = request.GET["search-key"]
-    print(key)
+    key = request.GET["search_query"]
     products = Product.objects.filter(
-
-    Q(name__icontains=key)|
-    Q(description__icontains=key)
-
+        Q(name__icontains=key) |
+        Q(description__icontains=key)
     ).order_by("pk").reverse()
 
-    print(products)
-    stalls = Stall.objects.all()
-    return render(request, 'iris-online-home.html', {
-            "stalls": stalls,
-            "products": products
-        })
+    stalls = available_stalls()
+    return render(request, 'product_catalog.html', {
+        "stalls": stalls,
+        "products": products,
+        "search_term": key
+    })
