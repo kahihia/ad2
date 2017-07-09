@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views import View
 from .models import *
@@ -8,8 +9,19 @@ from django.http import QueryDict
 from IrisOnline.decorators import require_admin
 
 
+class AdministratorSignInView(View):
+    @staticmethod
+    def get(request):
+        return render(request, 'admin_sign_in.html')
+
+    @staticmethod
+    def post(request):
+        pass
+
+
 class EntityManagementView(View):
     @staticmethod
+    @login_required(login_url='/admin_sign_in/')
     @require_admin
     def get(request):
         stalls = Stall.objects.all()
@@ -189,23 +201,24 @@ def handle_errors(dict):
 def is_invalid(item):
     return item is None or item == ""
 
+
 def update_product(request,stall_id):
-    dict = {
+    request_data = {
         "product_name": request.POST.get('name'),
         "description": request.POST.get('description'),
         "price": request.POST.get('price'),
         "quantity": request.POST.get('quantity')
     }
 
-    errors = handle_errors(dict)
+    errors = handle_errors(request_data)
     print(errors)
 
     if not errors:
         product = Product.objects.get(id=request.POST.get("product_id"))
-        product.name = dict["product_name"]
-        product.description = dict["description"]
-        product.price = dict["price"]
-        product.quantity = dict["quantity"]
+        product.name = request_data["product_name"]
+        product.description = request_data["description"]
+        product.price = request_data["price"]
+        product.quantity = request_data["quantity"]
         if 'photo' in request.FILES:
             product.photo = request.FILES.get('photo')
         product.save()

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Sign-Up</title>
 
-     <!-- jQuery -->
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- Tether -->
@@ -22,7 +22,6 @@
     <!-- Custom CSS go here -->
     {% load static %}
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
-    <link rel="stylesheet" href="{% static '/css/sign_in.css' %}">
 
     <!-- Custom JS go here -->
     <script type="text/javascript" src="{% static '/js/sign-up.js' %}"></script>
@@ -40,8 +39,10 @@
     <a href="/" class="navbar-brand mr-3 ml-3 mt-1 mb-1" id="logo">STRINGS MANILA</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form method="GET" action="/product_catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3" id="search-group">
-            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar" name="search_query" value="{{ search_term }}">
+        <form method="GET" action="/product_catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
+              id="search-group">
+            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar"
+                   name="search_query" value="{{ search_term }}">
             <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
         </form>
 
@@ -67,42 +68,49 @@
 
 {% if error %}
     <div class="alert alert-danger" role="alert">
-            <strong>{{ error }}</strong>
+        <strong>{{ error }}</strong>
     </div>
 
 {% endif %}
 
 <!-- Content -->
-<div id="content">
-    <h1 class="display-4">Welcome to Strings Manila.</h1>
-    <p>Enter your details below</p>
-    <form method="POST" class="col-12" id="inputs">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-6 col-md-3"></div>
-            <div class="col-6 col-md-6">
-                <input type="text" class="form-control form-control-lg col-12" placeholder="E-mail" name="username">
-                <input type="password" class="form-control form-control-lg col-12" placeholder="Password"
+<div class="container p-5">
+    <h1 class="display-4 mt-5 mb-2 text-center">Welcome to Strings Manila.</h1>
+    <p class="text-center pb-5 text-muted">Enter your details below</p>
+
+    <div class="row">
+        <div class="col-6 col-md-3"></div>
+        <div class="col-6 col-md-6 text-center">
+            <form method="POST" class="col-12" id="inputs">
+                {% csrf_token %}
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="E-mail"
+                       name="username">
+                <input type="password" class="form-control form-control-lg col-12 mb-1" placeholder="Password"
                        name="password" id="password">
-                <input type="password" class="form-control form-control-lg col-12" placeholder="Re-type Password"
+                <input type="password" class="form-control form-control-lg col-12 mb-1" placeholder="Re-type Password"
                        id="re-type">
                 <br>
-                <input type="text" class="form-control form-control-lg col-12" placeholder="Full Name" name="full_name">
-                <input type="text" class="form-control form-control-lg col-12" placeholder="Address" name="address">
-                <input type="text" class="form-control form-control-lg col-12" placeholder="City" name="city">
-                <input type="text" class="form-control form-control-lg col-12" placeholder="Postal Code"
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Full Name"
+                       name="full_name">
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Address"
+                       name="address">
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="City" name="city">
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Postal Code"
                        name="postal_code">
-                <input type="text" class="form-control form-control-lg col-12" placeholder="Phone Number"
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Phone Number"
                        name="phone_number">
-            </div>
-            <div class="col-6 col-md-3"></div>
+                <br>
+
+                <button type="submit" class="btn btn-primary btn-lg m-3" id="sign-in-button">Sign me up!</button>
+            </form>
+
+            <a href="/customer_sign_in/">I have an account</a>
+
+
         </div>
-        <br>
-        <button type="submit" class="btn btn-success btn-lg" id="sign-in-button">Sign me up!</button>
-    </form>
-    <div id="sign-up">
-        <a href="/customer_sign_in/" id="sign-up-link">I have an account</a>
+        <div class="col-6 col-md-3"></div>
     </div>
+    <br>
 </div>
 
 </body>
