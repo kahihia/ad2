@@ -43,7 +43,7 @@
     <a href="/" class="navbar-brand mr-3 ml-3 mt-1 mb-1" id="logo">STRINGS MANILA</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form method="GET" action="/product_catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
+        <form method="GET" action="/product-catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
               id="search-group">
             <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar"
                    name="search_query" value="{{ search_term }}">
@@ -61,11 +61,11 @@
                     <a class="nav-link">Hello, {{ name }}</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/sign_out/" class="nav-link">Sign out</a>
+                    <a href="/sign-out/" class="nav-link">Sign out</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer_sign_in/">Sign in / Sign up</a>
+                    <a class="nav-link" href="/customer-sign-in/">Sign in / Sign up</a>
                 </li>
             {% endif %}
         </ul>
@@ -115,7 +115,7 @@
                     {% if stall.id == active_stall.id %}
                         <li class="list-group-item active">{{ stall.name }}</li>
                     {% else %}
-                        <a class="list-group-item" href="/product_catalog/stalls/{{ stall.id }}/">
+                        <a class="list-group-item" href="/product-catalog/stalls/{{ stall.id }}/">
                             {{ stall.name }}
                         </a>
                     {% endif %}

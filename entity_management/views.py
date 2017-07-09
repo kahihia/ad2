@@ -13,7 +13,7 @@ from django.contrib.auth import login, logout, authenticate
 
 def admin_sign_out(request):
     logout(request)
-    return redirect('/admin_sign_in/')
+    return redirect('/admin-sign-in/')
 
 
 class AdministratorSignInView(View):
@@ -38,12 +38,12 @@ class AdministratorSignInView(View):
             })
         else:
             login(request, user)
-            return redirect('/entity_management/')
+            return redirect('/entity-management/')
 
 
 class EntityManagementView(View):
     @staticmethod
-    @login_required(login_url='/admin_sign_in/')
+    @login_required(login_url='/admin-sign-in/')
     @require_admin
     def get(request):
         stalls = Stall.objects.all()

@@ -51,7 +51,7 @@ class StallView(View):
 
 def search(request):
     if request.method != 'GET':
-        return redirect('/product_catalog')
+        return redirect('/')
 
     key = request.GET["search_query"]
     products = Product.objects.filter(

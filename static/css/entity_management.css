@@ -26,7 +26,7 @@ nav#stall-navbar {
 }
 
 div#product-list {
-    width: 1116px;
+    width: 100%;
 }
 
 .empty-message {

@@ -24,14 +24,14 @@ from entity_management.views import AdministratorSignInView, admin_sign_out
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^entity_management/', include('entity_management.urls')),
-    url(r'^product_catalog/', include('product_catalog.urls')),
+    url(r'^entity-management/', include('entity_management.urls')),
+    url(r'^product-catalog/', include('product_catalog.urls')),
     url(r'^$', ProductCatalogView.as_view()),
-    url(r'^customer_sign_in/', SignInView.as_view()),
-    url(r'^customer_sign_up/', SignUpView.as_view()),
-    url(r'^sign_out', sign_out),
-    url(r'^admin_sign_in', AdministratorSignInView.as_view()),
-    url(r'^admin_sign_out', admin_sign_out)
+    url(r'^customer-sign-in/', SignInView.as_view()),
+    url(r'^customer-sign-up/', SignUpView.as_view()),
+    url(r'^sign-out', sign_out),
+    url(r'^admin-sign-in', AdministratorSignInView.as_view()),
+    url(r'^admin-sign-out', admin_sign_out)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
