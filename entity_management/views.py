@@ -189,19 +189,7 @@ def handle_errors(dict):
 def is_invalid(item):
     return item is None or item == ""
 
-
-<<<<<<< HEAD
-def update_product(request, stall_id):
-    # dict = {
-    #     "product_name": request.POST('name'),
-    #     "description": request.POST('description'),
-    #     "price": request.POST('price'),
-    #     "quantity": request.POST('quantity')
-    # }
-    # put = QueryDict(request.body)
-=======
 def update_product(request,stall_id):
->>>>>>> 878d6abc95a38390a18cfc38cbb2330494a6c089
     dict = {
         "product_name": request.POST.get('name'),
         "description": request.POST.get('description'),
