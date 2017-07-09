@@ -4,12 +4,13 @@ from .models import *
 from django.shortcuts import Http404
 from django.http import HttpResponse
 import json
-from django.core import serializers
 from django.http import QueryDict
+from IrisOnline.decorators import require_admin
 
 
 class EntityManagementView(View):
     @staticmethod
+    @require_admin
     def get(request):
         stalls = Stall.objects.all()
         return render(request, 'entity_management.html', {
@@ -19,7 +20,7 @@ class EntityManagementView(View):
 
 class ProductView(View):
     @staticmethod
-    def post(request,stall_id):
+    def post(request, stall_id):
 
         if 'photo' not in request.FILES:
             return HttpResponse(status=400)
@@ -83,7 +84,6 @@ class ProductView(View):
             if 'photo' in request.FILES:
                 product.photo = request.FILES.get('photo')
             product.save()
-
 
             data = {
                 "product": product.name
@@ -187,9 +187,10 @@ def handle_errors(dict):
 
 
 def is_invalid(item):
-    return item == None or item == ""
+    return item is None or item == ""
 
-def update_product(request,stall_id):
+
+def update_product(request, stall_id):
     # dict = {
     #     "product_name": request.POST('name'),
     #     "description": request.POST('description'),

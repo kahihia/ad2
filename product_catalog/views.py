@@ -3,6 +3,7 @@ from django.views import View
 from entity_management.models import Stall, Product
 from customer_profile.models import Customer
 from django.db.models import Q
+from IrisOnline.decorators import require_customer
 
 
 def available_stalls():
@@ -11,6 +12,7 @@ def available_stalls():
 
 class ProductCatalogView(View):
     @staticmethod
+    @require_customer
     def get(request):
         stalls = available_stalls()
         products = Product.objects.all()
@@ -31,6 +33,7 @@ class ProductCatalogView(View):
 
 class StallView(View):
     @staticmethod
+    @require_customer
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
