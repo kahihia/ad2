@@ -1,9 +1,4 @@
 /*!* This is the CSS for the navigation bar. *!*/
-
-/*#nav-main {*/
-/*margin : 10px;*/
-/*}*/
-
 #logo {
     margin-right   : 0;
     font-weight    : bold;
@@ -15,48 +10,3 @@
 #search-bar {
     flex-grow : 2;
 }
-
-/*#navbarSupportedContent {*/
-/*padding    : 0;*/
-/*margin     : 0;*/
-/*text-align : center;*/
-/*}*/
-
-/*#user-section {*/
-/*padding : 0;*/
-/*display : flex;*/
-/*}*/
-
-/*#shopping-cart {*/
-/*position     : relative;*/
-/*margin-left  : 5px;*/
-/*margin-right : 29px;*/
-/*}*/
-
-/*#cart-quantity {*/
-/*z-index  : 1;*/
-/*padding  : 0;*/
-/*color    : white;*/
-/*position : absolute;*/
-/*top      : 5px;*/
-/*left     : 6px;*/
-/*width    : 40px;*/
-/*}*/
-
-/*#cart-image {*/
-/*z-index : 0;*/
-/*width   : 43px;*/
-/*height  : 43px;*/
-/*}*/
-
-/*a:hover {*/
-/*text-decoration : none;*/
-/*}*/
-
-/*nav > a {*/
-/*color : black !important;*/
-/*}*/
-
-/*nav > a > p {*/
-/*text-align : center;*/
-/*}*/
