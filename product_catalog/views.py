@@ -53,7 +53,7 @@ def search(request):
     if request.method != 'GET':
         return redirect('/')
 
-    key = request.GET["search_query"]
+    key = request.GET["search-query"]
     products = Product.objects.filter(
         Q(name__icontains=key) |
         Q(description__icontains=key)
