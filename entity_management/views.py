@@ -7,6 +7,13 @@ from django.http import HttpResponse
 import json
 from django.http import QueryDict
 from IrisOnline.decorators import require_admin
+from django.shortcuts import redirect
+from django.contrib.auth import login, logout, authenticate
+
+
+def admin_sign_out(request):
+    logout(request)
+    return redirect('/admin_sign_in/')
 
 
 class AdministratorSignInView(View):
@@ -16,7 +23,22 @@ class AdministratorSignInView(View):
 
     @staticmethod
     def post(request):
-        pass
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
+            return render(request, 'admin_sign_in.html', {
+                'error': 'Invalid Credentials'
+            })
+        elif not user.is_superuser:
+            return render(request, 'admin_sign_in.html', {
+                'error': 'Customer account entered'
+            })
+        else:
+            login(request, user)
+            return redirect('/entity_management/')
 
 
 class EntityManagementView(View):
@@ -27,6 +49,7 @@ class EntityManagementView(View):
         stalls = Stall.objects.all()
         return render(request, 'entity_management.html', {
             "stalls": stalls,
+            "username": request.user.username
         })
 
 
@@ -202,7 +225,7 @@ def is_invalid(item):
     return item is None or item == ""
 
 
-def update_product(request,stall_id):
+def update_product(request, stall_id):
     request_data = {
         "product_name": request.POST.get('name'),
         "description": request.POST.get('description'),

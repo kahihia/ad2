@@ -20,7 +20,7 @@ from django.conf import settings
 
 from customer_profile.views import SignInView, SignUpView, sign_out
 from product_catalog.views import ProductCatalogView
-from entity_management.views import AdministratorSignInView
+from entity_management.views import AdministratorSignInView, admin_sign_out
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^customer_sign_in/', SignInView.as_view()),
     url(r'^customer_sign_up/', SignUpView.as_view()),
     url(r'^sign_out', sign_out),
-    url(r'^admin_sign_in', AdministratorSignInView.as_view())
+    url(r'^admin_sign_in', AdministratorSignInView.as_view()),
+    url(r'^admin_sign_out', admin_sign_out)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

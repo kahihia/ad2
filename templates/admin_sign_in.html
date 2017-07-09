@@ -20,27 +20,37 @@
           crossorigin="anonymous">
 
 </head>
-<body class="d-flex align-items-center h-100">
+<body class="h-100">
 
+{% if error %}
+    <div class="alert alert-danger fixed-top" role="alert">
+        <strong>{{ error }}</strong>
+    </div>
+{% endif %}
 
-<div class="container">
-    <h1 class="display-4 text-center pb-5">Administrator Sign In</h1>
+<div class="d-flex align-items-center h-100">
+    <div class="container">
+        <h1 class="display-4 text-center pb-5">Administrator Sign In</h1>
 
-    <form action="" class="col-12" id="inputs">
         <div class="row">
             <div class="col-6 col-md-3"></div>
             <div class="col-6 col-md-6 text-center">
-                <input type="text" class="form-control form-control-lg col-12 m-1" placeholder="Username">
-                <input type="password" class="form-control form-control-lg col-12 m-1" placeholder="Password">
-                <button type="submit" class="btn btn-primary btn-lg m-3" id="sign-in-button">Sign In</button>
-            </div>
-            <div class="col-6 col-md-3"></div>
-        </div>
-        <div class="container text-center p-3">
-            <a href="/customer_sign_in/">Customer? Sign in here</a>
-        </div>
-    </form>
-</div>
+                <form method="POST" class="col-12" id="inputs">
+                    {% csrf_token %}
+                    <input type="text" class="form-control form-control-lg col-12 m-1" placeholder="Username"
+                           name="username">
+                    <input type="password" class="form-control form-control-lg col-12 m-1" placeholder="Password"
+                           name="password">
+                    <button type="submit" class="btn btn-primary btn-lg m-3" id="sign-in-button">Sign In</button>
+                </form>
+                <a href="/customer_sign_in/">Not an administrator? Sign in here</a>
 
+            </div>
+
+        </div>
+        <div class="col-6 col-md-3"></div>
+    </div>
+
+</div>
 </body>
 </html>
