@@ -22,6 +22,7 @@ class ProductCatalogView(View):
             request.session['cart'] = []
             cart_count = 0
         else:
+            print(len(request.session['cart']))
             cart_count = len(request.session['cart'])
 
         context = {
@@ -56,7 +57,9 @@ class ProductCatalogView(View):
             raise Http404("Product ID not in database")
 
         request.session['cart'].append((product, quantity))
+        request.session.modified = True
         cart_count = len(request.session['cart'])
+        print(cart_count)
         print(request.session["cart"])
 
         stalls = available_stalls()
