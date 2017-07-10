@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 
-def require_admin(func):
+def admin_required(func):
     def handle_request(*args, **kwargs):
         request = args[0]
         if request.user.is_superuser:
@@ -11,7 +11,7 @@ def require_admin(func):
     return handle_request
 
 
-def require_customer(func):
+def customer_required(func):
     def handle_request(*args, **kwargs):
         request = args[0]
         if request.user.is_superuser:
