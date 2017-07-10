@@ -137,8 +137,10 @@ class ProductView(View):
 
 
 class StallView(View):
-    # noinspection PyBroadException
+
     @staticmethod
+    @login_required
+    @admin_required
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
@@ -154,6 +156,8 @@ class StallView(View):
         })
 
     @staticmethod
+    @login_required
+    @admin_required
     def post(request):
         dict = json.loads(request.body)
         new_stall = Stall()

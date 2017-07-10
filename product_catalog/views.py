@@ -18,13 +18,11 @@ class ProductCatalogView(View):
         stalls = available_stalls()
         products = Product.objects.all()
 
-        print(request.session.get)
-
-        if request.session['cart']:
-            cart_count = len(request.session['cart'])
-        else:
+        if 'cart' not in request.session:
             request.session['cart'] = []
             cart_count = 0
+        else:
+            cart_count = len(request.session['cart'])
 
         context = {
             "stalls": stalls,

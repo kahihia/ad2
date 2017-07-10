@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+
+    <!-- Bootstrap 4 Alpha and JQuery CDNs -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+          crossorigin="anonymous">
+    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous">
+    </script>
+
+    <!-- Custom CSS go here -->
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/cart.css">
+
+    <!-- Custom JS go here -->
+
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-toggleable-md navbar-light">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a href="/" class="navbar-brand mr-3 ml-3 mt-1 mb-1" id="logo">STRINGS MANILA</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form method="GET" action="/product-catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
+              id="search-group">
+            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar"
+                   name="search-query" value="{{ search_term }}">
+        </form>
+
+        <a href="#" class="btn btn-primary mr-2">Cart
+            {% if cart_count and cart_count > 0 %}
+                <span class="badge badge-success">{{ cart_count }}</span>
+            {% endif %}
+        </a>
+
+        <ul class="navbar-nav">
+            {% if name %}
+                <li class="nav-item">
+                    <a class="nav-link">Hello, {{ name }}</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/sign-out/" class="nav-link">Sign out</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-in/">Sign in / Sign up</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<!-- Content -->
+<div id="content">
+    <div id="cart-top" class="d-flex">
+        <h1 class="mr-auto">Your Cart</h1>
+        <div id="options" class="">
+            <form action="">
+                <button class="btn btn-secondary btn-lg">Continue Shopping</button>
+            </form>
+            <form action="">
+                <button class="btn btn-outline-success btn-lg">Update Cart</button>
+            </form>
+            <form action="">
+                <button class="btn btn-outline-primary btn-lg">Proceed to Checkout</button>
+            </form>
+        </div>
+    </div>
+    <div id="cart-items">
+        <table class="table" id="items-table">
+            <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Bullcrap</td>
+                <td>P 390</td>
+                <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>
+                <td>Remove</td>
+            </tr>
+            <tr>
+                <td>Something Amazing</td>
+                <td>P 400</td>
+                <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>
+                <td>Remove</td>
+            </tr>
+            <tr>
+                <td>System Complexity</td>
+                <td>P 2100</td>
+                <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>
+                <td>Remove</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
