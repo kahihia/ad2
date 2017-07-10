@@ -49,11 +49,13 @@
                    name="search-query" value="{{ search_term }}">
         </form>
 
+        <a href="#" class="btn btn-primary mr-2">Cart
+            {% if cart_count and cart_count > 0 %}
+                <span class="badge badge-success">{{ cart_count }}</span>
+            {% endif %}
+        </a>
+
         <ul class="navbar-nav">
-
-            <button type="button" class="btn btn-primary">Cart <span class="badge badge-success">20</span></button>
-
-
             {% if name %}
                 <li class="nav-item">
                     <a class="nav-link">Hello, {{ name }}</a>
@@ -70,33 +72,36 @@
     </div>
 </nav>
 
-<div id="added-to-cart-notification" class="card">
-    <h6 class="card-header">Added to cart</h6>
-    <div class="card-block">
-        <div id="product-preview">
-            <img id="added-image" src="{% static "/images/product.png" %}" draggable="false">
-            <!-- These come from the previous page -->
-            <div id="product-details" class="ml-3">
-                <!-- Name -->
-                <h4 class="ml-2">EarPods</h4>
-                <!-- Stall -->
-                <p class="ml-2">Music Match Corporation</p>
-                <!-- Quantity -->
-                <p class="ml-2">Quantity: 20</p>
+{% if added_to_cart %}
 
-                <div id="options-div">
-                    <form action="">
-                        <button class="btn btn-secondary">View Cart</button>
-                    </form>
-                    <form action="">
-                        <button class="btn btn-secondary">Proceed to Checkout</button>
-                    </form>
+    <div id="added-to-cart-notification" class="card">
+        <h6 class="card-header">Added to cart</h6>
+        <div class="card-block">
+            <div id="product-preview">
+                <img id="added-image" src="{{ added_to_cart.photo.url }}" draggable="false">
+                <!-- These come from the previous page -->
+                <div id="product-details" class="ml-3">
+                    <!-- Name -->
+                    <h4 class="ml-2">{{ added_to_cart.name }}</h4>
+                    <!-- Stall -->
+                    <p class="ml-2">{{ added_to_cart.stall.name }}</p>
+                    <!-- Quantity -->
+                    <p class="ml-2">Quantity: {{ quantity }}</p>
+
+                    <div id="options-div">
+                        <form action="">
+                            <button class="btn btn-secondary">View Cart</button>
+                        </form>
+                        <form action="">
+                            <button class="btn btn-secondary">Proceed to Checkout</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-</div>
+{% endif %}
 
 
 <!-- Content -->
@@ -149,12 +154,18 @@
                             <h4 class="card-title">{{ product.name }}</h4>
                             <p class="card-text">{{ product.description }}</p>
                         </div>
-                        <div class="card-footer">
-                            <div class="col-12 card-purchase-div">
-                                <input type="number" class="form-control col-3" min="1" max="100" value="1">
-                                <a href="../html/added_product.html" class="btn btn-primary">Add to Cart</a>
+                        <form method="POST">
+                            <div class="card-footer">
+                                <div class="col-12 card-purchase-div">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ product.id }}" name="product">
+                                    <input type="number" class="form-control col-3  mr-2" min="1" max="100" value="1"
+                                           name="quantity">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+
                     </div>
                 {% endfor %}
             </div>

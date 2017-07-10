@@ -6,7 +6,7 @@ from django.shortcuts import Http404
 from django.http import HttpResponse
 import json
 from django.http import QueryDict
-from IrisOnline.decorators import require_admin
+from IrisOnline.decorators import admin_required
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 
@@ -26,7 +26,7 @@ class AdministratorSignInView(View):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
 
         if user is None:
             return render(request, 'admin_sign_in.html', {
@@ -44,7 +44,7 @@ class AdministratorSignInView(View):
 class EntityManagementView(View):
     @staticmethod
     @login_required(login_url='/admin-sign-in/')
-    @require_admin
+    @admin_required
     def get(request):
         stalls = Stall.objects.all()
         return render(request, 'entity_management.html', {

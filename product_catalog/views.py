@@ -3,7 +3,8 @@ from django.views import View
 from entity_management.models import Stall, Product
 from customer_profile.models import Customer
 from django.db.models import Q
-from IrisOnline.decorators import require_customer
+from IrisOnline.decorators import customer_required
+from django.contrib.auth.decorators import login_required
 
 
 def available_stalls():
@@ -12,14 +13,23 @@ def available_stalls():
 
 class ProductCatalogView(View):
     @staticmethod
-    @require_customer
+    @customer_required
     def get(request):
         stalls = available_stalls()
         products = Product.objects.all()
 
+        print(request.session.get)
+
+        if request.session['cart']:
+            cart_count = len(request.session['cart'])
+        else:
+            request.session['cart'] = []
+            cart_count = 0
+
         context = {
             "stalls": stalls,
             "products": products,
+            'cart_count': cart_count
         }
 
         if request.user.is_authenticated:
@@ -30,10 +40,43 @@ class ProductCatalogView(View):
 
         return render(request, 'product_catalog.html', context)
 
+    # Add to cart
+    @staticmethod
+    @login_required
+    @customer_required
+    def post(request):
+
+        if "product" not in request.POST or "quantity" not in request.POST:
+            raise Http404("Product or quantity not in POST data")
+
+        product_id = request.POST["product"]
+        quantity = request.POST["quantity"]
+
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            raise Http404("Product ID not in database")
+
+        request.session['cart'].append((product, quantity))
+        cart_count = len(request.session['cart'])
+        print(request.session["cart"])
+
+        stalls = available_stalls()
+        products = Product.objects.all()
+
+        # TODO: Compute recommendations
+        return render(request, 'product_catalog.html', {
+            'added_to_cart': product,
+            'cart_count': cart_count,
+            'quantity': quantity,
+            'stalls': stalls,
+            'products': products
+        })
+
 
 class StallView(View):
     @staticmethod
-    @require_customer
+    @customer_required
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
