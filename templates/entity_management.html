@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Iris Meme Management</title>
 
-     <!-- jQuery -->
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- Tether -->
@@ -56,7 +56,7 @@
         </ul>
 
         <ul class="navbar-nav">
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link">Hello, {{ username }}</a>
             </li>
             <li class="nav-item">
@@ -114,17 +114,31 @@
 
         {% if active_stall %}
             <nav class="navbar navbar-toggleable-md navbar-light" id="stall-navbar">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        data-target="#stall-controls" aria-controls="stall-controls"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <h1 class="navbar-nav navbar-brand mr-auto">
                     {{ active_stall.name }}
                 </h1>
 
-                <button class="nav-item mr-sm-2 nav-link btn btn-secondary" href="#" data-toggle="modal"
-                        data-target="#rename-stall-modal">Rename
-                </button>
+                <div class="collapse navbar-collapse" id="stall-controls">
+                    <div class="w-100 mr-auto"></div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-primary" href="#" data-toggle="modal"
+                               data-target="#rename-stall-modal">Rename</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="#" data-toggle="modal"
+                               data-target="#confirm-delete-stall-modal">Delete</a>
+                        </li>
+                    </ul>
+                </div>
 
-                <button class="nav-item nav-link btn btn-outline-danger" href="#" data-toggle="modal"
-                        data-target="#confirm-delete-stall-modal">Delete
-                </button>
             </nav>
 
         {% endif %}
@@ -147,56 +161,62 @@
             <!--Select a stall message-->
 
             <div id="products">
-            {% if not active_stall %}
+                {% if not active_stall %}
 
-                <div class="list-group-item empty-message">
-                    <h5 class="empty-message-text">Select a stall from the left to see its products</h5>
-                </div>
-
-            {% else %}
-
-                {% if products %}
-
-                    {% for product in products %}
-                        <div class="card product-card" style="width: 20rem;">
-                            <img class="card-img-top img-fluid" src="{{ product.photo.url }}" alt="Card image cap">
-                            <div class="card-block">
-                                <h4 class="card-title">{{ product.name }}</h4>
-                                <p class="card-text">{{ product.description }}</p>
-
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item "><b
-                                        class="col-sm-5">Price</b> {{ product.price }}</li>
-                                <li class="list-group-item"><b
-                                        class="col-sm-5">Quantity</b> {{ product.quantity }}</li>
-                            </ul>
-                            <div class="card-block">
-                                <input id="product-id" type="hidden" value="{{ product.id }}">
-                                <a href="#" id="edit-product-button" class="btn btn-primary" data-toggle="modal"
-                                   data-target="#edit-product-modal-{{ product.id }}">Modify</a>
-                            </div>
-                        </div>
-                    {% endfor %}
+                    <div class="list-group-item empty-message">
+                        <h5 class="empty-message-text">Select a stall from the left to see its products</h5>
+                    </div>
 
                 {% else %}
 
-                    <!--No products message-->
-                    <div class="list-group-item empty-message" id="empty-stall-message">
-                        <div>
-                            <h5 class="empty-message-text">There are no products on this stall.</h5>
-                            <div>Products added to this stall will be shown here.</div>
-                            <button id="create-product-button-2" class="btn btn-outline-primary" data-toggle="modal"
-                                    data-target="#create-product-modal">
-                                Create Product
-                            </button>
+                    {% if products %}
+
+                        <div class="card-group">
+
+
+                            {% for product in products %}
+                                <div class="card" style="max-width: 300px;">
+                                    <img class="card-img-top" src="{{ product.photo.url }}" style="object-fit: cover;"alt="No product image"
+                                         draggable="false">
+                                    <div class="card-block">
+                                        <h4 class="card-title">{{ product.name }}</h4>
+                                        <p class="card-text">{{ product.description }}</p>
+                                        <input id="product-id" type="hidden" value="{{ product.id }}">
+
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item "><b
+                                                class="col-sm-5">Price</b> {{ product.price }}</li>
+                                        <li class="list-group-item"><b
+                                                class="col-sm-5">Quantity</b> {{ product.quantity }}</li>
+                                    </ul>
+                                    <div class="card-block">
+                                        <a href="#" id="edit-product-button" class="btn btn-primary" data-toggle="modal"
+                                           data-target="#edit-product-modal-{{ product.id }}">Modify</a>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
                         </div>
+                    {% else %}
+
+                        <!--No products message-->
+                        <div class="list-group-item empty-message" id="empty-stall-message">
+                            <div>
+                                <h5 class="empty-message-text">There are no products on this stall.</h5>
+                                <div>Products added to this stall will be shown here.</div>
+                                <button id="create-product-button-2" class="btn btn-outline-primary" data-toggle="modal"
+                                        data-target="#create-product-modal">
+                                    Create Product
+                                </button>
+                            </div>
+                        </div>
+
+                    {% endif %}
                     </div>
 
                 {% endif %}
-            </div>
-
-            {% endif %}
 
         </ul>
     </div>
@@ -378,13 +398,15 @@
                     <div class="modal-body container">
                         <div class="input-group form-group row">
                             <label for="edit-product-name-input" class="col-sm-4 col-form-label">Product name</label>
-                            <input type="text" class="form-control" name="name" id="edit-product-name-input-{{ product.id }}" value="{{ product.name }}">
+                            <input type="text" class="form-control" name="name"
+                                   id="edit-product-name-input-{{ product.id }}" value="{{ product.name }}">
                         </div>
 
                         <div class="input-group form-group row">
                             <label for="edit-product-price-input" class="col-sm-4 col-form-label">Price</label>
                             <span class="input-group-addon">₱</span>
-                            <input type="text" class="form-control" name="price" id="edit-product-price-input-{{ product.id }}" value="{{ product.price }}">
+                            <input type="text" class="form-control" name="price"
+                                   id="edit-product-price-input-{{ product.id }}" value="{{ product.price }}">
                         </div>
 
                         <div class="input-group form-group row">
@@ -396,20 +418,25 @@
 
                         <div class="input-group form-group row">
                             <label for="edit-product-quantity-input" class="col-sm-4 col-form-label">Quantity</label>
-                            <input type="text" class="form-control" name="quantity" id="edit-product-quantity-input-{{ product.id }}" value="{{ product.quantity }}">
+                            <input type="text" class="form-control" name="quantity"
+                                   id="edit-product-quantity-input-{{ product.id }}" value="{{ product.quantity }}">
                         </div>
 
                         <div class="input-group form-group row">
                             <label for="edit-product-photo-input" class="col-sm-4 col-form-label">Display Photo</label>
                             <label class="custom-file">
-                                <input type="file" id="edit-product-photo-{{ product.id }}" class="custom-file-input" name="photo">
+                                <input type="file" id="edit-product-photo-{{ product.id }}" class="custom-file-input"
+                                       name="photo">
                                 <span class="custom-file-control"></span>
                             </label>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button id="edit-product-button-{{ product.id }}" type="submit" class="btn btn-primary edit-product-button" onclick="editProduct({{ product.id }})">Save Changes</button>
+                        <button id="edit-product-button-{{ product.id }}" type="submit"
+                                class="btn btn-primary edit-product-button" onclick="editProduct({{ product.id }})">Save
+                            Changes
+                        </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
 
