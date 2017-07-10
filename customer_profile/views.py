@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, Http404
 from django.views import View
 from customer_profile.forms import UserForm
 from django.contrib.auth.models import User
 from customer_profile.models import Customer
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from IrisOnline.decorators import customer_required
 
 
 class SignInView(View):
@@ -66,6 +68,20 @@ class SignUpView(View):
         login(request, user)
         request.session['cart'] = []
         return redirect('/')  # TODO Redirect to customer profile page
+
+
+class UserProfileView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request):
+        user = request.user
+        customer = Customer.objects.get(user=user)
+
+        return render(request, 'customer_profile.html', {
+            "name": user.username,
+            "customer": customer
+        })
 
 
 def sign_out(request):

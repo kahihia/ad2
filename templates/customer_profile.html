@@ -17,8 +17,9 @@
     </script>
 
     <!-- Custom CSS go here -->
-    <link rel="stylesheet" href="../static/css/nav.css">
-    <link rel="stylesheet" href="../static/css/profile.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 
     <!-- Custom JS go here -->
 
@@ -70,15 +71,15 @@
     <div id="account-details">
         <div id="personal-information">
             <h5>Personal Information</h5>
-            <p>John Appleseed</p>
-            <p>john.appleseed@me.com</p>
-            <p>###########</p>
+            <p>{{ customer.full_name }}</p>
+            <p>{{  customer.user }}</p>
+            <p>{{ customer.phone_number }}</p>
         </div>
         <div id="address">
             <h5>Address</h5>
-            <p>0000 Blank Street</p>
-            <p>Gotham City</p>
-            <p>6969</p>
+            <p>{{ customer.address }}</p>
+            <p>{{ customer.city }}</p>
+            <p>{{ customer.postal_code }}</p>
         </div>
     </div>
     <div id="orders">
