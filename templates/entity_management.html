@@ -133,7 +133,8 @@
                                data-target="#rename-stall-modal">Rename</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-danger" href="#" data-toggle="modal" data-target="#confirm-delete-stall-modal">Delete</a>
+                            <a class="nav-link text-danger" href="#" data-toggle="modal"
+                               data-target="#confirm-delete-stall-modal">Delete</a>
                         </li>
                     </ul>
                 </div>
@@ -170,28 +171,34 @@
 
                     {% if products %}
 
-                        {% for product in products %}
-                            <div class="card product-card" style="width: 20rem;">
-                                <img class="card-img-top img-fluid" src="{{ product.photo.url }}" alt="Card image cap">
-                                <div class="card-block">
-                                    <h4 class="card-title">{{ product.name }}</h4>
-                                    <p class="card-text">{{ product.description }}</p>
+                        <div class="card-group">
 
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item "><b
-                                            class="col-sm-5">Price</b> {{ product.price }}</li>
-                                    <li class="list-group-item"><b
-                                            class="col-sm-5">Quantity</b> {{ product.quantity }}</li>
-                                </ul>
-                                <div class="card-block">
-                                    <input id="product-id" type="hidden" value="{{ product.id }}">
-                                    <a href="#" id="edit-product-button" class="btn btn-primary" data-toggle="modal"
-                                       data-target="#edit-product-modal-{{ product.id }}">Modify</a>
-                                </div>
-                            </div>
-                        {% endfor %}
 
+                            {% for product in products %}
+                                <div class="card" style="max-width: 300px;">
+                                    <img class="card-img-top" src="{{ product.photo.url }}" style="object-fit: cover;"alt="No product image"
+                                         draggable="false">
+                                    <div class="card-block">
+                                        <h4 class="card-title">{{ product.name }}</h4>
+                                        <p class="card-text">{{ product.description }}</p>
+                                        <input id="product-id" type="hidden" value="{{ product.id }}">
+
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item "><b
+                                                class="col-sm-5">Price</b> {{ product.price }}</li>
+                                        <li class="list-group-item"><b
+                                                class="col-sm-5">Quantity</b> {{ product.quantity }}</li>
+                                    </ul>
+                                    <div class="card-block">
+                                        <a href="#" id="edit-product-button" class="btn btn-primary" data-toggle="modal"
+                                           data-target="#edit-product-modal-{{ product.id }}">Modify</a>
+                                    </div>
+                                </div>
+                                
+                            {% endfor %}
+
+                        </div>
                     {% else %}
 
                         <!--No products message-->
