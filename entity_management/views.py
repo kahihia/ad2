@@ -95,47 +95,6 @@ class ProductView(View):
             status=400
         )
 
-    @staticmethod
-    def put(self, request, stall_id):
-        # this function is never used
-        put = QueryDict(request.body)
-        dict = {
-            "product_name": put.get("product_name"),
-            "description": put.get('description'),
-            "price": put.get('price'),
-            "quantity": put.get('quantity')
-        }
-
-        print(dict)
-        errors = handle_errors(dict)
-        print(errors)
-
-        if not errors:
-            product = Product.objects.get(id=put.get("product_id"))
-            product.name = put.get("product_name")
-            product.description = put.get("description")
-            product.price = put.get("price")
-            product.quantity = put.get("quantity")
-            if 'photo' in request.FILES:
-                product.photo = request.FILES.get('photo')
-            product.save()
-
-            data = {
-                "product": product.name
-            }
-
-            return HttpResponse(
-                json.dumps(data),
-                content_type="application/json"
-            )
-
-        return HttpResponse(
-            json.dumps(errors),
-            content_type="application/json",
-            status=400
-        )
-
-
 class StallView(View):
 
     @staticmethod
