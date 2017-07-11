@@ -50,14 +50,17 @@
         <ul class="navbar-nav">
             {% if name %}
                 <li class="nav-item">
-                    <a class="nav-link">Hello, {{ name }}</a>
+                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
                 </li>
                 <li class="nav-item">
                     <a href="/sign-out/" class="nav-link">Sign out</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer-sign-in/">Sign in / Sign up</a>
+                    <a class="nav-link" href="/customer-sign-in/">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
                 </li>
             {% endif %}
         </ul>
@@ -95,19 +98,19 @@
                 <td>Bullcrap</td>
                 <td>P 390</td>
                 <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>
-                <td>Remove</td>
+                <td><button class="btn btn-outline-danger">Remove</button></td>
             </tr>
             <tr>
                 <td>Something Amazing</td>
                 <td>P 400</td>
                 <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>
-                <td>Remove</td>
+                <td><button class="btn btn-outline-danger">Remove</button></td>
             </tr>
             <tr>
                 <td>System Complexity</td>
                 <td>P 2100</td>
                 <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>
-                <td>Remove</td>
+                <td><button class="btn btn-outline-danger">Remove</button></td>
             </tr>
             </tbody>
         </table>

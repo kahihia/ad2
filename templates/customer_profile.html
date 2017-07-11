@@ -51,14 +51,17 @@
         <ul class="navbar-nav">
             {% if name %}
                 <li class="nav-item">
-                    <a class="nav-link">Hello, {{ name }}</a>
+                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
                 </li>
                 <li class="nav-item">
                     <a href="/sign-out/" class="nav-link">Sign out</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer-sign-in/">Sign in / Sign up</a>
+                    <a class="nav-link" href="/customer-sign-in/">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
                 </li>
             {% endif %}
         </ul>
@@ -69,19 +72,41 @@
 <div id="content">
     <h3>Account Dashboard</h3>
     <div id="account-details">
-        <div id="personal-information">
-            <h5>Personal Information</h5>
-            <p>{{ customer.full_name }}</p>
-            <p>{{  customer.user }}</p>
-            <p>{{ customer.phone_number }}</p>
-        </div>
-        <div id="address">
-            <h5>Address</h5>
-            <p>{{ customer.address }}</p>
-            <p>{{ customer.city }}</p>
-            <p>{{ customer.postal_code }}</p>
-        </div>
+        <table class="table table-bordered" id="account-details-table">
+            <tr>
+                <td class="w-50">
+                    <div id="personal-information">
+                        <div class="section-header d-flex flex-row">
+                            <h5>Personal Information</h5>
+                        </div>
+                        <div class="d-flex flex-row-reverse">
+                            <a class="btn btn-sm btn-secondary">Edit</a>
+                        </div>
+                        <p>{{ customer.full_name }}</p>
+                        <p>{{ customer.user }}</p>
+                        <p>{{ customer.phone_number }}</p>
+                    </div>
+                </td>
+                <td>
+                    <div id="address">
+                        <div class="section-header d-flex">
+                            <h5>Address</h5>
+                        </div>
+                        <div class="d-flex flex-row-reverse">
+                            <a class="btn btn-sm btn-secondary">Edit</a>
+                        </div>
+                        <p>{{ customer.address }}</p>
+                        <p>{{ customer.city }}</p>
+                        <p>{{ customer.postal_code }}</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
     </div>
+
+
     <div id="orders">
         <h5>Orders</h5>
         <table class="table" id="orders-table">
@@ -100,21 +125,27 @@
                 <td>18/06/17</td>
                 <td>P 390</td>
                 <td>Delivered</td>
-                <td>View Details</td>
+                <td>
+                    <button class="btn btn-secondary">View Details</button>
+                </td>
             </tr>
             <tr>
                 <th scope="row">2</th>
                 <td>20/6/17</td>
                 <td>P 400</td>
                 <td>Cancelled</td>
-                <td>View Details</td>
+                <td>
+                    <button class="btn btn-secondary">View Details</button>
+                </td>
             </tr>
             <tr>
                 <th scope="row">2</th>
                 <td>22/12/17</td>
                 <td>P 2100</td>
                 <td>Cancelled</td>
-                <td>View Details</td>
+                <td>
+                    <button class="btn btn-secondary">View Details</button>
+                </td>
             </tr>
             </tbody>
         </table>
