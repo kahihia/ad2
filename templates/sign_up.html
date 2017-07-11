@@ -45,21 +45,26 @@
                    name="search-query" value="{{ search_term }}">
         </form>
 
+        <a href="#" class="btn btn-primary mr-2">Cart
+            {% if cart_count and cart_count > 0 %}
+                <span class="badge badge-success">{{ cart_count }}</span>
+            {% endif %}
+        </a>
+
         <ul class="navbar-nav">
-
-            <button type="button" class="btn btn-primary">Cart <span class="badge badge-success">20</span></button>
-
-
             {% if name %}
                 <li class="nav-item">
-                    <a class="nav-link">Hello, {{ name }}</a>
+                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
                 </li>
                 <li class="nav-item">
                     <a href="/sign-out/" class="nav-link">Sign out</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer-sign-in/">Sign in / Sign up</a>
+                    <a class="nav-link" href="/customer-sign-in/">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
                 </li>
             {% endif %}
         </ul>
