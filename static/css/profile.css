@@ -11,6 +11,10 @@
     margin-bottom : 60px;
 }
 
+#account-details-table td {
+    width: 50%;
+}
+
 #account-details > div {
     margin-right : 200px;
 }
