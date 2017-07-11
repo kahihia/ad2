@@ -1,0 +1,10 @@
+/* This is the CSS for the orders of a customer */
+
+#order-list {
+    width    : 300px;
+    position : fixed;
+}
+
+#order-products {
+    margin-top: 37px;
+}
