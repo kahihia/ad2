@@ -76,9 +76,11 @@
             <tr>
                 <td class="w-50">
                     <div id="personal-information">
-                        <div class="section-header d-flex">
+                        <div class="section-header d-flex flex-row">
                             <h5>Personal Information</h5>
-                            <a class="btn btn-secondary">Edit</a>
+                        </div>
+                        <div class="d-flex flex-row-reverse">
+                            <a class="btn btn-sm btn-secondary">Edit</a>
                         </div>
                         <p>{{ customer.full_name }}</p>
                         <p>{{ customer.user }}</p>
@@ -89,7 +91,9 @@
                     <div id="address">
                         <div class="section-header d-flex">
                             <h5>Address</h5>
-                            <a class="btn btn-secondary d-flex justify-content-end">Edit</a>
+                        </div>
+                        <div class="d-flex flex-row-reverse">
+                            <a class="btn btn-sm btn-secondary">Edit</a>
                         </div>
                         <p>{{ customer.address }}</p>
                         <p>{{ customer.city }}</p>
