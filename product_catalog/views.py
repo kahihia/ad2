@@ -80,6 +80,14 @@ class ProductCatalogView(View):
         # TODO: Compute recommendations
         return render(request, 'product_catalog.html', context)
 
+class CartView(View):
+    @staticmethod
+    def get(request):
+        context{
+            "products"
+        }
+
+
 
 class StallView(View):
     @staticmethod
@@ -106,7 +114,6 @@ class StallView(View):
             context["name"] = full_name
 
         return render(request, 'product_catalog.html', context)
-
 
 def search(request):
     if request.method != 'GET':
