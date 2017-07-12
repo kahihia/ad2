@@ -5,6 +5,7 @@ from customer_profile.models import Customer
 from django.db.models import Q
 from IrisOnline.decorators import customer_required
 from django.contrib.auth.decorators import login_required
+from .models import Cart, LineItem
 
 
 def available_stalls():
@@ -23,7 +24,7 @@ class ProductCatalogView(View):
             cart_count = 0
         else:
             print(request.session["cart"])
-            cart_count = len(request.session['cart'])
+            cart_count = len(request.session["cart"])
 
         context = {
             "stalls": stalls,
@@ -41,7 +42,6 @@ class ProductCatalogView(View):
 
     # Add to cart
     @staticmethod
-    @login_required
     @customer_required
     def post(request):
 
@@ -49,7 +49,7 @@ class ProductCatalogView(View):
             raise Http404("Product or quantity not in POST data")
 
         product_id = request.POST["product"]
-        quantity = request.POST["quantity"]
+        quantity = int(request.POST["quantity"])
 
         try:
             product = Product.objects.get(id=product_id)
@@ -58,8 +58,8 @@ class ProductCatalogView(View):
 
         request.session["cart"].append((product.pk, quantity))
         request.session.modified = True
+
         cart_count = len(request.session['cart'])
-        print(request.session["cart"])
 
         stalls = available_stalls()
         products = Product.objects.all()
@@ -80,6 +80,24 @@ class ProductCatalogView(View):
 
         # TODO: Compute recommendations
         return render(request, 'product_catalog.html', context)
+
+class CartView(View):
+    @staticmethod
+    def get(request):
+        products = []
+
+        for product_id, quantity in request.session["cart"]:
+            product = Product.objects.get(id=product_id)
+            products.append(LineItem(product, quantity=quantity))
+
+        print(products)
+        print(products[0].product.id)
+
+        context = {
+            "products": products
+        }
+
+        return render(request, 'cart.html', context)
 
 
 class StallView(View):

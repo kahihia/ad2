@@ -3,16 +3,26 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from IrisOnline.decorators import customer_required
 
+class LineItem():
+    def __init__(self, product, quantity):
+        self.product = product
+        self.quantity = quantity
 
-class CheckoutView(View):
+
+class CartView(View):
     @staticmethod
-    @customer_required
     def get(request):
-        # TODO: Build context
-        return render(request, 'checkout.html', None)
+        products = []
 
-    @staticmethod
-    @customer_required
-    def post(request):
-        # TODO
-        pass
+        for product_id, quantity in request.session["cart"]:
+            product = Product.objects.get(id=product_id)
+            products.append(LineItem(product, quantity=quantity))
+
+        print(products)
+        print(products[0].product.id)
+
+        context = {
+            "products": products
+        }
+
+        return render(request, 'cart.html', context)
