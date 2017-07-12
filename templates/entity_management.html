@@ -176,7 +176,8 @@
 
                             {% for product in products %}
                                 <div class="card" style="max-width: 300px;">
-                                    <img class="card-img-top" src="{{ product.photo.url }}" style="object-fit: cover;"alt="No product image"
+                                    <img class="card-img-top" src="{{ product.photo.url }}" style="object-fit: cover;"
+                                         alt="No product image"
                                          draggable="false">
                                     <div class="card-block">
                                         <h4 class="card-title">{{ product.name }}</h4>
@@ -193,9 +194,8 @@
                                     <div class="card-block">
                                         <a href="#" id="edit-product-button" class="btn btn-primary" data-toggle="modal"
                                            data-target="#edit-product-modal-{{ product.id }}">Modify</a>
-                                        <!-- TODO: Disable product modal connection -->
-                                        <a href="#" id="" class="btn btn-outline-danger" data-toggle=""
-                                           data-target="">Delete</a>
+                                        <a href="#" id="delete-product-button" class="btn btn-outline-danger" data-toggle="modal"
+                                           data-target="#delete-product-modal-{{ product.id }}">Delete</a>
                                     </div>
                                 </div>
 
@@ -443,6 +443,28 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
 
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Product Modal -->
+        <div class="modal fade" id="delete-product-modal-{{ product.id }}" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete {{ product.name }}?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -203,7 +203,7 @@
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">₱ {{ product.price }}</p>
                         </div>
-                        <form method="POST">
+                        <form method="POST" action="/product-catalog/">
                             <div class="card-footer">
                                 <div class="col-12 card-purchase-div">
                                     {% csrf_token %}
