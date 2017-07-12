@@ -20,6 +20,7 @@
           crossorigin="anonymous">
 
     <!--Custom CSS-->
+    <link rel="stylesheet" href="{% static 'css/entity_management.css' %}">
 
     <!--Import custom JS here-->
 
@@ -37,12 +38,12 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/entity-management/">Manage Entities <span
-                        class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Replenish</a>
+                <a class="nav-link" href="/entity-management/">Manage Entities</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/replenish_stocks/">Replenish Stocks<span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Sales Report</a>
@@ -60,6 +61,9 @@
 
     </div>
 </nav>
+
+<div id="master-detail">
+</div>
 
 </body>
 </html>

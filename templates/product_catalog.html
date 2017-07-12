@@ -31,6 +31,7 @@
     <!-- Custom JS go here -->
     <script type="text/javascript" src="{% static '/js/stalls.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/nav.js' %}/"></script>
+    <script type="text/javascript" src="{% static '/js/catalog_waitlisting.js' %}"></script>
 
 </head>
 <body class="bg-faded">
@@ -109,7 +110,7 @@
                 </div>
             </div>
         </div>
-        <!-- Recommendations -->
+        <!-- TODO: Recommendations -->
         <div id="recommendation-items" class="card w-50">
             <h6 class="card-header">Recommended Items</h6>
             <div id="recommendation-items">
@@ -117,8 +118,11 @@
                     <img src="{% static '/images/dave.jpg' %}" alt="No image">
                     <div class="recommended-details">
                         <h4 class="ml-2">Dave Gilmour</h4>
-                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                               name="quantity">
+                        <div class="d-flex">
+                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                                   name="quantity">
+                            <p class="mt-3">P 200</p>
+                        </div>
                         <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
                     </div>
                 </div>
@@ -126,8 +130,11 @@
                     <img src="{% static '/images/dave.jpg' %}" alt="No image">
                     <div class="recommended-details">
                         <h4 class="ml-2">Dave Gilmour</h4>
-                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                               name="quantity">
+                        <div class="d-flex">
+                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                                   name="quantity">
+                            <p class="mt-3">P 200</p>
+                        </div>
                         <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
                     </div>
                 </div>
@@ -135,8 +142,11 @@
                     <img src="{% static '/images/dave.jpg' %}" alt="No image">
                     <div class="recommended-details">
                         <h4 class="ml-2">Dave Gilmour</h4>
-                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                               name="quantity">
+                        <div class="d-flex">
+                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                                   name="quantity">
+                            <p class="mt-3">P 200</p>
+                        </div>
                         <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
                     </div>
                 </div>
@@ -144,8 +154,11 @@
                     <img src="{% static '/images/dave.jpg' %}" alt="No image">
                     <div class="recommended-details">
                         <h4 class="ml-2">Dave Gilmour</h4>
-                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                               name="quantity">
+                        <div class="d-flex">
+                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                                   name="quantity">
+                            <p class="mt-3">P 200</p>
+                        </div>
                         <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
                     </div>
                 </div>
@@ -212,6 +225,8 @@
                                 <div class="col-12 card-purchase-div">
                                     {% csrf_token %}
                                     <input type="hidden" value="{{ product.id }}" name="product">
+                                    <input type="hidden" value="{{ product.name }}" name="product_name">
+                                    <input type="hidden" value="{{ product.quantity }}" name="product_quantity">
                                     <input type="number" class="form-control col-3  mr-2" min="1" max="100" value="1"
                                            name="quantity">
                                     <button type="submit" class="btn btn-primary">Add to Cart</button>
