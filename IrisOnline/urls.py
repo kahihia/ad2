@@ -26,13 +26,14 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^entity-management/', include('entity_management.urls')),
     url(r'^product-catalog/', include('product_catalog.urls')),
+    url(r'^checkout/', include('checkout_process.urls')),
     url(r'^$', ProductCatalogView.as_view()),
     url(r'^customer-sign-in/', SignInView.as_view()),
     url(r'^customer-sign-up/', SignUpView.as_view()),
     url(r'^sign-out', sign_out),
     url(r'^admin-sign-in', AdministratorSignInView.as_view()),
     url(r'^admin-sign-out', admin_sign_out),
-    url(r'^user-profile/$', UserProfileView.as_view())
+    url(r'^user-profile/$', UserProfileView.as_view()),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
