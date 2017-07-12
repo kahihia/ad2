@@ -55,6 +55,8 @@ class ProductCatalogView(View):
         except:
             raise Http404("Product ID not in database")
 
+
+
         request.session["cart"].append((product.pk, quantity))
         request.session.modified = True
         cart_count = len(request.session['cart'])
