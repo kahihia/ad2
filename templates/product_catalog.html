@@ -51,7 +51,7 @@
                    name="search-query" value="{{ search_term }}">
         </form>
 
-        <a href="#" class="btn btn-primary mr-2">Cart
+        <a href="/product-catalog/cart" class="btn btn-primary mr-2">Cart
             {% if cart_count and cart_count > 0 %}
                 <span class="badge badge-success">{{ cart_count }}</span>
             {% endif %}
@@ -162,7 +162,7 @@
 
                     <div id="options-div">
                         <form action="">
-                            <button class="btn btn-secondary" href="/cart">View Cart</button>
+                            <button class="btn btn-secondary" href="product-catalog/cart">View Cart</button>
                         </form>
                         <form action="">
                             <button class="btn btn-secondary">Proceed to Checkout</button>
@@ -226,6 +226,7 @@
                         <div class="card-block">
                             <h4 class="card-title">{{ product.name }}</h4>
                             <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text">₱ {{ product.price }}</p>
                         </div>
                         <form method="POST">
                             <div class="card-footer">
