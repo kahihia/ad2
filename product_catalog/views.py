@@ -56,19 +56,7 @@ class ProductCatalogView(View):
         except:
             raise Http404("Product ID not in database")
 
-<<<<<<< HEAD
-
-
         request.session["cart"].append((product.pk, quantity))
-=======
-        cart = request.session["cart"]
-
-        # if cart.has_product(product):
-        #     line_item = cart.get_line_item_for_product(product)
-        #     line_item.quantity += quantity
-        # else:
-        request.session['cart'].append((product_id,quantity))
->>>>>>> dea119416250d82c45ea1acbcf1e6d821d392d94
         request.session.modified = True
 
         cart_count = len(request.session['cart'])
