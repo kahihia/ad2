@@ -41,7 +41,6 @@ class ProductCatalogView(View):
 
     # Add to cart
     @staticmethod
-    @login_required
     @customer_required
     def post(request):
 

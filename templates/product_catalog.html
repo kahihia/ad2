@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
     <link rel="stylesheet" href="{% static '/css/stalls.css' %}">
     <link rel="stylesheet" href="{% static '/css/added_product.css' %}">
+    <link rel="stylesheet" href="{% static '/css/recommendations.css' %}">
 
 
     <!-- Custom JS go here -->
@@ -78,44 +79,74 @@
 
 {% if added_to_cart %}
 
-    <div id="added-to-cart-notification" class="card">
-        <h6 class="card-header">Added to cart</h6>
-        <div class="card-block">
-            <div id="product-preview">
-                <img id="added-image" src="{{ added_to_cart.photo.url }}" draggable="false">
-                <!-- These come from the previous page -->
-                <div id="product-details" class="ml-3">
-                    <!-- Name -->
-                    <h4 class="ml-2">{{ added_to_cart.name }}</h4>
-                    <!-- Stall -->
-                    <p class="ml-2">{{ added_to_cart.stall.name }}</p>
-                    <!-- Quantity -->
-                    <p class="ml-2">Quantity: {{ quantity }}</p>
+    <div class="d-flex">
+        <div id="added-to-cart-notification" class="card w-50">
+            <h6 class="card-header">Added to cart</h6>
+            <div class="card-block">
+                <div id="product-preview">
+                    <img id="added-image" src="{{ added_to_cart.photo.url }}" draggable="false">
+                    <!-- These come from the previous page -->
+                    <div id="product-details" class="ml-3">
+                        <!-- Name -->
+                        <h4 class="ml-2">{{ added_to_cart.name }}</h4>
+                        <!-- Stall -->
+                        <p class="ml-2">{{ added_to_cart.stall.name }}</p>
+                        <!-- Quantity -->
+                        <p class="ml-2">Quantity: {{ quantity }}</p>
 
-                    <div id="options-div">
-                        <form action="">
-                            <button class="btn btn-secondary">View Cart</button>
-                        </form>
-                        <form action="">
-                            <button class="btn btn-secondary">Proceed to Checkout</button>
-                        </form>
+                        <div id="options-div">
+                            <form action="">
+                                <button class="btn btn-secondary">View Cart</button>
+                            </form>
+                            <form action="">
+                                <button class="btn btn-secondary">Proceed to Checkout</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-{#            <div id="recommendations-div" style="margin-left: 100px; padding: 5px">#}
-{#                <h6>Recommended Products</h6>#}
-{#                <div id="recommendation-items">#}
-{#                    <div class="card" style="width: 20rem;">#}
-{#                        <img class="card-img-top" src="..." alt="Card image cap">#}
-{#                        <div class="card-block">#}
-{#                            <h4 class="card-title">Card title</h4>#}
-{#                            <p class="card-text">Some quick example text to build on the card title and make up the bulk#}
-{#                                of the card's content.</p>#}
-{#                            <a href="#" class="btn btn-primary">Go somewhere</a>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
+        </div>
+        <!-- Recommendations -->
+        <div id="recommendation-items" class="card w-50">
+            <h6 class="card-header">Recommended Items</h6>
+            <div id="recommendation-items">
+                <div class="recommended-item p-3 m-1">
+                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
+                    <div class="recommended-details">
+                        <h4 class="ml-2">Dave Gilmour</h4>
+                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                               name="quantity">
+                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="recommended-item p-3 m-1">
+                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
+                    <div class="recommended-details">
+                        <h4 class="ml-2">Dave Gilmour</h4>
+                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                               name="quantity">
+                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="recommended-item p-3 m-1">
+                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
+                    <div class="recommended-details">
+                        <h4 class="ml-2">Dave Gilmour</h4>
+                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                               name="quantity">
+                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="recommended-item p-3 m-1">
+                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
+                    <div class="recommended-details">
+                        <h4 class="ml-2">Dave Gilmour</h4>
+                        <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
+                               name="quantity">
+                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
