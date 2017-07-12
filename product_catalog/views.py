@@ -49,7 +49,7 @@ class ProductCatalogView(View):
             raise Http404("Product or quantity not in POST data")
 
         product_id = request.POST["product"]
-        quantity = request.POST["quantity"]
+        quantity = int(request.POST["quantity"])
 
         try:
             product = Product.objects.get(id=product_id)
@@ -81,13 +81,30 @@ class ProductCatalogView(View):
         # TODO: Compute recommendations
         return render(request, 'product_catalog.html', context)
 
+
+class LineItem():
+    def __init__(self, product, quantity):
+        self.product = product
+        self.quantity = quantity
+
+
 class CartView(View):
     @staticmethod
     def get(request):
-        context{
-            "products"
+        products = []
+
+        for product_id, quantity in request.session["cart"]:
+            product = Product.objects.get(id=product_id)
+            products.append(LineItem(product, quantity=quantity))
+
+        print(products)
+        print(products[0].product.id)
+
+        context = {
+            "products": products
         }
 
+        return render(request, 'cart.html', context)
 
 
 class StallView(View):
@@ -115,6 +132,7 @@ class StallView(View):
             context["name"] = full_name
 
         return render(request, 'product_catalog.html', context)
+
 
 def search(request):
     if request.method != 'GET':
