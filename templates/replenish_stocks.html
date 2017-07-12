@@ -20,12 +20,13 @@
           crossorigin="anonymous">
 
     <!--Custom CSS-->
-    <link rel="stylesheet" href="{% static 'css/entity_management.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/replenish.css' %}">
 
     <!--Import custom JS here-->
 
 </head>
-<body>
+<body class="bg-faded">
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-toggleable-md navbar-light" id="navigation-bar">

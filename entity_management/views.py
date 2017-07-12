@@ -5,7 +5,6 @@ from .models import *
 from django.shortcuts import Http404
 from django.http import HttpResponse
 import json
-from django.http import QueryDict
 from IrisOnline.decorators import admin_required
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
@@ -223,3 +222,17 @@ def update_product(request, stall_id):
         content_type="application/json",
         status=400
     )
+
+
+class ReplenishView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request):
+        return render(request, 'replenish_stocks.html')
+
+    @staticmethod
+    @login_required
+    @admin_required
+    def post(request):
+        pass
