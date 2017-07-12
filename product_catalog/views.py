@@ -5,6 +5,7 @@ from customer_profile.models import Customer
 from django.db.models import Q
 from IrisOnline.decorators import customer_required
 from django.contrib.auth.decorators import login_required
+from .models import Cart, LineItem
 
 
 def available_stalls():
@@ -23,7 +24,7 @@ class ProductCatalogView(View):
             cart_count = 0
         else:
             print(request.session["cart"])
-            cart_count = len(request.session['cart'])
+            cart_count = len(request.session["cart"])
 
         context = {
             "stalls": stalls,
@@ -55,12 +56,22 @@ class ProductCatalogView(View):
         except:
             raise Http404("Product ID not in database")
 
+<<<<<<< HEAD
 
 
         request.session["cart"].append((product.pk, quantity))
+=======
+        cart = request.session["cart"]
+
+        # if cart.has_product(product):
+        #     line_item = cart.get_line_item_for_product(product)
+        #     line_item.quantity += quantity
+        # else:
+        request.session['cart'].append((product_id,quantity))
+>>>>>>> dea119416250d82c45ea1acbcf1e6d821d392d94
         request.session.modified = True
+
         cart_count = len(request.session['cart'])
-        print(request.session["cart"])
 
         stalls = available_stalls()
         products = Product.objects.all()
@@ -81,13 +92,6 @@ class ProductCatalogView(View):
 
         # TODO: Compute recommendations
         return render(request, 'product_catalog.html', context)
-
-
-class LineItem():
-    def __init__(self, product, quantity):
-        self.product = product
-        self.quantity = quantity
-
 
 class CartView(View):
     @staticmethod
