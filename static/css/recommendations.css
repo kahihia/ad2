@@ -6,9 +6,9 @@
 }
 
 #recommendation-items {
-    display : flex;
-    height  : 234px;
-    overflow-y: scroll;
+    display    : flex;
+    height     : 234px;
+    overflow-y : scroll;
 }
 
 .recommended-item {
