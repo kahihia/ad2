@@ -96,18 +96,27 @@
             </thead>
             <tbody>
             {% if products %}
-                {% for product in products %}
-                    <tr>
-                        <td>{{ product.product.name }}</td>
-                        <td>P {{ product.product.price }}</td>
-                        <td><input type="number" class="form-control col-3" min="1" max="100"
-                                   placeholder="{{ product.quantity }}"></td>
-                        <td>
-                            <button class="btn btn-outline-danger">Remove</button>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% for product in products %}
+            <tr>
+                <td>{{ product.product.name }}</td>
+                <td>P {{ product.product.price }}</td>
+                <td><input type="number" class="form-control col-3" min="1" max="100" placeholder="{{ product.quantity }}"></td>
+                <td><button class="btn btn-outline-danger">Remove</button></td>
+            </tr>
+            {% endfor %}
             {% endif %}
+{#            <tr>#}
+{#                <td>Something Amazing</td>#}
+{#                <td>P 400</td>#}
+{#                <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>#}
+{#                <td><button class="btn btn-outline-danger">Remove</button></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>System Complexity</td>#}
+{#                <td>P 2100</td>#}
+{#                <td><input type="number" class="form-control col-3" min="1" max="100" value="1"></td>#}
+{#                <td><button class="btn btn-outline-danger">Remove</button></td>#}
+{#            </tr>#}
             </tbody>
         </table>
     </div>
