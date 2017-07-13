@@ -5,7 +5,7 @@ from customer_profile.models import Customer
 from django.db.models import Q
 from IrisOnline.decorators import customer_required
 from django.contrib.auth.decorators import login_required
-from .models import Cart, LineItem
+from .models import LineItem
 
 
 def available_stalls():
