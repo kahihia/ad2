@@ -7,7 +7,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from IrisOnline.decorators import customer_required
-
+from product_catalog.models import Cart
 
 class SignInView(View):
     @staticmethod
@@ -23,7 +23,7 @@ class SignInView(View):
 
         if user is not None:
             login(request, user)
-            request.session['cart'] = []
+            request.session['cart'] = Cart()
             return redirect("/")
         else:
             return render(request, 'sign_in.html', {
@@ -66,7 +66,7 @@ class SignUpView(View):
                                 address=address, postal_code=postal_code)
 
         login(request, user)
-        request.session['cart'] = []
+        request.session['cart'] = Cart()
         return redirect('/')  # TODO Redirect to customer profile page
 
 

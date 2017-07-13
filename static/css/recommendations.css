@@ -1,0 +1,31 @@
+/* This is the CSS for recommendations in the Product Catalog */
+
+#recommendations-div {
+    height      : 150px;
+    margin-left : 100px;
+}
+
+#recommendation-items {
+    display    : flex;
+    height     : 234px;
+    overflow-y : scroll;
+}
+
+.recommended-item {
+    display : flex;
+}
+
+.recommended-item p {
+    margin : 0;
+}
+
+.recommended-item img {
+    width      : 150px;
+    height     : 150px;
+    object-fit : cover;
+}
+
+.recommended-details input, .recommended-details button {
+    margin-left : 10px;
+    margin-top  : 10px;
+}

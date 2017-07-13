@@ -1,0 +1,8 @@
+body {
+    background-color : #f4f4f4;
+}
+
+#navigation-bar {
+    border-bottom : 0.25px solid #dddddd;
+    background    : white;
+}

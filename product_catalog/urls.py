@@ -5,4 +5,5 @@ urlpatterns = [
     url(r'^$', views.ProductCatalogView.as_view()),
     url(r'^stalls/(?P<stall_id>(\d+))/$', views.StallView.as_view()),
     url(r'^search/$', views.search),
+    url(r'^cart/$', views.CartView.as_view())
 ]
