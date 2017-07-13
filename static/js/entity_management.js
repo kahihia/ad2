@@ -41,11 +41,11 @@ $(function () {
             url: window.location.pathname,
             method: "DELETE",
             success: function () {
-                location.href = "/entity_management/";
+                location.href = "/entity-management/";
             },
             error: function () {
                 alert("something went wrong");
-                location.href = "/entity_management/";
+                location.href = "/entity-management/";
             }
 
         })
@@ -59,7 +59,7 @@ $(function () {
             "stall_name": $("#stallname").val()
         };
         $.ajax({
-            url: "/entity_management/stalls/",
+            url: "/entity-management/stalls/",
             method: "POST",
             data: JSON.stringify(dict),
             success: function () {
@@ -87,11 +87,11 @@ $(function () {
             data: JSON.stringify(dict),
             success: function (data) {
                 alert(data["old_name"] + " successfully renamed to " + data["new_name"]);
-                location.href = "/entity_management/";
+                location.href = "/entity-management/";
             },
             error: function () {
                 alert("something went wrong");
-                location.href = "/entity_management/";
+                location.href = "/entity-management/";
             }
 
         })
