@@ -63,7 +63,6 @@ $(function () {
             method: "POST",
             data: JSON.stringify(dict),
             success: function () {
-                alert(dict["stall_name"] + " created");
                 location.href = "/entity_management/";
             },
             error: function () {
@@ -86,7 +85,6 @@ $(function () {
             method: "PUT",
             data: JSON.stringify(dict),
             success: function (data) {
-                alert(data["old_name"] + " successfully renamed to " + data["new_name"]);
                 location.href = "/entity-management/";
             },
             error: function () {
@@ -124,7 +122,6 @@ $(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                alert(data["new_product"] + " created");
                 location.reload();
             },
             error: function (data) {
@@ -286,7 +283,6 @@ function editProduct(productID) {
         contentType: false,
         processData: false,
         success: function (data) {
-            alert(data["product"] + " edited");
             location.reload();
         },
         error: function (data) {
