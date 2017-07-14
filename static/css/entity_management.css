@@ -56,3 +56,10 @@ div#create-product-errors {
     height : 300px;
     width  : 100%;
 }
+
+.card {
+    min-width     : 250px;
+    border        : none;
+    margin-right  : 10px;
+    margin-bottom : 10px;
+}
