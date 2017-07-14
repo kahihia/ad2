@@ -63,11 +63,11 @@ $(function () {
             method: "POST",
             data: JSON.stringify(dict),
             success: function () {
-                location.href = "/entity_management/";
+                location.href = "/entity-management/";
             },
             error: function () {
                 alert("something went wrong");
-                location.href = "/entity_management/";
+                location.href = "/entity-management/";
             }
 
         })
