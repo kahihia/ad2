@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from entity_management.models import Product
 from django.contrib.auth.decorators import login_required
 from IrisOnline.decorators import customer_required
 
