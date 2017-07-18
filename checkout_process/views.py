@@ -43,19 +43,22 @@ class CartView(View):
 
         cart = request.session["cart"]
 
-        for product_id, quantity in cart:
-            if product.id == product_id:
-                del request.session['product_id']
+        # The solution in non-lambda
+        # new_cart = []
+        # for product_id, quantity in cart:
+        #     if product.id != product_id:
+        #         new_cart.append((product_id,quantity))
+
+        new_cart = list(filter(lambda x: x[0] != product.id, cart))
+
+        request.session["cart"] = new_cart
+        request.session.modified = True
 
         return HttpResponse(
             json.dumps(data),
             content_type="application/json",
             status=400
         )
-
-
-
-
 
 
 

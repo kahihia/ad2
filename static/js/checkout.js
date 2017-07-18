@@ -25,16 +25,13 @@ function attachCSRF() {
             "product_id":productID
         };
         $.ajax({
-            url: window.location.pathname + "checkout_process/",
+            url: window.location.pathname,
             method: "DELETE",
             data: JSON.stringify(dict),
-            success: function(data) {
-                console.log(data["name"]);
+            success: function() {
                 location.reload()
             },
             error: function() {
-                console.log(data["name"]);
-                alert("yikes! something went wrong");
                 location.reload()
             }
 
