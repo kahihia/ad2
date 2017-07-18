@@ -29,15 +29,6 @@ class CartView(View):
             "line_items": line_items
         })
 
-<<<<<<< HEAD
-        context = {
-            "products": products
-        }
-
-        return render(request, 'cart.html', context)
-
-
-=======
         return render(request, 'cart.html', context)
 
 # TODO: Checkout and Purchase -h
@@ -53,4 +44,4 @@ class PurchaseView(View):
     @customer_required
     def get(request):
         return render(request, 'purchase.html')
->>>>>>> 2460562e651ba9a3b1cea1f69a32b9b2d39d068f
+
