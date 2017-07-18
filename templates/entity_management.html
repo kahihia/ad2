@@ -158,10 +158,14 @@
                 </h1>
 
 
-                <div class="nav-item my-2 my-lg-0">
-                    <a id="create-product-button-1" class="nav-link" href="#" data-toggle="modal"
-                       data-target="#create-product-modal">Add</a>
-                </div>
+                {% if active_stall %}
+
+                    <div class="nav-item my-2 my-lg-0">
+                        <a id="create-product-button-1" class="nav-link" href="#" data-toggle="modal"
+                           data-target="#create-product-modal">Add</a>
+                    </div>
+
+                {% endif %}
             </nav>
 
             <!--Select a stall message-->
