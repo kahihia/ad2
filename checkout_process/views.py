@@ -28,13 +28,9 @@ class CartView(View):
             "total_price": total_price,
             "line_items": line_items
         })
-
-<<<<<<< HEAD
-
         return render(request, 'cart.html', context)
 
-=======
->>>>>>> 6fcbb639879760b14edf1e9dbde708b29074b25a
+
 # TODO: Checkout and Purchase -h
 class CheckoutView(View):
     @staticmethod
@@ -47,9 +43,4 @@ class PurchaseView(View):
     @staticmethod
     @customer_required
     def get(request):
-<<<<<<< HEAD
         return render(request, 'purchase.html')
-
-=======
-        return render(request, 'purchase.html')
->>>>>>> 6fcbb639879760b14edf1e9dbde708b29074b25a
