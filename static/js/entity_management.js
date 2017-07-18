@@ -14,7 +14,6 @@ $(function () {
     $("#create-product-button").click(createProduct);
     $("#create-product-button-1").click(removeErrors);
     $("#create-product-button-2").click(removeErrors);
-    // $("#edit-product-button").click(populateProductModal);
 
 
     function attachCSRF() {
@@ -203,7 +202,7 @@ $(function () {
 });
 
 const errorText2 = $("#error-text-2");
-// errorText2.hide();
+errorText2.hide();
 
 function displayErrors(errorArray) {
     console.log(errorArray)
@@ -295,3 +294,22 @@ function editProduct(productID) {
 
 
 }
+
+function deleteProduct(productID){
+        attachCSRF();
+        const dict = {
+            "product_id":productID
+        };
+        $.ajax({
+            url: window.location.pathname + "products/",
+            method: "DELETE",
+            data: JSON.stringify(dict),
+            success: function () {
+                location.reload()
+            },
+            error: function () {
+                location.reload()
+            }
+
+        })
+    }
