@@ -17,9 +17,10 @@
     </script>
 
     <!-- Custom CSS go here -->
-    <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/cart.css">
-    <link rel="stylesheet" href="../css/checkout.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/nav.css/' %}">
+    <link rel="stylesheet" href="{% static '/css/cart.css/' %}">
+    <link rel="stylesheet" href="{% static '/css/checkout.css/' %}">
 
     <!-- Custom JS go here -->
 
@@ -119,20 +120,25 @@
                     <p>6969</p>
                 </div>
             </div>
-            <div id="options">
-                <form action="">
-                    <button class="btn btn-secondary btn-sm">Continue Shopping</button>
-                </form>
-                <form action="">
-                    <button class="btn btn-secondary btn-sm">View Cart</button>
-                </form>
-                <form action="">
-                    <button class="btn btn-outline-primary btn-sm">Purchase</button>
-                </form>
-            </div>
         </div>
     </div>
+    <div class="col-3"></div>
+    <div id="options" class="col-6">
+        <form action="">
+            <button class="btn btn-secondary btn-lg">Continue Shopping</button>
+        </form>
+        <form action="">
+            <button class="btn btn-secondary btn-lg">View Cart</button>
+        </form>
+        <form action="">
+            <button class="btn btn-outline-primary btn-lg">Purchase</button>
+        </form>
+    </div>
+    <div class="col-3"></div>
 </div>
+
+</body>
+</html>
 
 </body>
 </html>
