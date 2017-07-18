@@ -65,6 +65,9 @@
                     <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="">View Orders</a>
+                </li>
+                <li class="nav-item">
                     <a href="/sign-out/" class="nav-link">Sign out</a>
                 </li>
             {% else %}
@@ -189,7 +192,7 @@
     <!-- Stalls -->
     <section id="stall-list">
         <!-- Items to be retrieved by the database -->
-        <h3>Stalls</h3>
+        <h3 class="ml-1">Stalls</h3>
         <ul class="list-group">
             {% if stalls %}
 
