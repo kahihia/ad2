@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views import View
 from entity_management.models import Product
-from django.contrib.auth.decorators import login_required
 from IrisOnline.decorators import customer_required
+from product_catalog.contexts import make_context
 
 class LineItem():
     def __init__(self, product, quantity):
@@ -12,17 +12,21 @@ class LineItem():
 
 class CartView(View):
     @staticmethod
+    @customer_required
     def get(request):
-        products = []
+        line_items = []
+
+        total_price = 0.00
 
         for product_id, quantity in request.session["cart"]:
             product = Product.objects.get(id=product_id)
-            products.append(LineItem(product, quantity=quantity))
+            line_items.append(LineItem(product, quantity=quantity))
+            total_price += float(product.price) * float(quantity)
 
-
-
-        context = {
-            "products": products
-        }
+        context=make_context(request)
+        context.update({
+            "total_price": total_price,
+            "line_items": line_items
+        })
 
         return render(request, 'cart.html', context)

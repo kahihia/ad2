@@ -62,7 +62,7 @@ class CartView(View):
         print(products[0].product.id)
 
         context = {
-            "products": products
+            "line_items": products
         }
 
         return render(request, 'cart.html', context)
