@@ -19,10 +19,10 @@ class CartView(View):
             product = Product.objects.get(id=product_id)
             products.append(LineItem(product, quantity=quantity))
 
-
-
         context = {
             "products": products
         }
 
         return render(request, 'cart.html', context)
+
+
