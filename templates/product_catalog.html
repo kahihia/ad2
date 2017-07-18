@@ -221,9 +221,15 @@
     <!-- Products of the Selected Stall -->
     <!-- Items to be retrieved by the database -->
     <section id="product-showcase">
-        {% if search_term %}
+        {% if search_term or active_stall %}
             <div class="container mb-1">
-                <h3>Search results for <span class="text-muted">{{ search_term }}</span></h3>
+                {% if search_term %}
+                    <h3>Search results for <span class="text-muted">{{ search_term }}</span></h3>
+                {% endif %}
+
+                {% if active_stall %}
+                    <h3>{{ active_stall.name }}</h3>
+                {% endif %}
             </div>
         {% endif %}
 
