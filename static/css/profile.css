@@ -18,8 +18,3 @@
 h3 {
     font-weight : bold;
 }
-
-.list-group {
-    max-height: 400px;
-    overflow: scroll;
-}

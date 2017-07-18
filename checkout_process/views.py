@@ -28,9 +28,8 @@ class CartView(View):
             "total_price": total_price,
             "line_items": line_items
         })
-
-
         return render(request, 'cart.html', context)
+
 
 # TODO: Checkout and Purchase -h
 class CheckoutView(View):
