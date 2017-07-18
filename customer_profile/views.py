@@ -7,7 +7,6 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from IrisOnline.decorators import customer_required
-from product_catalog.models import Cart
 from product_catalog.contexts import make_context
 
 class SignInView(View):
