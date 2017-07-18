@@ -80,15 +80,16 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {% if line_items %}
-                {% for product in line_items %}
-                    <tr>
-                        <td>{{ product.product.name }}</td>
-                        <td>₱{{ product.product.price }}</td>
-                        <td>{{ product.quantity }}</td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
+                    {% for product in line_items %}
+                        <tr>
+                            <td>{{ product.product.name }}</td>
+                            <td>₱{{ product.product.price }}</td>
+                            <td>{{ product.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
                 <tr>
                     <th scope="row">Total</th>
                     <td>{{ total_price }}</td>
@@ -113,11 +114,6 @@
             </div>
         </div>
     </div>
-
-    <form method="POST" action="/purchase-complete/">
-    <input type ="hidden" value="{{ product.product.id }}" name="product_id">
-    <input type ="hidden" value="{{ product.product.quantity }}" name="quantity_ordered">
-    </form>
 
 
     <div class="col-3"></div>

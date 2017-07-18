@@ -6,7 +6,9 @@ from product_catalog.contexts import make_context
 import json
 from django.http import HttpResponse
 from customer_profile.models import Customer
-from order_management.models import Order,OrderLineItems
+from order_management.models import *
+import datetime
+
 
 class LineItem():
     def __init__(self, product, quantity):
@@ -92,17 +94,24 @@ class CheckoutView(View):
         })
         return render(request, 'checkout.html', context)
 
-    @staticmethod
-    @customer_required
-    def post(request):
-        dict = json.loads(request.body)
-
-
-
-
 
 class PurchaseView(View):
     @staticmethod
     @customer_required
     def get(request):
+        cart = request.session["cart"]
+        order = Order()
+        order.date_ordered = datetime.datetime.now().strftime('%H:%M:%S')
+        order.customer = request.user
+        order.save()
+
+
+        for product_id,quantity in cart:
+            line_item = OrderLineItems()
+            line_item.product = Product.objects.get(id=product_id)
+            line_item.quantity = quantity
+            line_item.parent_order = order
+            line_item.save()
+
         return render(request, 'purchase.html')
+

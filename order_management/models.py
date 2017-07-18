@@ -51,4 +51,4 @@ class OrderLineItems(Model):
 class ProductAssociation(Model):
     root_product = ForeignKey(Product, on_delete=PROTECT)
     associated_product = ForeignKey(Product, on_delete=PROTECT)
-    probability = DecimalField()
+    probability = DecimalField(decimal_places=2, max_digits=3)
