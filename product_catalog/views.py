@@ -4,8 +4,8 @@ from entity_management.models import Stall, Product
 from customer_profile.models import Customer
 from django.db.models import Q
 from IrisOnline.decorators import customer_required
-from django.contrib.auth.decorators import login_required
 from .models import LineItem
+from .contexts import make_context
 
 
 def available_stalls():
@@ -16,28 +16,7 @@ class ProductCatalogView(View):
     @staticmethod
     @customer_required
     def get(request):
-        stalls = available_stalls()
-        products = Product.objects.all()
-
-        if 'cart' not in request.session:
-            request.session['cart'] = []
-            cart_count = 0
-        else:
-            print(request.session["cart"])
-            cart_count = len(request.session["cart"])
-
-        context = {
-            "stalls": stalls,
-            "products": products,
-            'cart_count': cart_count
-        }
-
-        if request.user.is_authenticated:
-            user = request.user
-            customer = Customer.objects.filter(user=user)[0]
-            full_name = customer.full_name
-            context["name"] = full_name
-
+        context = make_context(request)
         return render(request, 'product_catalog.html', context)
 
     # Add to cart
@@ -59,27 +38,16 @@ class ProductCatalogView(View):
         request.session["cart"].append((product.pk, quantity))
         request.session.modified = True
 
-        cart_count = len(request.session['cart'])
+        context = make_context(request=request)
 
-        stalls = available_stalls()
-        products = Product.objects.all()
-
-        context = {
+        context.update({
             'added_to_cart': product,
-            'cart_count': cart_count,
             'quantity': quantity,
-            'stalls': stalls,
-            'products': products
-        }
-
-        if request.user.is_authenticated:
-            user = request.user
-            customer = Customer.objects.filter(user=user)[0]
-            full_name = customer.full_name
-            context["name"] = full_name
+        })
 
         # TODO: Compute recommendations
         return render(request, 'product_catalog.html', context)
+
 
 class CartView(View):
     @staticmethod
@@ -90,11 +58,8 @@ class CartView(View):
             product = Product.objects.get(id=product_id)
             products.append(LineItem(product, quantity=quantity))
 
-        print(products)
-        print(products[0].product.id)
-
         context = {
-            "products": products
+            "line_items": products
         }
 
         return render(request, 'cart.html', context)
@@ -106,24 +71,10 @@ class StallView(View):
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
-            products = Product.objects.all().filter(stall=stall)
         except:
             raise Http404("Stall does not exist")
 
-        stalls = available_stalls()
-
-        context = {
-            "stalls": stalls,
-            "active_stall": stall,
-            "products": products,
-        }
-
-        if request.user.is_authenticated:
-            user = request.user
-            customer = Customer.objects.filter(user=user)[0]
-            full_name = customer.full_name
-            context["name"] = full_name
-
+        context = make_context(request, active_stall=stall)
         return render(request, 'product_catalog.html', context)
 
 
@@ -137,18 +88,8 @@ def search(request):
         Q(description__icontains=key)
     ).order_by("pk").reverse()
 
-    stalls = available_stalls()
-
-    context = {
-        "stalls": stalls,
-        "products": products,
-        "search_term": key
-    }
-
-    if request.user.is_authenticated:
-        user = request.user
-        customer = Customer.objects.filter(user=user)[0]
-        full_name = customer.full_name
-        context["name"] = full_name
+    context = make_context(request)
+    context["products"] = products
+    context["search_term"] = key
 
     return render(request, 'product_catalog.html', context)

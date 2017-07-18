@@ -42,7 +42,7 @@
                    name="search-query" value="{{ search_term }}">
         </form>
 
-        <a href="#" class="btn btn-primary mr-2">Cart
+        <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
             {% if cart_count and cart_count > 0 %}
                 <span class="badge badge-success">{{ cart_count }}</span>
             {% endif %}
@@ -71,12 +71,12 @@
 <!-- TODO: Modal for editing personal and address information -->
 
 <!-- Content -->
-<div id="content">
+<div class="container-fluid p-5 m-5">
     <h3>Account Dashboard</h3>
     <div id="account-details">
         <table class="table table-bordered" id="account-details-table">
             <tr>
-                <td class="w-50">
+                <td class="w-50 p-4">
                     <div id="personal-information">
                         <div class="section-header d-flex flex-row">
                             <h5>Personal Information</h5>
@@ -86,7 +86,7 @@
                         <p>{{ customer.phone_number }}</p>
                     </div>
                 </td>
-                <td>
+                <td class="p-4">
                     <div id="address">
                         <div class="section-header d-flex">
                             <h5>Address</h5>
