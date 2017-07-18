@@ -221,6 +221,13 @@
     <!-- Products of the Selected Stall -->
     <!-- Items to be retrieved by the database -->
     <section id="product-showcase">
+        {% if search_term %}
+            <div class="container mb-1">
+                <h3>Search results for <span class="text-muted">{{ search_term }}</span></h3>
+            </div>
+        {% endif %}
+
+
 
         {% if products %}
 
@@ -235,19 +242,22 @@
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">₱ {{ product.price }}</p>
                         </div>
-                        <form method="POST" action="/product-catalog/">
-                            <div class="card-footer">
-                                <div class="col-12 card-purchase-div">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="{{ product.id }}" name="product">
-                                    <input type="hidden" value="{{ product.name }}" name="product_name">
-                                    <input type="hidden" value="{{ product.quantity }}" name="product_quantity">
-                                    <input type="number" class="form-control col-3  mr-2" min="1" max="100" value="1"
-                                           name="quantity">
-                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        {% if name %}
+                            <form method="POST" action="/product-catalog/">
+                                <div class="card-footer">
+                                    <div class="col-12 card-purchase-div">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ product.id }}" name="product">
+                                        <input type="hidden" value="{{ product.name }}" name="product_name">
+                                        <input type="hidden" value="{{ product.quantity }}" name="product_quantity">
+                                        <input type="number" class="form-control col-3  mr-2" min="1" max="100"
+                                               value="1"
+                                               name="quantity">
+                                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        {% endif %}
 
                     </div>
                 {% endfor %}
@@ -270,12 +280,5 @@
 
     </section>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <div>Hello</div>
-    </div>
-</footer>
-
 </body>
 </html>
