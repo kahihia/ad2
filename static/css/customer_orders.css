@@ -1,2 +1,30 @@
 /* This is the CSS for the orders of a customer */
 
+#content {
+    margin : 49px;
+}
+
+.list-group {
+    max-height : 600px;
+    overflow   : scroll;
+}
+
+.card {
+    height : 350px;
+    width  : 250px;
+    margin-left: 15px;
+    margin-right: 15px;
+    max-width  : 250px;
+}
+
+.card-img-top {
+    min-height : 230px;
+    min-width  : 250px;
+    max-height : 230px;
+    max-width  : 250px;
+    object-fit : cover;
+}
+
+p {
+    margin : 0;
+}

@@ -22,6 +22,7 @@
     <!-- Custom CSS go here -->
     {% load static %}
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
+    <link rel="stylesheet" href="{% static '/css/customer_orders.css' %}">
 
 </head>
 <body>
@@ -55,7 +56,7 @@
                     <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">View Orders</a>
+                    <a class="nav-link" href="/orders/">View Orders</a>
                 </li>
                 <li class="nav-item">
                     <a href="/sign-out/" class="nav-link">Sign out</a>
@@ -73,96 +74,76 @@
 </nav>
 
 <!-- Content -->
-<div id="order-div" class="d-flex flex-row">
-        <!-- Orders instead of Stalls-->
-        <section id="order-list" style="width: 300px; margin-right: 50px">
-            <!-- Items to be retrieved by the database -->
-            <h3 class="mb-3">&nbsp&nbsp&nbspOrders</h3>
-            <ul class="list-group">
-                <li class="list-group-item d-block">
-                    <a href="#">
-                        <div class="mb-0">
-                            <h5 class="mb-0">Order Number</h5>
-                        </div>
-                        <div class="flex-row">
-                            <p class="text-muted mb-0">Placed 18/06/17</p>
-                            <p class="text-muted mb-0">Delivered 20/06/17</p>
-                        </div>
-                    </a>
-                </li>
-                <li class="list-group-item d-block">
-                    <a href="#">
-                        <div class="mb-0">
-                            <h5 class="mb-0">Order Number</h5>
-                        </div>
-                        <div class="flex-row">
-                            <p class="text-muted mb-0">Placed 18/06/17</p>
-                            <p class="text-muted mb-0">On its way</p>
-                        </div>
-                    </a>
-                </li>
-                <li class="list-group-item d-block">
-                    <a href="#">
-                        <div class="mb-0">
-                            <h5 class="mb-0">Order Number</h5>
-                        </div>
-                        <div class="flex-row">
-                            <p class="text-muted mb-0">Placed 18/06/17</p>
-                            <p class="text-muted mb-0">On its way</p>
-                        </div>
-                    </a>
-                </li>
-                <li class="list-group-item d-block">
-                    <a href="#">
-                        <div class="mb-0">
-                            <h5 class="mb-0">Order Number</h5>
-                        </div>
-                        <div class="flex-row">
-                            <p class="text-muted mb-0">Placed 18/06/17</p>
-                            <p class="text-muted mb-0">On its way</p>
-                        </div>
-                    </a>
-                </li>
-                <li class="list-group-item d-block">
-                    <a href="#">
-                        <div class="mb-0">
-                            <h5 class="mb-0">Order Number</h5>
-                        </div>
-                        <div class="flex-row">
-                            <p class="text-muted mb-0">Placed 18/06/17</p>
-                            <p class="text-muted mb-0">On its way</p>
-                        </div>
-                    </a>
-                </li>
-                <li class="list-group-item d-block">
-                    <a href="#">
-                        <div class="mb-0">
-                            <h5 class="mb-0">Order Number</h5>
-                        </div>
-                        <div class="flex-row">
-                            <p class="text-muted mb-0">Placed 18/06/17</p>
-                            <p class="text-muted mb-0">On its way</p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </section>
-
-        <!-- Products of the Selected Order -->
-        <!-- Cards no longer have add to cart, quantity is fixed -->
-        <section id="order-products" style="margin-top: 37px">
-            <div class="card-group">
-                <div class="card">
-                    <img class="card-img-top" src="" alt="No product image" draggable="false">
-                    <div class="card-block">
-                        <h4 class="card-title">Product Name</h4>
-                        <p class="card-text">Product Description</p>
-                        <p class="card-text">Product Quantity</p>
+<div id="content" class="d-flex flex-row">
+    <!-- Orders instead of Stalls-->
+    <section id="order-list" style="width: 300px; margin-right: 50px">
+        <!-- Items to be retrieved by the database -->
+        <h3 class="mb-3 ml-3">Orders</h3>
+        <ul class="list-group">
+            <li class="list-group-item d-block">
+                <a href="#">
+                    <div class="mb-0">
+                        <h5 class="mb-0">Order Number</h5>
                     </div>
+                    <div class="flex-row">
+                        <p class="text-muted mb-0">Placed 18/06/17</p>
+                        <p class="text-muted mb-0">Delivered 20/06/17</p>
+                    </div>
+                </a>
+            </li>
+            <li class="list-group-item d-block">
+                <a href="#">
+                    <div class="mb-0">
+                        <h5 class="mb-0">Order Number</h5>
+                    </div>
+                    <div class="flex-row">
+                        <p class="text-muted mb-0">Placed 18/06/17</p>
+                        <p class="text-muted mb-0">On its way</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Products of the Selected Order -->
+    <!-- Cards no longer have add to cart, quantity is fixed -->
+    <section id="order-products">
+        <div class="card-group d-flex">
+            <div class="card">
+                <img class="card-img-top" src="" alt="No product image" draggable="false">
+                <div class="card-block">
+                    <h4 class="card-title">Product Name</h4>
+                    <p class="card-text">Product Description</p>
+                    <p class="card-text">Product Quantity</p>
                 </div>
             </div>
-        </section>
-    </div>
+            <div class="card">
+                <img class="card-img-top" src="" alt="No product image" draggable="false">
+                <div class="card-block">
+                    <h4 class="card-title">Product Name</h4>
+                    <p class="card-text">Product Description</p>
+                    <p class="card-text">Product Quantity</p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="" alt="No product image" draggable="false">
+                <div class="card-block">
+                    <h4 class="card-title">Product Name</h4>
+                    <p class="card-text">Product Description</p>
+                    <p class="card-text">Product Quantity</p>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="" alt="No product image" draggable="false">
+                <div class="card-block">
+                    <h4 class="card-title">Product Name</h4>
+                    <p class="card-text">Product Description</p>
+                    <p class="card-text">Product Quantity</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 </body>
 </html>
