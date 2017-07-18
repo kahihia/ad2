@@ -6,3 +6,16 @@ body {
     border-bottom : 0.25px solid #dddddd;
     background    : white;
 }
+
+#master-detail {
+    padding : 60px;
+    margin  : 60px;
+}
+
+#out-of-stock {
+    margin-bottom : 100px;
+}
+
+#low-stock {
+    margin-top : 100px;
+}
