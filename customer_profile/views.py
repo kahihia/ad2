@@ -91,6 +91,14 @@ class UserProfileView(View):
 
         return render(request, 'customer_profile.html', context)
 
+# TODO: shows the orders of a customer -h
+class UserOrdersView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request):
+        return render(request, 'customer_orders.html')
+
 
 def sign_out(request):
     logout(request)
