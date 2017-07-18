@@ -241,6 +241,7 @@ def update_product(request, stall_id):
     )
 
 
+# TODO: replenish shows low and out of stock, reports are self explanatory
 class ReplenishView(View):
     @staticmethod
     @login_required
@@ -253,3 +254,19 @@ class ReplenishView(View):
     @admin_required
     def post(request):
         pass
+
+
+class SalesReportView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request):
+        return render(request, '')
+
+
+class OrderReportView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request):
+        return render(request, '')
