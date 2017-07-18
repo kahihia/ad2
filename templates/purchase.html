@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Complete</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Tether -->
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <!-- Bootstrap 4 Alpha -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+          crossorigin="anonymous">
+
+    <!-- Custom CSS go here -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/nav.css' %}">
+
+    <!-- Custom JS go here -->
+
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-toggleable-md navbar-light">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a href="/" class="navbar-brand mr-3 ml-3 mt-1 mb-1" id="logo">STRINGS MANILA</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form method="GET" action="/product-catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
+              id="search-group">
+            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar"
+                   name="search-query" value="{{ search_term }}">
+        </form>
+
+        <ul class="navbar-nav">
+            {% if name %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">View Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/sign-out/" class="nav-link">Sign out</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-in/">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<!-- Content -->
+<div id="master-detail">
+    <div class="p-5 m-5">
+        <h1 class="display-3">Thank you!</h1>
+        <p class="lead">Please upload a photo of your deposit slip.</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/admin-sign-in/" role="button">View Orders</a>
+            <a class="btn btn-primary btn-lg" href="/" role="button">Back to Strings Manila</a>
+        </p>
+    </div>
+    <div id="order-content">
+        
+    </div>
+</div>
+
+</body>
+</html>

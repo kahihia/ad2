@@ -31,9 +31,16 @@ class CartView(View):
 
         return render(request, 'cart.html', context)
 
-# TODO
+# TODO: Checkout and Purchase -h
 class CheckoutView(View):
     @staticmethod
     @customer_required
     def get(request):
         return render(request, 'checkout.html')
+
+
+class PurchaseView(View):
+    @staticmethod
+    @customer_required
+    def get(request):
+        return render(request, 'purchase.html')
