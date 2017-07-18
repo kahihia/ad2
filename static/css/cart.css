@@ -1,4 +1,4 @@
-/* This is the CSS for the cart page*/
+/* This is the CSS for the cart page */
 
 #content {
     margin  : 60px;
@@ -11,9 +11,11 @@
 
 #options {
     display : flex;
+    margin  : auto;
 }
 
-#options > form {
+#options a {
+    margin-top   : 30px;
     margin-right : 10px;
 }
 
