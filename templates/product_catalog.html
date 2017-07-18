@@ -206,10 +206,10 @@
 
         {% if products %}
 
-            <div class="card-group">
+            <div class="card-deck">
 
                 {% for product in products %}
-                    <div class="card mr-3">
+                    <div class="card mr-2 ml-2">
                         <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image"
                              draggable="false">
                         <div class="card-block">

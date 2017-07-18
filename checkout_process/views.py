@@ -30,3 +30,4 @@ class CartView(View):
         })
 
         return render(request, 'cart.html', context)
+
