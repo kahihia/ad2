@@ -100,10 +100,7 @@
 
                         <div id="options-div">
                             <form action="">
-                                <button class="btn btn-secondary">View Cart</button>
-                            </form>
-                            <form action="">
-                                <button class="btn btn-secondary">Proceed to Checkout</button>
+                                <a class="btn btn-secondary" href="/checkout/cart">View Cart</a>
                             </form>
                         </div>
                     </div>
@@ -242,9 +239,11 @@
         {% else %}
             <!--No products message -->
             <!-- TODO it's impossible for a stall to be up without products??? -->
-            <div class="list-group-item empty-message" id="empty-stall-message">
+            <div class="list-group-item empty-message container p-5" id="empty-stall-message">
                 <div>
-                    <h5 class="empty-message-text">Nothing here.</h5>
+                    <h5 class="empty-message-text">No products found.</h5>
+                    <p class="text-muted">Try your search again or return to the home page</p>
+                    <a class="btn btn-outline-primary" href="/">Return</a>
                 </div>
             </div>
 
