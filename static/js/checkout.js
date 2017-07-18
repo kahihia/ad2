@@ -32,10 +32,7 @@ function attachCSRF() {
                 location.reload()
             },
             error: function() {
-<<<<<<< HEAD
-=======
                 alert("yikes! something went wrong");
->>>>>>> 1efc6f4c9f7198295370296268c98ff428886c3a
                 location.reload()
             }
 

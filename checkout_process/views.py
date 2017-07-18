@@ -44,7 +44,6 @@ class CartView(View):
 
         cart = request.session["cart"]
 
-<<<<<<< HEAD
         # The solution in non-lambda
         # new_cart = []
         # for product_id, quantity in cart:
@@ -52,27 +51,7 @@ class CartView(View):
         #         new_cart.append((product_id,quantity))
 
         new_cart = list(filter(lambda x: x[0] != product.id, cart))
-
         request.session["cart"] = new_cart
-=======
-        # for product_id, quantity in cart:
-        #     if product.id == product_id:
-        #         print("IF THIS WORKS I'LL SLEEP NA")
-        #         cart.remove(product.id)
-        #
-        # request.session["cart"] = cart
-        # request.session.modified = True
-
-        def transpose(cart):
-            return zip(*cart)
-
-        def remove_product(cart):
-            return [list(product_id) for product_id in cart if not product.id]
-
-        cart = remove_product(transpose(remove_product(transpose(cart))))
-        request.session["cart"] = cart
->>>>>>> 1efc6f4c9f7198295370296268c98ff428886c3a
-        request.session.modified = True
 
         return HttpResponse(
             json.dumps(data),
@@ -80,11 +59,6 @@ class CartView(View):
             status=400
         )
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 1efc6f4c9f7198295370296268c98ff428886c3a
 # TODO: Checkout and Purchase -h
 class CheckoutView(View):
     @staticmethod
