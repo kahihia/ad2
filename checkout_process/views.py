@@ -3,6 +3,8 @@ from django.views import View
 from entity_management.models import Product
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
+import json
+from django.http import HttpResponse
 
 class LineItem():
     def __init__(self, product, quantity):
@@ -29,6 +31,32 @@ class CartView(View):
             "line_items": line_items
         })
         return render(request, 'cart.html', context)
+
+    @staticmethod
+    @customer_required
+    def delete(request):
+        dict = json.loads(request.body)
+        product = Product.objects.get(id=dict["product_id"])
+        data = {
+            "name": product.name
+        }
+
+        cart = request.session["cart"]
+
+        for product_id, quantity in cart:
+            if product.id == product_id:
+                del request.session['product_id']
+
+        return HttpResponse(
+            json.dumps(data),
+            content_type="application/json",
+            status=400
+        )
+
+
+
+
+
 
 
 # TODO: Checkout and Purchase -h
