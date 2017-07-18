@@ -70,7 +70,10 @@
     <div id="cart-top" class="d-flex">
         <h1 class="mr-auto">Your Cart</h1>
         <div id="options" class="">
-            <a class="btn btn-secondary btn-lg mr-2" href="/">Continue Shopping</a>
+{#            FIXME: Nasty Hack#}
+            <form action="/" method="get">
+                <button class="btn btn-secondary btn-lg mr-2">Continue Shopping</button>
+            </form>
             <form action="">
                 <button class="btn btn-outline-success btn-lg">Update Cart</button>
             </form>
@@ -80,6 +83,7 @@
         <table class="table" id="items-table">
             <thead>
             <tr>
+                <th style="width:70px"></th>
                 <th>Product Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
@@ -90,6 +94,7 @@
             {% if line_items %}
                 {% for product in line_items %}
                     <tr>
+                        <td><img class="cart-product-image rounded-circle" src="{{ product.product.photo.url }}"></td>
                         <td>{{ product.product.name }}</td>
                         <td>₱{{ product.product.price }}</td>
                         <td><input type="number" class="form-control col-3" min="1" max="100"
@@ -102,6 +107,7 @@
             {% endif %}
 
             <tr>
+                <td></td>
                 <td><h4>Total Price</h4></td>
                 <td><h4>₱{{ total_price }}</h4></td>
                 <td><a class="btn btn-outline-primary" href="/checkout/review/">Proceed to Checkout</a></td>
@@ -112,6 +118,15 @@
     </div>
 
 </div>
+
+<style>
+    .cart-product-image {
+        width      : 60px;
+        height     : 60px;
+        object-fit : cover;
+    }
+
+</style>
 
 </body>
 </html>
