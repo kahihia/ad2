@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Replenish Stocks</title>
+    <title>Sales Report</title>
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -21,12 +21,17 @@
 
     <!--Custom CSS-->
     {% load static %}
-    <link rel="stylesheet" href="{% static '/css/replenish.css' %}">
+    <link rel="stylesheet" href="{% static 'css/entity_management.css' %}">
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">
 
     <!--Import custom JS here-->
+    <script type="text/javascript" src="{% static "/js/general.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/jquery-3.1.1.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/entity_management.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
 
 </head>
-<body class="bg-faded">
+<body>
 
 <!--Nav Bar-->
 <nav class="navbar navbar-toggleable-md navbar-light" id="navigation-bar">
@@ -43,11 +48,11 @@
                 <a class="nav-link" href="/entity-management/">Manage Entities</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/entity-management/replenish/">Replenish Stocks<span
-                        class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/entity-management/replenish/">Replenish Stocks</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/entity-management/sales-report/">Sales Report</a>
+                <a class="nav-link" href="/entity-management/sales-report/">Sales Report<span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/entity-management/orders-report/">Orders Report</a>
@@ -69,51 +74,59 @@
     </div>
 </nav>
 
-
-<div id="master-detail">
-
-    <!-- OUT OF STOCK -->
-    <div id="out-of-stock">
-        <h3>&nbspOut of Stock</h3>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Product No.</th>
-                <th>Product Name</th>
-                <th>Product Quantity</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>33</td>
-                <td>iPhone 6S</td>
-                <td>0</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- LOW ON STOCK -->
-    <div id="low-stock">
-        <h3>&nbspLow Stock</h3>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Product No.</th>
-                <th>Product Name</th>
-                <th>Product Quantity</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>34</td>
-                <td>Macbook Pro</td>
-                <td>5</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
+<!-- Content -->
+<div id="content" class="p-4 m-4">
+    <h1><span class="text-muted">Stall Sales for March 2017</span></h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Stall Name</th>
+            <th>Su</th>
+            <th>Mo</th>
+            <th>Tu</th>
+            <th>We</th>
+            <th>Th</th>
+            <th>Fr</th>
+            <th>Sa</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Bon Apple</th>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <th>P 700</th>
+        </tr>
+        <tr>
+            <th scope="row">The Wizard of Lolz</th>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <th>P 700</th>
+        </tr>
+        <tr>
+            <th scope="row">Memes Manila</th>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <td>P 100</td>
+            <th>P 700</th>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

@@ -261,7 +261,7 @@ class SalesReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, '')
+        return render(request, 'sales_report.html')
 
 
 class OrderReportView(View):
@@ -269,4 +269,4 @@ class OrderReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, '')
+        return render(request, 'orders_report.html')
