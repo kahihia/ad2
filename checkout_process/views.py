@@ -6,6 +6,7 @@ from product_catalog.contexts import make_context
 import json
 from django.http import HttpResponse
 from customer_profile.models import Customer
+from order_management.models import Order,OrderLineItems
 
 class LineItem():
     def __init__(self, product, quantity):
@@ -50,7 +51,11 @@ class CartView(View):
         #     if product.id != product_id:
         #         new_cart.append((product_id,quantity))
 
-        new_cart = list(filter(lambda x: x[0] != product.id, cart))
+        #solution in lambda
+        # new_cart = list(filter(lambda x: x[0] != product.id, cart))
+
+        new_cart = [tuple for tuple in cart if tuple[0] != product.id]
+
         request.session["cart"] = new_cart
 
         return HttpResponse(
@@ -86,6 +91,11 @@ class CheckoutView(View):
             "customer": customer
         })
         return render(request, 'checkout.html', context)
+
+    @staticmethod
+    @customer_required
+    def post(request):
+        dict = json.loads(request.body)
 
 
 

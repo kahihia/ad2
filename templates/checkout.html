@@ -113,6 +113,13 @@
             </div>
         </div>
     </div>
+
+    <form method="POST" action="/purchase-complete/">
+    <input type ="hidden" value="{{ product.product.id }}" name="product_id">
+    <input type ="hidden" value="{{ product.product.quantity }}" name="quantity_ordered">
+    </form>
+
+
     <div class="col-3"></div>
     <div id="options" class="col-6 mt-5" style="margin: auto">
         <a class="btn btn-secondary btn-lg mr-2" href="/">Continue Shopping</a>
