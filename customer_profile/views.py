@@ -73,7 +73,7 @@ class SignUpView(View):
 
         login(request, user)
         request.session['cart'] = []
-        return redirect('/')  # TODO Redirect to customer profile page
+        return redirect('/user-profile/')
 
 
 class UserProfileView(View):
@@ -97,7 +97,14 @@ class UserOrdersView(View):
     @login_required
     @customer_required
     def get(request):
-        return render(request, 'customer_orders.html')
+        context = make_context(request)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+
+        context.update({
+            "customer": customer
+        })
+        return render(request, 'customer_orders.html', context)
 
 
 def sign_out(request):

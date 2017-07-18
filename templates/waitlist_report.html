@@ -45,16 +45,28 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/entity-management/">Manage Entities</a>
+                <a class="nav-link" href="/entity-management/">Manage Entities<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/entity-management/replenish/">Replenish Stocks</a>
             </li>
+        </ul>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="">Waitlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Shipments</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/entity-management/sales-report/">Sales Report</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/entity-management/orders-report/">Orders Report<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/entity-management/orders-report/">Orders Report</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/entity-management/waitlist-report/">Waitlist Report</a>
@@ -75,6 +87,39 @@
 
     </div>
 </nav>
+
+<!-- Content -->
+<div id="content" class="p-4 m-4">
+    <h1><span class="text-muted">Waitlisted Items for March 2017</span></h1>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Waitlist Date</th>
+            <th>Waitlist Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Hidey Arguelles</td>
+            <td>System Complexity</td>
+            <td>15</td>
+            <td><span class="text-muted">19/06/17</span></td>
+            <td>Resolved</td>
+        </tr>
+        <tr>
+            <td>Someone Else</td>
+            <td>System Complexity</td>
+            <td>15</td>
+            <td><span class="text-muted">19/06/17</span></td>
+            <td>Pending</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>
