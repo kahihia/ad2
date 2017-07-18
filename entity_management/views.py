@@ -18,6 +18,8 @@ def admin_sign_out(request):
 class AdministratorSignInView(View):
     @staticmethod
     def get(request):
+        if request.user.is_superuser:
+            return redirect(to='/entity-management/')
         return render(request, 'admin_sign_in.html')
 
     @staticmethod

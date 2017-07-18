@@ -52,16 +52,20 @@
                    name="search-query" value="{{ search_term }}">
         </form>
 
-        <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
-            {% if cart_count and cart_count > 0 %}
-                <span class="badge badge-success">{{ cart_count }}</span>
-            {% endif %}
-        </a>
-
         <ul class="navbar-nav">
             {% if name %}
                 <li class="nav-item">
+                    <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
+                        {% if cart_count and cart_count > 0 %}
+                            <span class="badge badge-success">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">View Orders</a>
                 </li>
                 <li class="nav-item">
                     <a href="/sign-out/" class="nav-link">Sign out</a>
@@ -71,7 +75,7 @@
                     <a class="nav-link" href="/customer-sign-in/">Sign in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
+                    <a class="nav-link" href="/customer-sign-up/">Create an account</a>
                 </li>
             {% endif %}
         </ul>
@@ -80,6 +84,23 @@
 
 
 <!--  -->
+
+{% if not name %}
+    <div class="alert alert-info p-4 rounded-0 border-0">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="container-fluid m-2">
+            <h3 class="display-5">Welcome to Strings Manila!</h3>
+            <p class="lead">Look around and see what you like or Sign in to begin shopping.</p>
+            <p class="lead">
+                <a class="btn btn-primary" href="/customer-sign-in/" role="button">Sign in</a>
+                <a class="btn btn-primary" href="/customer-sign-up/" role="button">Create an account</a>
+            </p>
+        </div>
+
+    </div>
+{% endif %}
 
 
 {% if added_to_cart %}
@@ -100,10 +121,7 @@
 
                         <div id="options-div">
                             <form action="">
-                                <button class="btn btn-secondary">View Cart</button>
-                            </form>
-                            <form action="">
-                                <button class="btn btn-secondary">Proceed to Checkout</button>
+                                <a class="btn btn-secondary" href="/check">View Cart</a>
                             </form>
                         </div>
                     </div>
@@ -174,7 +192,7 @@
     <!-- Stalls -->
     <section id="stall-list">
         <!-- Items to be retrieved by the database -->
-        <h3>&nbsp&nbsp&nbspStalls</h3>
+        <h3 class="ml-1">Stalls</h3>
         <ul class="list-group">
             {% if stalls %}
 
@@ -206,13 +224,26 @@
     <!-- Products of the Selected Stall -->
     <!-- Items to be retrieved by the database -->
     <section id="product-showcase">
+        {% if search_term or active_stall %}
+            <div class="container mb-1">
+                {% if search_term %}
+                    <h3>Search results for <span class="text-muted">{{ search_term }}</span></h3>
+                {% endif %}
+
+                {% if active_stall %}
+                    <h3>{{ active_stall.name }}</h3>
+                {% endif %}
+            </div>
+        {% endif %}
+
+
 
         {% if products %}
 
-            <div class="card-group">
+            <div class="card-deck">
 
                 {% for product in products %}
-                    <div class="card mr-3">
+                    <div class="card mr-2 ml-2">
                         <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image"
                              draggable="false">
                         <div class="card-block">
@@ -220,19 +251,22 @@
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">₱ {{ product.price }}</p>
                         </div>
-                        <form method="POST" action="/product-catalog/">
-                            <div class="card-footer">
-                                <div class="col-12 card-purchase-div">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="{{ product.id }}" name="product">
-                                    <input type="hidden" value="{{ product.name }}" name="product_name">
-                                    <input type="hidden" value="{{ product.quantity }}" name="product_quantity">
-                                    <input type="number" class="form-control col-3  mr-2" min="1" max="100" value="1"
-                                           name="quantity">
-                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        {% if name %}
+                            <form method="POST" action="/product-catalog/">
+                                <div class="card-footer">
+                                    <div class="col-12 card-purchase-div">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ product.id }}" name="product">
+                                        <input type="hidden" value="{{ product.name }}" name="product_name">
+                                        <input type="hidden" value="{{ product.quantity }}" name="product_quantity">
+                                        <input type="number" class="form-control col-3  mr-2" min="1" max="100"
+                                               value="1"
+                                               name="quantity">
+                                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        {% endif %}
 
                     </div>
                 {% endfor %}
@@ -242,9 +276,11 @@
         {% else %}
             <!--No products message -->
             <!-- TODO it's impossible for a stall to be up without products??? -->
-            <div class="list-group-item empty-message" id="empty-stall-message">
+            <div class="list-group-item empty-message container p-5" id="empty-stall-message">
                 <div>
-                    <h5 class="empty-message-text">Nothing here.</h5>
+                    <h5 class="empty-message-text">No products found.</h5>
+                    <p class="text-muted">Try your search again or return to the home page</p>
+                    <a class="btn btn-outline-primary" href="/">Return</a>
                 </div>
             </div>
 
@@ -253,6 +289,5 @@
 
     </section>
 </div>
-
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In to Iris Online</title>
+    <title>Purchase Complete</title>
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -21,12 +21,12 @@
 
     <!-- Custom CSS go here -->
     {% load static %}
-    <link rel="stylesheet" href="{% static "css/nav.css" %}">
+    <link rel="stylesheet" href="{% static '/css/nav.css' %}">
 
     <!-- Custom JS go here -->
 
 </head>
-<body class="bg-faded">
+<body>
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-toggleable-md navbar-light">
@@ -45,44 +45,41 @@
         </form>
 
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/customer-sign-in/">Sign in</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/customer-sign-up/">Sign up</a>
-            </li>
+            {% if name %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">View Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/sign-out/" class="nav-link">Sign out</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-in/">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
 
-{% if error %}
-    <div class="alert alert-danger" role="alert">
-        <strong>{{ error }}</strong>
-    </div>
-{% endif %}
-
 <!-- Content -->
-<div class="container p-5">
-    <h1 class="display-4 text-center p-5">Strings Manila Account</h1>
-    <div class="row">
-        <div class="col-6 col-md-3"></div>
-        <div class="col-6 col-md-6 text-center">
-            <form method="POST" class="col-12" id="inputs">
-                {% csrf_token %}
-                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Username"
-                       name="username">
-                <input type="password" class="form-control form-control-lg col-12" placeholder="Password"
-                       name="password">
-                <button type="submit" class="btn btn-primary btn-lg m-5" id="sign-in-button">Sign In</button>
-            </form>
+<div id="master-detail">
+    <div class="p-5 m-5">
+        <h1 class="display-3">Thank you!</h1>
+        <p class="lead">Please upload a photo of your deposit slip.</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/admin-sign-in/" role="button">View Orders</a>
+            <a class="btn btn-primary btn-lg" href="/" role="button">Back to Strings Manila</a>
+        </p>
+    </div>
+    <div id="order-content">
 
-            <div id="sign-in-options">
-                <a href="/customer-sign-up/" id="sign-up-link">New to Strings Manila?</a>
-                <br>
-                <a href="/admin-sign-in/" id="sign-up-link">I'm an admin</a>
-            </div>
-        </div>
-        <div class="col-6 col-md-3"></div>
     </div>
 </div>
 

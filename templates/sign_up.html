@@ -100,7 +100,7 @@
         <div class="col-6 col-md-6 text-center">
             <form method="POST" class="col-12" id="inputs">
                 {% csrf_token %}
-                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="E-mail"
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Username"
                        name="username">
                 <input type="password" class="form-control form-control-lg col-12 mb-1" placeholder="Password"
                        name="password" id="password">
@@ -122,9 +122,7 @@
             </form>
 
             <div id="sign-in-options">
-                <a href="/customer-sign-up/" id="sign-up-link">New to Strings Manila?</a>
-                <br>
-                <a href="/admin-sign-in/" id="sign-up-link">I'm an admin</a>
+                <a href="/customer-sign-in/" id="sign-up-link">I have an account</a>
             </div>
 
 

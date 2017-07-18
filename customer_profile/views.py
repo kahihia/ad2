@@ -7,11 +7,14 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from IrisOnline.decorators import customer_required
-from product_catalog.models import Cart
+from product_catalog.contexts import make_context
+
 
 class SignInView(View):
     @staticmethod
     def get(request):
+        if request.user.is_authenticated and not request.user.is_superuser:
+            return redirect(to="/")
         return render(request, 'sign_in.html', None)
 
     @staticmethod
@@ -34,6 +37,9 @@ class SignInView(View):
 class SignUpView(View):
     @staticmethod
     def get(request):
+        if request.user.is_authenticated:
+            return redirect(to="/")
+
         return render(request, 'sign_up.html', None)
 
     @staticmethod
@@ -75,13 +81,15 @@ class UserProfileView(View):
     @login_required
     @customer_required
     def get(request):
+        context = make_context(request)
         user = request.user
         customer = Customer.objects.get(user=user)
 
-        return render(request, 'customer_profile.html', {
-            "name": user.username,
+        context.update({
             "customer": customer
         })
+
+        return render(request, 'customer_profile.html', context)
 
 
 def sign_out(request):
