@@ -19,8 +19,7 @@ class CartView(View):
             product = Product.objects.get(id=product_id)
             products.append(LineItem(product, quantity=quantity))
 
-        print(products)
-        print(products[0].product.id)
+
 
         context = {
             "products": products
