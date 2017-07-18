@@ -81,6 +81,7 @@
 }
 
 #content .card {
-    max-width     : 300px;
+    max-width     : 350px;
+    min-width     : 250px;
     margin-bottom : 10px;
 }
