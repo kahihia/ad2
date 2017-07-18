@@ -5,11 +5,12 @@
     <title>Checkout</title>
 
     <!-- Bootstrap 4 Alpha and JQuery CDNs -->
+    {% load static %}
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
           crossorigin="anonymous">
-    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="{% static "/js/jquery-3.2.1.js" %}"></script>
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
@@ -17,7 +18,6 @@
     </script>
 
     <!-- Custom CSS go here -->
-    {% load static %}
     <link rel="stylesheet" href="{% static '/css/nav.css/' %}">
     <link rel="stylesheet" href="{% static '/css/cart.css/' %}">
     <link rel="stylesheet" href="{% static '/css/checkout.css/' %}">
@@ -59,7 +59,7 @@
                     <a class="nav-link" href="/customer-sign-in/">Sign in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
+                    <a class="nav-link" href="/customer-sign-up/">Create an account</a>
                 </li>
             {% endif %}
         </ul>
@@ -80,25 +80,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Bullcrap</td>
-                    <td>P 390</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Something Amazing</td>
-                    <td>P 400</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>System Complexity</td>
-                    <td>P 2100</td>
-                    <td>1</td>
-                </tr>
+                {% if line_items %}
+                {% for product in line_items %}
+                    <tr>
+                        <td>{{ product.product.name }}</td>
+                        <td>₱{{ product.product.price }}</td>
+                        <td>{{ product.quantity }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
                 <tr>
                     <th scope="row">Total</th>
-                    <td>P Amount</td>
-                    <td>3</td>
+                    <td>{{ total_price }}</td>
+                    <td>{{ total_quantity }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -107,14 +101,14 @@
             <h4>Delivery Information</h4>
             <div>
                 <div>
-                    <p>John Appleseed</p>
-                    <p>john.appleseed@me.com</p>
-                    <p>###########</p>
+                    <p>{{ customer.full_name }}</p>
+                    <p>{{ customer.user }}</p>
+                    <p>{{ customer.phone_number }}</p>
                 </div>
                 <div>
-                    <p>0000 Blank Street</p>
-                    <p>Gotham City</p>
-                    <p>6969</p>
+                    <p>{{ customer.address }}</p>
+                    <p>{{ customer.city }}</p>
+                    <p>{{ customer.postal_code }}</p>
                 </div>
             </div>
         </div>
