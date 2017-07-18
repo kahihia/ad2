@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'product_catalog',
     'customer_profile',
     'order_management',
-    'checkout_process'
+    'checkout_process',
 ]
 
 MIDDLEWARE = [

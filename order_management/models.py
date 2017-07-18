@@ -47,8 +47,7 @@ class OrderLineItems(Model):
     def line_price(self):
         return self.product.price * self.quantity
 
-
 class ProductAssociation(Model):
-    root_product = ForeignKey(Product, on_delete=PROTECT)
-    associated_product = ForeignKey(Product, on_delete=PROTECT)
+    root_product = ForeignKey(Product, on_delete=PROTECT, related_name="root_product")
+    associated_product = ForeignKey(Product, on_delete=PROTECT,related_name="associated_product")
     probability = DecimalField(decimal_places=2, max_digits=3)

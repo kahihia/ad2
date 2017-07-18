@@ -102,7 +102,7 @@ class PurchaseView(View):
         cart = request.session["cart"]
         order = Order()
         order.date_ordered = datetime.datetime.now().strftime('%H:%M:%S')
-        order.customer = request.user
+        order.customer = Customer.objects.get(user=request.user)
         order.save()
 
 
@@ -112,6 +112,9 @@ class PurchaseView(View):
             line_item.quantity = quantity
             line_item.parent_order = order
             line_item.save()
+
+        request.session["cart"] = []
+        request.session.modified = True
 
         return render(request, 'purchase.html')
 
