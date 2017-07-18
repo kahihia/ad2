@@ -249,11 +249,16 @@
                         <div class="card-block">
                             <h4 class="card-title">{{ product.name }}</h4>
                             <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text">₱ {{ product.price }}</p>
+{#                            <p class="card-text">₱ {{ product.price }}</p>#}
                         </div>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item "><b
+                                    class="col-sm-5">Price</b>₱{{ product.price }}</li>
+                        </ul>
                         {% if name %}
                             <form method="POST" action="/product-catalog/">
-                                <div class="card-footer">
+                                <div class="card-footer border-top-0">
                                     <div class="col-12 card-purchase-div">
                                         {% csrf_token %}
                                         <input type="hidden" value="{{ product.id }}" name="product">

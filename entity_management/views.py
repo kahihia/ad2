@@ -95,6 +95,21 @@ class ProductView(View):
             content_type="application/json",
             status=400
         )
+    @staticmethod
+    def delete(request,stall_id):
+        dict = json.loads(request.body)
+        product = Product.objects.get(id=dict["product_id"])
+        data = {
+            "name" : product.name
+        }
+        product.delete()
+
+        return HttpResponse(
+            json.dumps(data),
+            content_type="application/json",
+            status=400
+        )
+
 
 class StallView(View):
 
