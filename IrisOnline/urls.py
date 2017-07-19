@@ -17,11 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
-<<<<<<< HEAD
-=======
-from customer_profile.views import SignInView, SignUpView, sign_out, UserProfileView, UserOrdersView, OrderView, \
-    UserWishlistView
->>>>>>> 667d173b21e1536e5384272afa4aab0f03aefdaa
 from customer_profile.views import (
     SignInView,
     SignUpView,
