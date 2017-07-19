@@ -3,6 +3,7 @@ from django.views import View
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
 import json
+from django.shortcuts import redirect, Http404
 from django.http import HttpResponse
 from order_management.models import *
 import datetime
@@ -81,6 +82,37 @@ class CheckoutView(View):
             "customer": customer
         })
         return render(request, 'checkout.html', context)
+
+    @staticmethod
+    @customer_required
+    def post(request):
+
+        if 'product_id' not in request.POST or \
+                        'quantity' not in request.POST:
+            return redirect('/checkout/cart')
+
+        product_id = request.POST['product_id']
+        quantity = request.POST['quantity']
+
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            raise Http404('Product not found')
+
+        try:
+            quantity = int(quantity)
+        except:
+            raise Http404('Quantity is not an integer')
+
+        #TODO: Update tuple
+        cart = request.session["cart"]
+
+        for product_id, quan in cart:
+            if product.id == product_id:
+                quan = quantity
+                request.session.modified = True
+
+
 
 
 class PurchaseView(View):
