@@ -5,6 +5,8 @@ from django.db.models import Q
 from IrisOnline.decorators import customer_required
 from .models import LineItem
 from .contexts import make_context
+from customer_profile.models import Customer
+from django.http import HttpResponse
 
 
 def available_stalls():
@@ -14,7 +16,7 @@ def available_stalls():
 
 
 class ProductCatalogView(View):
-    @staticmethod
+    @staticmethod`
     @customer_required
     def get(request):
         context = make_context(request)
@@ -69,6 +71,26 @@ class CartView(View):
         }
 
         return render(request, 'cart.html', context)
+
+
+class WishList(View):
+    @staticmethod
+    @customer_required
+    def post(request, product_id):
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            Http404('Product not found')
+            return
+
+        try:
+            customer = Customer.objects.get(user=request.user)
+        except:
+            Http404('Could not get Customer object')
+            return
+
+        customer.userwish_set.create(customer, product)
+        return HttpResponse(200)
 
 
 class StallView(View):
