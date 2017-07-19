@@ -120,7 +120,7 @@ $(function () {
             data: form,
             contentType: false,
             processData: false,
-            success: function (data) {
+            success: () => {
                 location.reload();
             },
             error: function (data) {

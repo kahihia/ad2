@@ -27,7 +27,7 @@ class SignInView(View):
 
         if user is not None:
             login(request, user)
-            request.session['cart'] = []
+            request.session['cart'] = {}
             return redirect("/")
         else:
             return render(request, 'sign_in.html', {
@@ -73,7 +73,7 @@ class SignUpView(View):
                                 address=address, postal_code=postal_code)
 
         login(request, user)
-        request.session['cart'] = []
+        request.session['cart'] = {}
         return redirect('/user-profile/')
 
 
