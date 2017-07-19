@@ -18,11 +18,8 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
-<<<<<<< HEAD
 from customer_profile.views import SignInView, SignUpView, sign_out, UserProfileView, UserOrdersView, OrderView
-=======
 from customer_profile.views import SignInView, SignUpView, sign_out, UserProfileView, UserOrdersView, UserWishlistView
->>>>>>> 656f0d6ff28df37b70c6f7f548717fe31efb507c
 from product_catalog.views import ProductCatalogView
 from entity_management.views import AdministratorSignInView, admin_sign_out
 
@@ -39,12 +36,8 @@ urlpatterns = [
     url(r'^admin-sign-out', admin_sign_out),
     url(r'^user-profile/$', UserProfileView.as_view()),
     url(r'^orders/$', UserOrdersView.as_view()),
-<<<<<<< HEAD
     url(r'^orders/(?P<order_id>(\d+))/$', OrderView.as_view()),
-=======
-    url(r'^wishlist/$', UserWishlistView.as_view())
->>>>>>> 656f0d6ff28df37b70c6f7f548717fe31efb507c
-]
+    url(r'^wishlist/$', UserWishlistView.as_view())]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
