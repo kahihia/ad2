@@ -277,11 +277,3 @@ class OrderReportView(View):
     @admin_required
     def get(request):
         return render(request, 'orders_report.html', make_context(request))
-
-
-class WaitlistReportView(View):
-    @staticmethod
-    @login_required
-    @admin_required
-    def get(request):
-        return render(request, 'waitlist_report.html', make_context(request))
