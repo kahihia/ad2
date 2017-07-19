@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+{% load static %}
+<nav class="navbar navbar-toggleable-md navbar-light">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a href="/" class="navbar-brand mr-3 ml-3 mt-1 mb-1" id="logo">STRINGS MANILA</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form method="GET" action="/product-catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
+              id="search-group">
+            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar"
+                   name="search-query" value="{{ search_term }}">
+        </form>
+
+        <ul class="navbar-nav">
+            {% if name %}
+                <li class="nav-item">
+                    <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
+                        {% if cart_count and cart_count > 0 %}
+                            <span class="badge badge-success">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li>
+                    <a href="/wishlist/" style="height: 30px; width: 30px;" class=""><img
+                            src="{% static '/images/wishlist_icon.png' %}" width="30px"
+                            height="30px" class="mt-1 mr-3 ml-2"
+                            onmouseover="this.src='{% static '/images/wishlist_icon_red.png' %}'"
+                            onmouseout="this.src='{% static '/images/wishlist_icon.png' %}'"></a>
+                </li>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        Hello, {{ name }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
+                        <a class="dropdown-item" href="/orders/">View Orders</a>
+                        <a class="dropdown-item" href="/sign-out/">Sign Out</a>
+                    </div>
+                </div>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-in/">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-up/">Create an account</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+</body>
+</html>
