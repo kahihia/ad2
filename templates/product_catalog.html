@@ -60,10 +60,11 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/wishlist/">
-                        <img src="{% static '/images/wishlist_icon.png' %}" height="30px" width="30px"
-                             draggable="false" class="mr-2 mt-1" id="wishlist_icon">
-                    </a>
+                    <a href="/wishlist/" style="height: 30px; width: 30px;" class=""><img
+                            src="{% static '/images/wishlist_icon.png' %}" width="30px"
+                            height="30px" class="mt-1 mr-3 ml-2"
+                            onmouseover="this.src='{% static '/images/wishlist_icon_red.png' %}'"
+                            onmouseout="this.src='{% static '/images/wishlist_icon.png' %}'"></a>
                 </li>
                 <div class="btn-group">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
@@ -273,12 +274,11 @@
                                                name="quantity">
                                         <button type="submit" class="btn btn-primary">Add to Cart</button>
                                         <!-- TODO: href -->
-                                        <a style="width: 30px; height: 30px;" href="#">
-                                            <img class="mt-1"
-                                                 src="{% static '/images/wishlist_icon.png' %}"
-                                                 height="30px" width="30px"
-                                                 draggable="false">
-                                        </a>
+                                        <a href="#" style="height: 30px; width: 30px;" class=""><img
+                                                src="{% static '/images/wishlist_icon.png' %}" width="30px"
+                                                height="30px" class="mt-1"
+                                                onmouseover="this.src='{% static '/images/wishlist_icon_red.png' %}'"
+                                                onmouseout="this.src='{% static '/images/wishlist_icon.png' %}'"></a>
                                     </div>
                                 </div>
                             </form>
