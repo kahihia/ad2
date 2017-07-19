@@ -30,7 +30,6 @@
 
     <!-- Custom JS go here -->
     <script type="text/javascript" src="{% static '/js/nav.js' %}/"></script>
-    <script type="text/javascript" src="{% static '/js/catalog_waitlisting.js' %}"></script>
 
 </head>
 <body class="bg-faded">
@@ -60,10 +59,16 @@
                         {% endif %}
                     </a>
                 </li>
+                <li>
+                    <a href="/wishlist/">
+                        <img src="{% static '/images/wishlist_icon.png' %}" height="30px" width="30px"
+                             draggable="false" class="mr-2 mt-1" id="wishlist_icon">
+                    </a>
+                </li>
                 <div class="btn-group">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            Hello, {{ name }}
+                        Hello, {{ name }}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
