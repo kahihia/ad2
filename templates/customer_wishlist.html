@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Customer Profile</title>
+    <title>Wishlist</title>
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -21,10 +21,8 @@
 
     <!-- Custom CSS go here -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-
-    <!-- Custom JS go here -->
+    <link rel="stylesheet" href="{% static '/css/nav.css' %}">
+    <link rel="stylesheet" href="{% static '/css/wishlist.css' %}">
 
 </head>
 <body class="bg-faded">
@@ -57,7 +55,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            Hello, {{ name }}
+                        Hello, {{ name }}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
@@ -78,38 +76,76 @@
     </div>
 </nav>
 
-<!-- TODO: Modal for editing personal and address information -->
-
 <!-- Content -->
-<div class="container-fluid p-5 m-5">
-    <h3>Account Dashboard</h3>
-    <div id="account-details">
-        <table class="table table-bordered" id="account-details-table">
-            <tr>
-                <td class="w-50 p-4">
-                    <div id="personal-information">
-                        <div class="section-header d-flex flex-row">
-                            <h5>Personal Information</h5>
-                        </div>
-                        <p>{{ customer.full_name }}</p>
-                        <p>{{ customer.user }}</p>
-                        <p>{{ customer.phone_number }}</p>
+<section id="wishlist-showcase" class="p-5 m-5">
+    <h1 class="text-center mb-4">Your Wishlist</h1>
+    {% if search_term or active_stall %}
+        <div class="container mb-1">
+            {% if search_term %}
+                <h3>Search results for <span class="text-muted">{{ search_term }}</span></h3>
+            {% endif %}
+
+            {% if active_stall %}
+                <h3>{{ active_stall.name }}</h3>
+            {% endif %}
+        </div>
+    {% endif %}
+
+
+    {% if products %}
+
+        <div class="card-deck">
+
+            {% for product in products %}
+                <div class="card m-2" id="{{ product.name }}">
+                    <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image"
+                         draggable="false">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ product.name }}</h4>
+                        <p class="card-text">{{ product.description }}</p>
                     </div>
-                </td>
-                <td class="p-4">
-                    <div id="address">
-                        <div class="section-header d-flex">
-                            <h5>Address</h5>
-                        </div>
-                        <p>{{ customer.address }}</p>
-                        <p>{{ customer.city }}</p>
-                        <p>{{ customer.postal_code }}</p>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item "><b
+                                class="col-sm-3 pl-0">Price</b>₱{{ product.price }}</li>
+                    </ul>
+                    {% if name %}
+                        <form method="POST" action="/product-catalog/">
+                            <div class="card-footer border-top-0">
+                                <div class="col-12 card-purchase-div">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ product.id }}" name="product">
+                                    <input type="hidden" value="{{ product.name }}" name="product_name">
+                                    <input type="hidden" value="{{ product.quantity }}" name="product_quantity">
+                                    <input type="number" class="form-control col-3  mr-2" min="1" max="100"
+                                           value="1"
+                                           name="quantity">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </div>
+
+
+    {% else %}
+        <!--No products message -->
+        <!-- TODO it's impossible for a stall to be up without products??? -->
+        <div class="list-group-item empty-message container p-5" id="empty-stall-message">
+            <div>
+                <h5 class="empty-message-text">No products found.</h5>
+                <p class="text-muted">Try your search again or return to the home page</p>
+                <a class="btn btn-outline-primary" href="/">Return</a>
+            </div>
+        </div>
+
+    {% endif %}
+
+
+</section>
 
 </body>
 </html>
