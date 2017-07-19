@@ -1,7 +1,6 @@
 from django.shortcuts import render, Http404, redirect
 from django.views import View
 from entity_management.models import Stall, Product
-from customer_profile.models import Customer
 from django.db.models import Q
 from IrisOnline.decorators import customer_required
 from .models import LineItem
@@ -9,7 +8,9 @@ from .contexts import make_context
 
 
 def available_stalls():
-    return [stall for stall in Stall.objects.all() if len(stall.product_set.all()) > 0]
+    return [stall
+            for stall in Stall.objects.all()
+            if len(stall.product_set.all()) > 0]
 
 
 class ProductCatalogView(View):

@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from django.views import View
-from entity_management.models import Product
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
 import json
 from django.http import HttpResponse
-from customer_profile.models import Customer
 from order_management.models import *
 import datetime
 
@@ -46,15 +44,6 @@ class CartView(View):
         }
 
         cart = request.session["cart"]
-
-        # The solution in non-lambda
-        # new_cart = []
-        # for product_id, quantity in cart:
-        #     if product.id != product_id:
-        #         new_cart.append((product_id,quantity))
-
-        #solution in lambda
-        # new_cart = list(filter(lambda x: x[0] != product.id, cart))
 
         new_cart = [tuple for tuple in cart if tuple[0] != product.id]
 
