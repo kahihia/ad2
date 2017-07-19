@@ -93,18 +93,7 @@
                                 </div>
                                 <div class="flex-row">
                                     <p class="text-muted mb-0">Placed: {{ order.date_ordered }}</p>
-                                    <p class="text-muted mb-0">Status: {{ order. }}</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="list-group-item d-block">
-                            <a href="#">
-                                <div class="mb-0">
-                                    <h5 class="mb-0">Order Number</h5>
-                                </div>
-                                <div class="flex-row">
-                                    <p class="text-muted mb-0">Placed 18/06/17</p>
-                                    <p class="text-muted mb-0">On its way</p>
+                                    <p class="text-muted mb-0">Status: {{ order.get_status_display }}</p>
                                 </div>
                             </a>
                         </li>

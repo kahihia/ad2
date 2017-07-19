@@ -1,13 +1,9 @@
-from django.shortcuts import render, Http404
+from django.shortcuts import render
 from django.views import View
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
 import json
-<<<<<<< HEAD
-=======
-from django.shortcuts import redirect, Http404
-from django.http import HttpResponse
->>>>>>> 87995d17b0b32ccc93edee685c1bbc8f10d60eaa
+from django.shortcuts import Http404
 from order_management.models import *
 import datetime
 from django.http import HttpResponse
