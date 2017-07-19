@@ -9,6 +9,7 @@ from order_management.models import *
 import datetime
 
 
+
 class LineItem():
     def __init__(self, product, quantity):
         self.product = product
@@ -56,6 +57,28 @@ class CartView(View):
             status=400
         )
 
+    @staticmethod
+    @customer_required
+    def post(request):
+
+        try:
+            json_data = json.loads(request.body)
+            product_id = json_data['product_id']
+            quantity = int(json_data['quantity'])
+        except:
+            raise Http404('Invalid JSON')
+
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            raise Http404('Product not found')
+
+        # TODO: Update tuple
+        cart = request.session["cart"]
+
+        print(product_id)
+        print(quantity)
+
 
 class CheckoutView(View):
     @staticmethod
@@ -82,37 +105,6 @@ class CheckoutView(View):
             "customer": customer
         })
         return render(request, 'checkout.html', context)
-
-    @staticmethod
-    @customer_required
-    def post(request):
-
-        if 'product_id' not in request.POST or \
-                        'quantity' not in request.POST:
-            return redirect('/checkout/cart')
-
-        product_id = request.POST['product_id']
-        quantity = request.POST['quantity']
-
-        try:
-            product = Product.objects.get(id=product_id)
-        except:
-            raise Http404('Product not found')
-
-        try:
-            quantity = int(quantity)
-        except:
-            raise Http404('Quantity is not an integer')
-
-        #TODO: Update tuple
-        cart = request.session["cart"]
-
-        for product_id, quan in cart:
-            if product.id == product_id:
-                quan = quantity
-                request.session.modified = True
-
-
 
 
 class PurchaseView(View):

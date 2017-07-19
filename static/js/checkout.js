@@ -57,12 +57,14 @@ $(() => {
                 "quantity": quantity
             };
 
+            attachCSRF();
+            console.log(window.location.pathname)
             $.ajax({
                 url: window.location.pathname,
                 method: 'POST',
                 data: JSON.stringify(pair),
                 error: () => {
-                    location.reload()
+                    location.reload();
                 },
             })
 
