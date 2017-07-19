@@ -4,10 +4,7 @@ from entity_management.models import Product
 
 def calculate_recommendations():
     for product in Product.objects.all():
-        print(f"Performing recommendations for {product.name}")
-        print()
         product_recommendations = get_recommendations(root_product=product)
-        print(f"Recommendations for {product.name}: {product_recommendations}")
 
         for recommendation in product_recommendations:
             association = ProductAssociation.objects.filter(root_product=product,
@@ -17,12 +14,10 @@ def calculate_recommendations():
                 association = association[0]
                 association.probability = recommendation.probability
                 association.save()
-                print(association)
             else:
-                association = ProductAssociation.objects.create(root_product=product,
-                                                                associated_product=recommendation.associated_product,
-                                                                probability=recommendation.probability)
-                print(association)
+                ProductAssociation.objects.create(root_product=product,
+                                                  associated_product=recommendation.associated_product,
+                                                  probability=recommendation.probability)
 
 
 def get_recommendations(root_product):
@@ -60,4 +55,8 @@ def total_orders_count():
 
 
 def get_probability(*products):
-    return count_occurrences(*products) / total_orders_count()
+    total_count = total_orders_count()
+    if total_count == 0:
+        return 0
+
+    return count_occurrences(*products) / total_count
