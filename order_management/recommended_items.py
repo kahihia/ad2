@@ -38,7 +38,8 @@ def get_recommendations(root_product):
 
         probability_of_purchasing = get_probability(root_product, associated_product) / root_product_probability
 
-        recommended_products.append(ProductAssociation(root_product=root_product, associated_product=associated_product,
+        recommended_products.append(ProductAssociation(root_product=root_product,
+                                                       associated_product=associated_product,
                                                        probability=probability_of_purchasing))
 
     return recommended_products
