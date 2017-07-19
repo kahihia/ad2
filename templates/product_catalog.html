@@ -29,7 +29,6 @@
 
 
     <!-- Custom JS go here -->
-    <script type="text/javascript" src="{% static '/js/stalls.js' %}"></script>
     <script type="text/javascript" src="{% static '/js/nav.js' %}/"></script>
     <script type="text/javascript" src="{% static '/js/catalog_waitlisting.js' %}"></script>
 
@@ -244,7 +243,7 @@
             <div class="card-deck">
 
                 {% for product in products %}
-                    <div class="card m-2">
+                    <div class="card m-2" id="{{ product.name }}">
                         <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image"
                              draggable="false">
                         <div class="card-block">
