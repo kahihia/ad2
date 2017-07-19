@@ -49,7 +49,7 @@ class Order(Model):
 class OrderLineItems(Model):
     # TODO: Prevent product deletion when ordered
     product = ForeignKey(Product, on_delete=PROTECT)
-    quantity = PositiveIntegerField(),
+    quantity = PositiveIntegerField()
     parent_order = ForeignKey(Order, on_delete=CASCADE)
 
     def line_price(self):
