@@ -92,7 +92,7 @@ class UserProfileView(View):
 
         return render(request, 'customer_profile.html', context)
 
-# TODO: shows the orders of a customer -h
+
 class UserOrdersView(View):
     @staticmethod
     @login_required
@@ -111,7 +111,71 @@ class UserOrdersView(View):
         })
         return render(request, 'customer_orders.html', context)
 
+class OrderView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request, order_id):
+        context = make_context(request)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        try:
+            order = Order.objects.get(id=order_id)
+            products_ordered = OrderLineItems.objects.all().filter(parent_order=order_id)
+        except:
+            raise Http404("Something went wrong")
+
+        orders = Order.objects.all().filter(customer=customer)
+
+        # total_price = order.total_price()
+
+        context.update({
+            "products_ordered": products_ordered,
+            "active_order": order,
+            "orders": orders,
+            "customer": customer
+            # "total_price": total_price
+        })
+        return render(request, 'customer_orders.html', context)
+
+
+
+
+# TODO: Wishlist
+class UserWishlistView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request):
+        context = make_context(request)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+
+        context.update({
+            "customer": customer
+        })
+
+        return render(request, 'customer_wishlist.html', context)
+
 
 def sign_out(request):
     logout(request)
     return redirect('/')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
