@@ -76,97 +76,65 @@
 </nav>
 
 <!-- Content -->
-<div id="content" class="d-flex flex-row">
-    <!-- Orders instead of Stalls-->
-<<<<<<< HEAD
-    <div>
-        {% if orders %}
-            <section id="pending-order-list" style="width: 300px; margin-right: 50px">
-                <!-- Items to be retrieved by the database -->
-                <h3 class="mb-3 ml-3">Pending Orders</h3>
-                {% for order in orders %}
-                    <ul class="list-group">
-                        <li class="list-group-item d-block">
-                            <a href="#">
-                                <div class="mb-0">
-                                    <h5 class="mb-0">{{ order.id }}</h5>
-                                </div>
-                                <div class="flex-row">
-                                    <p class="text-muted mb-0">Placed: {{ order.date_ordered }}</p>
-                                    <p class="text-muted mb-0">Status: {{ order.get_status_display }}</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    </section>
-
-                {% endfor %}
-        {% endif %}
-
-    </div>
-=======
-    <div class="container" style="max-width: 300px">
-        <div class="accordion" role="tablist" aria-multiselectable="true">
-            <div class="card">
-                <div class="card-header" role="tab" id="pending">
-                    <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#pending-orders" aria-expanded="true"
-                           aria-controls="pending-orders">
-                            Pending
-                        </a>
-                    </h5>
-                </div>
->>>>>>> b09c37e17c676e12b6c2f030dee031ad4b177b9b
-
-                <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="card-block">
-                        Order Number
-                    </div>
+<div class="container-fluid d-flex p-5 m-5">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" role="tab" id="approved">
+                <h5 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#pending-orders" aria-expanded="true"
+                       aria-controls="pending-orders">
+                        Pending
+                    </a>
+                </h5>
+            </div>
+            <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block">
+                    Order Number
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header" role="tab" id="approved">
-                    <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#approved-orders" aria-expanded="true"
-                           aria-controls="approved-orders">
-                            Approved
-                        </a>
-                    </h5>
-                </div>
-                <div id="approved-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="card-block">
-                        Order Number
-                    </div>
+        </div>
+        <div class="card">
+            <div class="card-header" role="tab" id="approved">
+                <h5 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#approved-orders" aria-expanded="true"
+                       aria-controls="approved-orders">
+                        Approved
+                    </a>
+                </h5>
+            </div>
+            <div id="approved-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block">
+                    Order Number
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header" role="tab" id="shipped">
-                    <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#shipped-orders" aria-expanded="true"
-                           aria-controls="shipped-orders">
-                            Shipped
-                        </a>
-                    </h5>
-                </div>
-                <div id="shipped-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="card-block">
-                        Order Number
-                    </div>
+        </div>
+        <div class="card">
+            <div class="card-header" role="tab" id="shipped">
+                <h5 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#shipped-orders" aria-expanded="true"
+                       aria-controls="shipped-orders">
+                        Shipped
+                    </a>
+                </h5>
+            </div>
+            <div id="shipped-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block">
+                    Order Number
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header" role="tab" id="cancelled">
-                    <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#cancelled-orders" aria-expanded="true"
-                           aria-controls="cancelled-orders">
-                            Cancelled
-                        </a>
-                    </h5>
-                </div>
-                <div id="cancelled-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="card-block">
-                        Order Number
-                    </div>
+        </div>
+        <div class="card">
+            <div class="card-header" role="tab" id="cancelled">
+                <h5 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#cancelled-orders" aria-expanded="true"
+                       aria-controls="cancelled-orders">
+                        Cancelled
+                    </a>
+                </h5>
+            </div>
+            <div id="cancelled-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block">
+                    Order Number
                 </div>
             </div>
         </div>
