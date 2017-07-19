@@ -1,16 +1,12 @@
 /* This is the CSS for the orders of a customer */
 
-#content {
-    margin : 49px;
-}
-
-.container {
-    margin       : 0;
-    margin-right : 50px;
+#accordion {
+    width : 400px;
 }
 
 #order-products {
     width : 100%;
+    margin-left: 50px;
 }
 
 .card-img-top {
