@@ -18,20 +18,8 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
-<<<<<<< HEAD
 from customer_profile.views import SignInView, SignUpView, sign_out, UserProfileView, UserOrdersView, OrderView, \
     UserWishlistView
-=======
-from customer_profile.views import (
-    SignInView,
-    SignUpView,
-    sign_out,
-    UserProfileView,
-    UserOrdersView,
-    OrderView,
-    UserWishlistView
-)
->>>>>>> bfed781a33c7e2ac4d36b60c8ae18ab149a481da
 from product_catalog.views import ProductCatalogView
 from entity_management.views import AdministratorSignInView, admin_sign_out
 
