@@ -19,7 +19,7 @@ function attachCSRF() {
 
     }
 
-    function removeProduct(productID) {
+function removeProduct(productID) {
         attachCSRF();
         const dict = {
             "product_id":productID
@@ -38,4 +38,7 @@ function attachCSRF() {
 
         })
     }
+
+
+
 
