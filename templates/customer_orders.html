@@ -52,15 +52,17 @@
                         {% endif %}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/orders/">View Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/sign-out/" class="nav-link">Sign out</a>
-                </li>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Hello, {{ name }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
+                        <a class="dropdown-item" href="/orders/">View Orders</a>
+                        <a class="dropdown-item" href="/sign-out/">Sign Out</a>
+                    </div>
+                </div>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/customer-sign-in/">Sign in</a>
@@ -76,7 +78,37 @@
 <!-- Content -->
 <div id="content" class="d-flex flex-row">
     <!-- Orders instead of Stalls-->
-    <section id="order-list" style="width: 300px; margin-right: 50px">
+    <div>
+        <section id="pending-order-list" style="width: 300px; margin-right: 50px">
+        <!-- Items to be retrieved by the database -->
+        <h3 class="mb-3 ml-3">Pending Orders</h3>
+        <ul class="list-group">
+            <li class="list-group-item d-block">
+                <a href="#">
+                    <div class="mb-0">
+                        <h5 class="mb-0">Order Number</h5>
+                    </div>
+                    <div class="flex-row">
+                        <p class="text-muted mb-0">Placed 18/06/17</p>
+                        <p class="text-muted mb-0">Delivered 20/06/17</p>
+                    </div>
+                </a>
+            </li>
+            <li class="list-group-item d-block">
+                <a href="#">
+                    <div class="mb-0">
+                        <h5 class="mb-0">Order Number</h5>
+                    </div>
+                    <div class="flex-row">
+                        <p class="text-muted mb-0">Placed 18/06/17</p>
+                        <p class="text-muted mb-0">On its way</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <section id="order-list" style="width: 300px; margin-right: 50px" class="mt-5">
         <!-- Items to be retrieved by the database -->
         <h3 class="mb-3 ml-3">Orders</h3>
         <ul class="list-group">
@@ -104,6 +136,7 @@
             </li>
         </ul>
     </section>
+    </div>
 
     <!-- Products of the Selected Order -->
     <!-- Cards no longer have add to cart, quantity is fixed -->
