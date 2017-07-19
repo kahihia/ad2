@@ -7,15 +7,22 @@ from django.db.models import (
     CASCADE,
     PositiveIntegerField,
     DateTimeField,
-    BooleanField,
+    CharField,
     DecimalField
 )
 
 
 class Order(Model):
+    ORDER_STATUSES = (
+        ('P', 'Pending'),
+        ('A', 'Approved'),
+        ('S', 'Shipped'),
+        ('C', 'Cancelled')
+    )
+
     date_ordered = DateTimeField(auto_now=True)
-    approved = BooleanField(default=False)
     customer = ForeignKey(Customer, on_delete=CASCADE)
+    status = CharField(max_length=2, choices=ORDER_STATUSES, default='P')
 
     def total_price(self):
         order_items = self.orderlineitems_set.all()

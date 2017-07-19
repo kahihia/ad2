@@ -3,6 +3,7 @@ from django.views import View
 from customer_profile.forms import UserForm
 from django.contrib.auth.models import User
 from customer_profile.models import Customer
+from order_management.models import Order, OrderLineItems
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -96,13 +97,19 @@ class UserOrdersView(View):
     @staticmethod
     @login_required
     @customer_required
-    def get(request):
+    def get(request, order_id):
         context = make_context(request)
         user = request.user
         customer = Customer.objects.get(user=user)
 
+        try:
+            order = Order.objects.get(id=order_id)
+        except:
+            raise Http404("Something went wrong")
+
         context.update({
-            "customer": customer
+            "customer": customer,
+            "order": order
         })
         return render(request, 'customer_orders.html', context)
 
