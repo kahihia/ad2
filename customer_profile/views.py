@@ -127,14 +127,14 @@ class OrderView(View):
 
         orders = Order.objects.all().filter(customer=customer)
 
-        # total_price = order.total_price()
+        total_price = order.total_price()
 
         context.update({
             "products_ordered": products_ordered,
             "active_order": order,
             "orders": orders,
-            "customer": customer
-            # "total_price": total_price
+            "customer": customer,
+            "total_price": total_price
         })
         return render(request, 'customer_orders.html', context)
 

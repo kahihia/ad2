@@ -33,7 +33,6 @@ class Order(Model):
 
     def has_products(self, *products):
         for product in products:
-            print(product)
             if not self.has_product(product):
                 return False
         return True
