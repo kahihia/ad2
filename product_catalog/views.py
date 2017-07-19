@@ -36,9 +36,12 @@ class ProductCatalogView(View):
         except:
             raise Http404("Product ID not in database")
 
-        request.session["cart"].append((product.pk, quantity))
-        request.session.modified = True
+        if product_id in request.session["cart"]:
+            request.session["cart"][product_id] += quantity
+        else:
+            request.session["cart"][product.id] = quantity
 
+        request.session.modified = True
         context = make_context(request=request)
 
         context.update({
@@ -55,7 +58,7 @@ class CartView(View):
     def get(request):
         products = []
 
-        for product_id, quantity in request.session["cart"]:
+        for product_id, quantity in request.session["cart"].items():
             product = Product.objects.get(id=product_id)
             products.append(LineItem(product, quantity=quantity))
 
