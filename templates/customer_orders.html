@@ -116,7 +116,7 @@
                     {% if order.status == "A" %}
                         <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
                             <div class="card-block">
-                                <a href="#">Order ID#{{ order.id }}</a>
+                                <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
                             </div>
                         </div>
                     {% endif %}
@@ -137,7 +137,7 @@
                     {% if order.status == "S" %}
                         <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
                             <div class="card-block">
-                                <a href="#">Order ID#{{ order.id }}</a>
+                                <a href="/orders/{{ order.id }}>Order ID#{{ order.id }}</a>
                             </div>
                         </div>
                     {% endif %}
@@ -158,7 +158,7 @@
                     {% if order.status == "C" %}
                         <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
                             <div class="card-block">
-                                <a href="#">Order ID#{{ order.id }}</a>
+                                <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
                             </div>
                         </div>
                     {% endif %}
