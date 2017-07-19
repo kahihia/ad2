@@ -4,16 +4,13 @@
     margin : 49px;
 }
 
-.list-group {
-    max-height : 400px;
-    overflow   : scroll;
+.container {
+    margin       : 0;
+    margin-right : 50px;
 }
 
-.card {
-    height    : 350px;
-    width     : 250px;
-    min-width : 250px;
-    max-width : 250px;
+#order-products {
+    width : 100%;
 }
 
 .card-img-top {
