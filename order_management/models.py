@@ -8,7 +8,7 @@ from django.db.models import (
     PositiveIntegerField,
     DateTimeField,
     CharField,
-    DecimalField
+    FloatField
 )
 
 
@@ -33,6 +33,7 @@ class Order(Model):
 
     def has_products(self, *products):
         for product in products:
+            print(product)
             if not self.has_product(product):
                 return False
         return True
@@ -57,4 +58,7 @@ class OrderLineItems(Model):
 class ProductAssociation(Model):
     root_product = ForeignKey(Product, on_delete=PROTECT, related_name="root_product")
     associated_product = ForeignKey(Product, on_delete=PROTECT,related_name="associated_product")
-    probability = DecimalField(decimal_places=2, max_digits=3)
+    probability = FloatField()
+
+    def __str__(self):
+        return f"{self.root_product.name} to {self.associated_product.name} - {self.probability}"

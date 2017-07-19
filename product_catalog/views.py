@@ -16,7 +16,7 @@ def available_stalls():
 
 
 class ProductCatalogView(View):
-    @staticmethod`
+    @staticmethod
     @customer_required
     def get(request):
         context = make_context(request)
