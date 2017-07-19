@@ -36,10 +36,12 @@ class ProductCatalogView(View):
         except:
             raise Http404("Product ID not in database")
 
+        # TODO: Error when item exceeds quantity count
+
         if product_id in request.session["cart"]:
             request.session["cart"][product_id] += quantity
         else:
-            request.session["cart"][product.id] = quantity
+            request.session["cart"][product_id] = quantity
 
         request.session.modified = True
         context = make_context(request=request)

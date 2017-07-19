@@ -3,12 +3,7 @@ from django.views import View
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
 import json
-<<<<<<< HEAD
-from django.shortcuts import redirect, Http404
-from django.http import HttpResponse
-=======
 from django.shortcuts import Http404
->>>>>>> 29fef353e56dedc2eea7e9cb1197adf0c47a390c
 from order_management.models import *
 import datetime
 from django.http import HttpResponse
