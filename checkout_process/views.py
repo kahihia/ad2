@@ -27,7 +27,7 @@ class CartView(View):
             line_items.append(LineItem(product, quantity=quantity))
             total_price += float(product.price) * float(quantity)
 
-        context=make_context(request)
+        context = make_context(request)
         context.update({
             "total_price": total_price,
             "line_items": line_items
@@ -55,7 +55,7 @@ class CartView(View):
             status=400
         )
 
-# TODO: Checkout and Purchase -h
+
 class CheckoutView(View):
     @staticmethod
     @customer_required
@@ -73,8 +73,7 @@ class CheckoutView(View):
             total_price += float(product.price) * float(quantity)
             total_quantity += quantity
 
-
-        context=make_context(request)
+        context = make_context(request)
         context.update({
             "total_price": total_price,
             "total_quantity": total_quantity,
@@ -94,8 +93,7 @@ class PurchaseView(View):
         order.customer = Customer.objects.get(user=request.user)
         order.save()
 
-
-        for product_id,quantity in cart:
+        for product_id, quantity in cart:
             line_item = OrderLineItems()
             line_item.product = Product.objects.get(id=product_id)
             line_item.quantity = quantity
@@ -105,5 +103,6 @@ class PurchaseView(View):
         request.session["cart"] = []
         request.session.modified = True
 
-        return render(request, 'purchase.html')
+        context = make_context(request)
 
+        return render(request, 'purchase.html', context)
