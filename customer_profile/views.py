@@ -97,19 +97,17 @@ class UserOrdersView(View):
     @staticmethod
     @login_required
     @customer_required
-    def get(request, order_id):
+    def get(request):
         context = make_context(request)
         user = request.user
         customer = Customer.objects.get(user=user)
 
-        try:
-            order = Order.objects.get(id=order_id)
-        except:
-            raise Http404("Something went wrong")
+
+        orders = Order.objects.all().filter(customer=customer)
 
         context.update({
             "customer": customer,
-            "order": order
+            "orders": orders
         })
         return render(request, 'customer_orders.html', context)
 
