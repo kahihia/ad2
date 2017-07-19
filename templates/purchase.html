@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="UTF-8">
     <title>Purchase Complete</title>
@@ -27,7 +27,7 @@
     <!-- Custom JS go here -->
 
 </head>
-<body>
+<body class="h-100">
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-toggleable-md navbar-light">
@@ -48,20 +48,29 @@
         <ul class="navbar-nav">
             {% if name %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
+                    <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
+                        {% if cart_count and cart_count > 0 %}
+                            <span class="badge badge-success">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/orders/">View Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/sign-out/" class="nav-link">Sign out</a>
-                </li>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Hello, {{ name }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
+                        <a class="dropdown-item" href="/orders/">View Orders</a>
+                        <a class="dropdown-item" href="/sign-out/">Sign Out</a>
+                    </div>
+                </div>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/customer-sign-in/">Sign in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/customer-sign-up/">Sign up</a>
+                    <a class="nav-link" href="/customer-sign-up/">Create an account</a>
                 </li>
             {% endif %}
         </ul>
@@ -70,13 +79,13 @@
 
 <!-- Content -->
 <div id="master-detail">
-    <div class="p-5 m-5" id="top-div">
-        <h1 class="display-3">Thank you!</h1>
+    <div class="p-5 m-5 h-100" id="top-div">
+        <h1 class="display-5">Thank you!</h1>
         <p class="lead">Please upload a photo of your deposit slip.</p>
         <hr class="my-4">
         <p class="lead">
-            <a class="btn btn-primary btn-lg" href="/orders/" role="button">View Orders</a>
-            <a class="btn btn-primary btn-lg" href="/" role="button">Back to Strings Manila</a>
+            <a class="btn btn-primary" href="/orders/" role="button">View Orders</a>
+            <a class="btn btn-primary" href="/" role="button">Back to Strings Manila</a>
         </p>
     </div>
 </div>

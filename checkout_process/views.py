@@ -3,9 +3,15 @@ from django.views import View
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
 import json
+<<<<<<< HEAD
+=======
+from django.shortcuts import redirect, Http404
+from django.http import HttpResponse
+>>>>>>> 87995d17b0b32ccc93edee685c1bbc8f10d60eaa
 from order_management.models import *
 import datetime
 from django.http import HttpResponse
+
 
 
 class LineItem():
@@ -48,7 +54,29 @@ class CartView(View):
         return HttpResponse(200)
 
 
-# TODO: Checkout and Purchase -h
+    @staticmethod
+    @customer_required
+    def post(request):
+
+        try:
+            json_data = json.loads(request.body)
+            product_id = json_data['product_id']
+            quantity = int(json_data['quantity'])
+        except:
+            raise Http404('Invalid JSON')
+
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            raise Http404('Product not found')
+
+        # TODO: Update tuple
+        cart = request.session["cart"]
+
+        print(product_id)
+        print(quantity)
+
+
 class CheckoutView(View):
     @staticmethod
     @customer_required
@@ -101,4 +129,6 @@ class PurchaseView(View):
         request.session["cart"] = []
         request.session.modified = True
 
-        return render(request, 'purchase.html')
+        context = make_context(request)
+
+        return render(request, 'purchase.html', context)

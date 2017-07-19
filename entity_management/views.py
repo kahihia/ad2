@@ -95,12 +95,13 @@ class ProductView(View):
             content_type="application/json",
             status=400
         )
+
     @staticmethod
-    def delete(request,stall_id):
+    def delete(request, stall_id):
         dict = json.loads(request.body)
         product = Product.objects.get(id=dict["product_id"])
         data = {
-            "name" : product.name
+            "name": product.name
         }
         product.delete()
 
@@ -112,7 +113,6 @@ class ProductView(View):
 
 
 class StallView(View):
-
     @staticmethod
     @login_required
     @admin_required
@@ -241,13 +241,20 @@ def update_product(request, stall_id):
     )
 
 
+def make_context(request):
+    username = request.user.username
+    return {
+        "username": username
+    }
+
+
 # TODO: replenish shows low and out of stock, reports are self explanatory
 class ReplenishView(View):
     @staticmethod
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'replenish_stocks.html')
+        return render(request, 'replenish_stocks.html', make_context(request))
 
     @staticmethod
     @login_required
@@ -261,7 +268,7 @@ class SalesReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'sales_report.html')
+        return render(request, 'sales_report.html', make_context(request))
 
 
 class OrderReportView(View):
@@ -269,7 +276,7 @@ class OrderReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'orders_report.html')
+        return render(request, 'orders_report.html', make_context(request))
 
 
 class WaitlistReportView(View):
@@ -277,4 +284,4 @@ class WaitlistReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'waitlist_report.html')
+        return render(request, 'waitlist_report.html', make_context(request))

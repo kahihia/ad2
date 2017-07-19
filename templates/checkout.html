@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <title>Checkout</title>
 
-    <!-- Bootstrap 4 Alpha and JQuery CDNs -->
-    {% load static %}
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Tether -->
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+
+    <!-- Bootstrap 4 Alpha -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
           crossorigin="anonymous">
-    <script type="text/javascript" src="{% static "/js/jquery-3.2.1.js" %}"></script>
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
-            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-            crossorigin="anonymous">
-    </script>
 
     <!-- Custom CSS go here -->
     <link rel="stylesheet" href="{% static '/css/nav.css/' %}">
@@ -46,14 +48,23 @@
         <ul class="navbar-nav">
             {% if name %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
+                    <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
+                        {% if cart_count and cart_count > 0 %}
+                            <span class="badge badge-success">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/orders/">View Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/sign-out/" class="nav-link">Sign out</a>
-                </li>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Hello, {{ name }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
+                        <a class="dropdown-item" href="/orders/">View Orders</a>
+                        <a class="dropdown-item" href="/sign-out/">Sign Out</a>
+                    </div>
+                </div>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/customer-sign-in/">Sign in</a>
