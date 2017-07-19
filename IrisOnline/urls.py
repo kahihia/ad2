@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
-from customer_profile.views import SignInView, SignUpView, sign_out, UserProfileView, UserOrdersView
+from customer_profile.views import SignInView, SignUpView, sign_out, UserProfileView, UserOrdersView, OrderView
 from product_catalog.views import ProductCatalogView
 from entity_management.views import AdministratorSignInView, admin_sign_out
 
@@ -34,7 +34,8 @@ urlpatterns = [
     url(r'^admin-sign-in', AdministratorSignInView.as_view()),
     url(r'^admin-sign-out', admin_sign_out),
     url(r'^user-profile/$', UserProfileView.as_view()),
-    url(r'^orders/$', UserOrdersView.as_view())
+    url(r'^orders/$', UserOrdersView.as_view()),
+    url(r'^orders/(?P<order_id>(\d+))/$', OrderView.as_view()),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

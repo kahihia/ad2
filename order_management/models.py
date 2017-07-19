@@ -26,9 +26,9 @@ class Order(Model):
 
     def total_price(self):
         order_items = self.orderlineitems_set.all()
-        total_price = 0
+        total_price = 0.00
         for order_item in order_items:
-            total_price += order_item.line_price()
+            total_price += float(order_item.line_price())
         return total_price
 
     def has_products(self, *products):
@@ -52,7 +52,7 @@ class OrderLineItems(Model):
     parent_order = ForeignKey(Order, on_delete=CASCADE)
 
     def line_price(self):
-        return self.product.price * self.quantity
+        return float(self.product.price) * float(self.quantity)
 
 class ProductAssociation(Model):
     root_product = ForeignKey(Product, on_delete=PROTECT, related_name="root_product")

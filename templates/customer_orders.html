@@ -87,11 +87,19 @@
                     </a>
                 </h5>
             </div>
-            <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                <div class="card-block">
-                    <a href="#">Order Number</a>
-                </div>
-            </div>
+
+            {% if orders %}
+                {% for order in orders %}
+                    {% if order.status == "P" %}
+                        <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="card-block">
+                                <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
         </div>
         <div class="card">
             <div class="card-header" role="tab" id="approved">
@@ -102,11 +110,17 @@
                     </a>
                 </h5>
             </div>
-            <div id="approved-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="card-block">
-                    <a href="#">Order Number</a>
-                </div>
-            </div>
+            {% if orders %}
+                {% for order in orders %}
+                    {% if order.status == "A" %}
+                        <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="card-block">
+                                <a href="#">Order ID#{{ order.id }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="card">
             <div class="card-header" role="tab" id="shipped">
@@ -117,11 +131,17 @@
                     </a>
                 </h5>
             </div>
-            <div id="shipped-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="card-block">
-                    <a href="#">Order Number</a>
-                </div>
-            </div>
+            {% if orders %}
+                {% for order in orders %}
+                    {% if order.status == "S" %}
+                        <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="card-block">
+                                <a href="#">Order ID#{{ order.id }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="card">
             <div class="card-header" role="tab" id="cancelled">
@@ -132,11 +152,17 @@
                     </a>
                 </h5>
             </div>
-            <div id="cancelled-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="card-block">
-                    <a href="#">Order Number</a>
-                </div>
-            </div>
+            {% if orders %}
+                {% for order in orders %}
+                    {% if order.status == "C" %}
+                        <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="card-block">
+                                <a href="#">Order ID#{{ order.id }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
@@ -144,29 +170,53 @@
     <!-- Cards no longer have add to cart, quantity is fixed -->
     <section id="order-products">
         <div class="d-flex mb-3">
-            <h2>Order Number</h2>
-            <h4 class="text-muted mt-2 ml-3">Order Date</h4>
-        </div>
-        <table class="table w-100">
-            <thead>
-            <th>Product Name</th>
-            <th>Product Price</th>
-            <th>Quantity</th>
-            </thead>
-            <tbody>
-            <tr>
-                <td>System Complexity</td>
-                <td>P15000</td>
-                <td>15</td>
-            </tr>
-            <tr>
-                <td><h4>Total Price</h4></td>
-                <td><h4>₱ Total Price</h4></td>
-                <td></td>
-            </tr>
 
-            </tbody>
-        </table>
+            {% if not active_order %}
+
+                <div class="list-group-item empty-message">
+                    <h5 class="empty-message-text">To view order details, please select an order from the left</h5>
+                </div>
+
+            {% else %}
+
+                <h2>Order # {{ active_order.id }}</h2>
+                <h4 class="text-muted mt-2 ml-3">{{ active_order.date }}</h4>
+
+            {% endif %}
+        </div>
+
+        {% if products_ordered %}
+
+            <table class="table w-100">
+                <thead>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Quantity</th>
+                </thead>
+                <tbody>
+                {% for product in products_ordered %}
+                    <tr>
+                        <td>{{ product.product.name }}</td>
+                        <td>{{ product.product.price }}</td>
+                        <td>{{ product.quantity }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <td><h4>Total Price</h4></td>
+                    <td><h4>₱ {{ total_price }}</h4></td>
+                    <td></td>
+                </tr>
+
+                </tbody>
+            </table>
+
+
+
+
+        {% endif %}
+
+
     </section>
 </div>
 
