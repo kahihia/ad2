@@ -19,5 +19,5 @@ class Customer(Model):
 
 
 class UserWish(Model):
-    user = ForeignKey(User, on_delete=CASCADE),
+    customer = ForeignKey(Customer, on_delete=CASCADE)
     product = ForeignKey(Product, on_delete=CASCADE)
