@@ -5,16 +5,12 @@
 }
 
 #order-products {
-    width : 100%;
-    margin-left: 50px;
+    width       : 100%;
+    margin-left : 50px;
 }
 
-.card-img-top {
-    min-height : 230px;
-    min-width  : 250px;
-    max-height : 230px;
-    max-width  : 250px;
-    object-fit : cover;
+.card {
+    margin-bottom : 5px;
 }
 
 p {
