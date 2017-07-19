@@ -46,14 +46,23 @@
         <ul class="navbar-nav">
             {% if name %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/user-profile/">Hello, {{ name }}</a>
+                    <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
+                        {% if cart_count and cart_count > 0 %}
+                            <span class="badge badge-success">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/orders/">View Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/sign-out/" class="nav-link">Sign out</a>
-                </li>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Hello, {{ name }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
+                        <a class="dropdown-item" href="/orders/">View Orders</a>
+                        <a class="dropdown-item" href="/sign-out/">Sign Out</a>
+                    </div>
+                </div>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/customer-sign-in/">Sign in</a>
