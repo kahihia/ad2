@@ -77,31 +77,28 @@
 
 <!-- Content -->
 <div class="container-fluid p-5 m-5">
-    <div id="cart-top" class="d-flex">
-        <h1 class="mr-auto">Your Cart</h1>
-        <div id="options" class="">
-{#            FIXME: Nasty Hack#}
-            <form action="/" method="get">
-                <button class="btn btn-secondary btn-lg mr-2">Continue Shopping</button>
-            </form>
-            <form action="">
-                <button class="btn btn-outline-success btn-lg">Update Cart</button>
-            </form>
+    {% if line_items %}
+        <div id="cart-top" class="d-flex">
+            <h1 class="mr-auto">Your Cart</h1>
+            <div id="options" class="">
+                <a class="btn btn-secondary btn-lg mr-2" href="/">Continue Shopping</a>
+                <form action="">
+                    <button class="btn btn-outline-success btn-lg">Update Cart</button>
+                </form>
+            </div>
         </div>
-    </div>
-    <div id="cart-items">
-        <table class="table" id="items-table">
-            <thead>
-            <tr>
-                <th style="width:70px"></th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% if line_items %}
+        <div id="cart-items">
+            <table class="table" id="items-table">
+                <thead>
+                <tr>
+                    <th style="width:70px"></th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for product in line_items %}
                     <tr>
                         <td><img class="cart-product-image rounded-circle" src="{{ product.product.photo.url }}"></td>
@@ -116,24 +113,30 @@
                         </td>
                     </tr>
                 {% endfor %}
-            {% endif %}
-
-            <tr>
-                <td></td>
-                <td><h4>Total Price</h4></td>
-                <td><h4>₱{{ total_price }}</h4></td>
-                <td><a class="btn btn-outline-primary" href="/checkout/review/">Proceed to Checkout</a></td>
-            </tr>
-            </tbody>
-        </table>
-
-    </div>
-
+                <tr>
+                    <td></td>
+                    <td><h4>Total Price</h4></td>
+                    <td><h4>₱{{ total_price }}</h4></td>
+                    <td><a class="btn btn-outline-primary" href="/checkout/review/">Proceed to Checkout</a></td>
+                </tr>
+                </tbody>
+            </table>
+            {% else %}
+            <div class="container">
+                <h3 class="pt-5 mt-5 text-center">There's nothing in your cart.</h3>
+                <h6 class="text-muted text-center">Products you add to your cart will appear here.</h6>
+                <!-- TODO: Check if it works -->
+                <div class="display-inline text-center">
+                    <a class="btn btn-outline-primary btn-lg mt-4" href="/">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 {% if line_items %}
     {% for product in line_items %}
-    <!-- Remove Product Modal -->
+        <!-- Remove Product Modal -->
         <div class="modal fade" id="remove-product-modal-{{ product.product.id }}" role="dialog"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -149,7 +152,9 @@
                         Are you sure you want to delete {{ product.product.name }}?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger" id="delete-product-button" onclick="removeProduct({{ product.product.id }})" >Remove</button>
+                        <button type="button" class="btn btn-outline-danger" id="delete-product-button"
+                                onclick="removeProduct({{ product.product.id }})">Remove
+                        </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
