@@ -4,14 +4,25 @@ from entity_management.models import Product
 
 def calculate_recommendations():
     for product in Product.objects.all():
+        print(f"Performing recommendations for {product.name}")
+        print()
         product_recommendations = get_recommendations(root_product=product)
+        print(f"Recommendations for {product.name}: {product_recommendations}")
 
         for recommendation in product_recommendations:
-            association = ProductAssociation.objects.get_or_create(root_product=product,
-                                                                   associated_product=recommendation.associated_product)
+            association = ProductAssociation.objects.filter(root_product=product,
+                                                            associated_product=recommendation.associated_product)
 
-            association.probability = recommendation.probability
-            association.save()
+            if association:
+                association = association[0]
+                association.probability = recommendation.probability
+                association.save()
+                print(association)
+            else:
+                association = ProductAssociation.objects.create(root_product=product,
+                                                                associated_product=recommendation.associated_product,
+                                                                probability=recommendation.probability)
+                print(association)
 
 
 def get_recommendations(root_product):
@@ -27,10 +38,10 @@ def get_recommendations(root_product):
     recommended_products = []
 
     for associated_product in Product.objects.all():
-        if associated_product is root_product:
+        if associated_product.id == root_product.id:
             continue
 
-        probability_of_purchasing = get_probability([root_product, associated_product]) / root_product_probability
+        probability_of_purchasing = get_probability(root_product, associated_product) / root_product_probability
 
         recommended_products.append(ProductAssociation(root_product=root_product, associated_product=associated_product,
                                                        probability=probability_of_purchasing))
@@ -41,7 +52,7 @@ def get_recommendations(root_product):
 def count_occurrences(*products):
     orders = Order.objects.all()
     # Get amount of orders that has products *products
-    return len([order for order in orders if order.has_products(products)])
+    return len([order for order in orders if order.has_products(*products)])
 
 
 def total_orders_count():
