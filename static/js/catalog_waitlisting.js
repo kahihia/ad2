@@ -15,8 +15,7 @@ $(document).ready(function () {
     var input_quantity = $('.card-purchase-div').children().last().prev().val();
     console.log(input_quantity);
 
-    if (parseInt(product_quantity) < parseInt(input_quantity)) {
-        console.log("Exceeded")
-    }
+    console.log($('.card-deck').children().attr('id'));
+
 
 });
