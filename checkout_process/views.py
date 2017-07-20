@@ -182,6 +182,7 @@ class PurchaseView(View):
         request.session["approved_cart"] = False
         request.session.modified = True
         context = make_context(request)
+        context["total_price"] = order.total_price
 
         return render(request, 'purchase.html', context)
 
