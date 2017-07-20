@@ -105,10 +105,20 @@ class UserOrdersView(View):
 
         orders = Order.objects.all().filter(customer=customer)
 
+        pending_orders = orders.filter(status="P")
+        approved_orders = orders.filter(status="A")
+        shipped_orders = orders.filter(status="S")
+        cancelled_orders = orders.filter(status="C")
+
         context.update({
             "customer": customer,
-            "orders": orders,
-            "expand": "P"
+            "expand": "pending",
+            "orders": {
+                "pending": pending_orders,
+                "approved": approved_orders,
+                "shipped": shipped_orders,
+                "cancelled": cancelled_orders,
+            }
         })
         return render(request, 'customer_orders.html', context)
 
@@ -134,19 +144,22 @@ class OrderView(View):
         shipped_orders = orders.filter(status="S")
         cancelled_orders = orders.filter(status="C")
 
+        expand = order.get_status_display().lower()
+
         context.update({
             "line_items": line_items,
             "active_order": order,
             "customer": customer,
             "total_price": order.total_price,
-            "pending_orders": pending_orders,
-            "approved_orders": approved_orders,
-            "shipped_orders": shipped_orders,
-            "cancelled_orders": cancelled_orders,
-            "expand": order.status
+            "orders": {
+                "pending": pending_orders,
+                "approved": approved_orders,
+                "shipped": shipped_orders,
+                "cancelled": cancelled_orders,
+            },
+            "expand": expand
         })
 
-        print(context)
         return render(request, 'customer_orders.html', context)
 
 

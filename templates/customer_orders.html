@@ -41,103 +41,43 @@
 
 <!-- Content -->
 <div class="container-fluid d-flex p-5 ml-5 mb-5 mr-5">
-    <div id="accordion">
-        <div class="card">
-            <div class="card-header" role="tab" id="approved">
-                <h5 class="mb-0">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#pending-orders" aria-expanded="true"
-                       aria-controls="pending-orders">
-                        Pending Orders
-                    </a>
-                </h5>
-            </div>
 
-            <div id="pending-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                <ul class="list-group rounded-0">
-                    {% for order in pending_orders %}
-                        {% if order.id == active_order.id %}
-                            <li class="list-group-item active">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% else %}
-                            <li class="list-group-item">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-            <a class="dropdown-item" href="/input-payment-details/">Input Payment Details</a>
-        </div>
-        <div class="card">
-            <div class="card-header" role="tab" id="approved">
-                <h5 class="mb-0">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#approved-orders" aria-expanded="true"
-                       aria-controls="approved-orders">
-                        Approved Orders
-                    </a>
-                </h5>
-            </div>
-                <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                    {% for order in approved_orders %}
-                        {% if order.id == active_order.id %}
-                            <li class="list-group-item active">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% else %}
-                            <li class="list-group-item">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
+{#    <!--TODO: Remove-->#}
+{#    <a class="dropdown-item" href="/input-payment-details/">Input Payment Details</a>#}
+{##}
+
+    <script>
+        $(() => {
+           const expand = "{{ expand }}";
+           $('#' + expand + "-orders").collapse('show');
+        });
+    </script>
+
+    <div id="accordion">
+        {% for order_type, order_list in orders.items %}
+            <div class="card">
+                <div class="card-header" role="tab" id="approved">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#{{ order_type }}-orders" aria-expanded="true"
+                           aria-controls="pending-orders">
+                            {{ order_type|capfirst }} Orders
+                        </a>
+                    </h5>
                 </div>
-        </div>
-        <div class="card">
-            <div class="card-header" role="tab" id="shipped">
-                <h5 class="mb-0">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#shipped-orders" aria-expanded="true"
-                       aria-controls="shipped-orders">
-                        Shipped Orders
-                    </a>
-                </h5>
-            </div>
-                <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                    {% for order in shipped_orders %}
-                        {% if order.id == active_order.id %}
-                            <li class="list-group-item active">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% else %}
-                            <li class="list-group-item">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
+
+                <div id="{{ order_type }}-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <ul class="list-group rounded-0">
+                        {% for order in order_list %}
+                            {% if order.id == active_order.id %}
+                                <li class="list-group-item active">Order #{{ order.id }}</li>
+                            {% else %}
+                                <li class="list-group-item"href="/orders/{{ order.id }}">Order #{{ order.id }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </div>
-        </div>
-        <div class=" card">
-            <div class="card-header" role="tab" id="cancelled">
-                <h5 class="mb-0">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#cancelled-orders" aria-expanded="true"
-                       aria-controls="cancelled-orders">
-                        Cancelled Orders
-                    </a>
-                </h5>
             </div>
-                <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                    {% for order in cancelled_orders %}
-                        {% if order.id == active_order.id %}
-                            <li class="list-group-item active">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% else %}
-                            <li class="list-group-item">
-                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-        </div>
+        {% endfor %}
     </div>
 
     <!-- Products of the Selected Order -->
@@ -187,11 +127,7 @@
 
                 </tbody>
             </table>
-
-
         {% endif %}
-
-
     </section>
 </div>
 
