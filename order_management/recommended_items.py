@@ -1,15 +1,20 @@
 from .models import Order, ProductAssociation
 from entity_management.models import Product
 
+def get_recommended_products(product):
+    associations = ProductAssociation.objects.filter(root_product=product)
+    associations = associations.order_by('-probability')[:3] # Negative sign means DESC
+    products = [association.associated_product for association in associations]
+    return products
 
 def calculate_recommendations():
     for product in Product.objects.all():
-        product_recommendations = get_recommendations(root_product=product)
+        print(f"Calculating Recommendations for {product.name}...")
+        product_recommendations = calculate_recommendations_for_product(root_product=product)
 
         for recommendation in product_recommendations:
             association = ProductAssociation.objects.filter(root_product=product,
                                                             associated_product=recommendation.associated_product)
-
             if association:
                 association = association[0]
                 association.probability = recommendation.probability
@@ -19,16 +24,11 @@ def calculate_recommendations():
                                                   associated_product=recommendation.associated_product,
                                                   probability=recommendation.probability)
 
+        print()
+    print("Recommendation calculation done")
 
-def get_recommendations(root_product):
-    if total_orders_count() == 0:
-        # No orders yet, there are no recommendations
-        return []
 
-    root_product_probability = get_probability(root_product)
-    if root_product_probability == 0:
-        # Product has not been ordered, there are no recommendations
-        return []
+def calculate_recommendations_for_product(root_product):
 
     recommended_products = []
 
@@ -36,7 +36,12 @@ def get_recommendations(root_product):
         if associated_product.id == root_product.id:
             continue
 
-        probability_of_purchasing = get_probability(root_product, associated_product) / root_product_probability
+        associated_product_probability = get_probability(associated_product)
+
+        if associated_product_probability == 0:
+            probability_of_purchasing = 0
+        else:
+            probability_of_purchasing = get_probability(associated_product, root_product) / associated_product_probability
 
         recommended_products.append(ProductAssociation(root_product=root_product,
                                                        associated_product=associated_product,

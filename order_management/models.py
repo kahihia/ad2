@@ -24,6 +24,15 @@ class Order(Model):
     customer = ForeignKey(Customer, on_delete=CASCADE)
     status = CharField(max_length=2, choices=ORDER_STATUSES, default='P')
 
+    @staticmethod
+    def print_orders_containing_product(product):
+        orders = [order for order in Order.objects.all() if order.has_product(product)]
+        for order in orders:
+            print(f"Order #{order.id}")
+            for line_item in order.orderlineitems_set.all():
+                print(line_item.product.name)
+            print()
+
     def total_price(self):
         order_items = self.orderlineitems_set.all()
         total_price = 0.00

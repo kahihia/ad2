@@ -121,7 +121,7 @@ class PurchaseView(View):
             line_item.parent_order = order
             line_item.save()
 
-        request.session["cart"] = []
+        request.session["cart"] = {} # Empty cart
         request.session.modified = True
 
         context = make_context(request)
