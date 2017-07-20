@@ -65,18 +65,8 @@ def total_orders_count():
 
 
 def get_probability(*products):
-<<<<<<< HEAD:order_management/tasks.py
-    return count_occurrences(*products) / total_orders_count()
-
-
-
-
-
-
-=======
     total_count = total_orders_count()
     if total_count == 0:
         return 0
 
     return count_occurrences(*products) / total_count
->>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7:order_management/recommended_items.py
