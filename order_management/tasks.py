@@ -3,15 +3,22 @@ from entity_management.models import Product
 from celery.schedules import crontab
 from celery.task import periodic_task
 
+<<<<<<< HEAD
 
 
+=======
+@periodic_task(run_every=(crontab(minute='*/1')), name="calculate_recommendations")
+>>>>>>> 5049843e1da1101882014d9e8f43c7624896d73f
 def get_recommended_products(product):
     associations = ProductAssociation.objects.filter(root_product=product)
     associations = associations.order_by('-probability')[:3] # Negative sign means DESC
     products = [association.associated_product for association in associations]
     return products
 
+<<<<<<< HEAD
 @periodic_task(run_every=(crontab(minute='*/1')), name="calculate_recommendations")
+=======
+>>>>>>> 5049843e1da1101882014d9e8f43c7624896d73f
 def calculate_recommendations():
     print("calculate recommendations is working")
     for product in Product.objects.all():
@@ -70,5 +77,10 @@ def get_probability(*products):
     total_count = total_orders_count()
     if total_count == 0:
         return 0
+<<<<<<< HEAD
     return count_occurrences(*products) / total_count
 
+=======
+
+    return count_occurrences(*products) / total_count
+>>>>>>> 5049843e1da1101882014d9e8f43c7624896d73f

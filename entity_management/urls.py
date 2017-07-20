@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^replenish/$', views.ReplenishView.as_view()),
     url(r'^sales-report/$', views.SalesReportView.as_view()),
     url(r'^orders-report/$', views.OrderReportView.as_view()),
-    url(r'^wishlist-report/$', views.WishlistReportView.as_view())
+    url(r'^wishlist-report/$', views.WishlistReportView.as_view()),
+    url(r'^confirm-payments/$', views.ConfirmPaymentsView.as_view())
 ]
 

@@ -285,3 +285,12 @@ class WishlistReportView(View):
     @admin_required
     def get(request):
         return render(request, 'wishlist_report.html', make_context(request))
+
+
+# TODO: Confirm payments received from customers
+class ConfirmPaymentsView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request):
+        return render(request, 'confirm_payments.html', make_context(request))
