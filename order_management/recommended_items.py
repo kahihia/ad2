@@ -21,14 +21,6 @@ def calculate_recommendations():
 
 
 def get_recommendations(root_product):
-    if total_orders_count() == 0:
-        # No orders yet, there are no recommendations
-        return []
-
-    root_product_probability = get_probability(root_product)
-    if root_product_probability == 0:
-        # Product has not been ordered, there are no recommendations
-        return []
 
     recommended_products = []
 
@@ -36,7 +28,9 @@ def get_recommendations(root_product):
         if associated_product.id == root_product.id:
             continue
 
-        probability_of_purchasing = get_probability(root_product, associated_product) / root_product_probability
+        associated_product_probability = get_probability(associated_product)
+
+        probability_of_purchasing = get_probability(associated_product, root_product) / associated_product_probability
 
         recommended_products.append(ProductAssociation(root_product=root_product,
                                                        associated_product=associated_product,
