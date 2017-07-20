@@ -126,7 +126,6 @@
     </div>
 
     <!-- Products of the Selected Order -->
-    <!-- Cards no longer have add to cart, quantity is fixed -->
     <section id="order-products">
         <div class="d-flex mb-3">
 
@@ -139,10 +138,14 @@
 
             {% else %}
 
-                <h2>Order # {{ active_order.id }}</h2>
+                <h2>Order #{{ active_order.id }}</h2>
                 <h4 class="text-muted mt-2 ml-3">{{ active_order.date }}</h4>
 
             {% endif %}
+        </div>
+        <div class="alert alert-warning" role="alert">
+            <strong>Warning!</strong> This order will be cancelled if payment is
+            not received by [date]
         </div>
 
         {% if products_ordered %}
