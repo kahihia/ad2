@@ -82,7 +82,7 @@ class UserProfileView(View):
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request)
+        context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
 
@@ -98,7 +98,7 @@ class UserOrdersView(View):
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request)
+        context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
 
@@ -107,7 +107,8 @@ class UserOrdersView(View):
 
         context.update({
             "customer": customer,
-            "orders": orders
+            "orders": orders,
+            "expand": "P"
         })
         return render(request, 'customer_orders.html', context)
 
@@ -116,9 +117,10 @@ class OrderView(View):
     @login_required
     @customer_required
     def get(request, order_id):
-        context = make_context(request)
+        context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
+
         try:
             order = Order.objects.get(id=order_id)
             line_items = OrderLineItems.objects.all().filter(parent_order=order_id)
@@ -127,13 +129,24 @@ class OrderView(View):
 
         orders = Order.objects.all().filter(customer=customer)
 
+        pending_orders = orders.filter(status="P")
+        approved_orders = orders.filter(status="A")
+        shipped_orders = orders.filter(status="S")
+        cancelled_orders = orders.filter(status="C")
+
         context.update({
             "line_items": line_items,
             "active_order": order,
-            "orders": orders,
             "customer": customer,
-            "total_price": order.total_price
+            "total_price": order.total_price,
+            "pending_orders": pending_orders,
+            "approved_orders": approved_orders,
+            "shipped_orders": shipped_orders,
+            "cancelled_orders": cancelled_orders,
+            "expand": order.status
         })
+
+        print(context)
         return render(request, 'customer_orders.html', context)
 
 
@@ -145,7 +158,7 @@ class UserWishlistView(View):
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request)
+        context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
 
@@ -162,7 +175,7 @@ class InputDetailsView(View):
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request)
+        context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
 

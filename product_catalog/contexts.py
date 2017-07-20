@@ -7,24 +7,31 @@ def available_stalls():
             if len(stall.product_set.all()) > 0]
 
 
-def make_context(request, active_stall=None):
-    stalls = available_stalls()
+def make_context(request, active_stall=None, include_stalls_and_products=True):
     cart_count = get_cart_count(request)
     name = get_user_name(request)
 
-    if active_stall:
-        products = Product.objects.all().filter(stall=active_stall)
-    else:
-        active_stall = None
-        products = Product.objects.all()
-
-    return {
-        'products': products,
-        'stalls': stalls,
+    context = {
         'cart_count': cart_count,
-        'active_stall': active_stall,
         'name': name
     }
+
+    if include_stalls_and_products:
+        stalls = available_stalls()
+
+        if active_stall:
+            products = Product.objects.all().filter(stall=active_stall)
+        else:
+            active_stall = None
+            products = Product.objects.all()
+
+        context.update({
+            'products': products,
+            'stalls': stalls,
+            'active_stall': active_stall,
+        })
+
+    return context
 
 
 def get_user_name(request):
