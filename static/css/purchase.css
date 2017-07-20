@@ -1,0 +1,8 @@
+#top-div {
+    margin-top : 100px;
+}
+
+#instructions, #top-div, #master-detail p.lead {
+    width       : 600px;
+    margin-left : 100px;
+}

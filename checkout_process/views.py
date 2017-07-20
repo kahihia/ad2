@@ -181,7 +181,6 @@ class PurchaseView(View):
         request.session["cart"] = {}  # Empty cart
         request.session["approved_cart"] = False
         request.session.modified = True
-
         context = make_context(request)
 
         return render(request, 'purchase.html', context)

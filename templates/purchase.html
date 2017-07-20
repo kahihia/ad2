@@ -34,15 +34,21 @@
 
 <!-- Content -->
 <div id="master-detail">
-    <div class="p-5 m-5 h-100" id="top-div">
+    <div class="h-100" id="top-div">
         <h1 class="display-5">Thank you!</h1>
-        <p class="lead">Please upload a photo of your deposit slip.</p>
         <hr class="my-4">
-        <p class="lead">
-            <a class="btn btn-primary" href="/orders/" role="button">View Orders</a>
-            <a class="btn btn-primary" href="/" role="button">Back to Strings Manila</a>
-        </p>
     </div>
+    <div id="instructions">
+        <h4>Please deposit your total amount of ₱{{ order.total_price }} in the following account:</h4>
+        <div class="mt-4">
+            <p>Account Number: 0000000000</p>
+            <p>Account Name: Paulina de Ramos</p>
+        </div>
+    </div>
+    <p class="lead mt-4" style="margin-left: 100px;">
+        <a class="btn btn-primary" href="/orders/" role="button">View Orders</a>
+        <a class="btn btn-primary" href="/" role="button">Back to Strings Manila</a>
+    </p>
 </div>
 
 </body>
