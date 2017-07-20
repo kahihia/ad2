@@ -5,8 +5,7 @@ from product_catalog.contexts import make_context
 import json
 from django.shortcuts import Http404, redirect
 from order_management.models import *
-import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 
 
 class LineItem():
@@ -47,7 +46,7 @@ class CartView(View):
             product_id = json_data['product_id']
             del request.session['cart'][str(product_id)]
         except:
-            raise Http404('Product ID Not found')
+            return HttpResponseBadRequest() # Product ID Not Found
 
         request.session.modified = True
         return HttpResponse(200)
@@ -68,7 +67,12 @@ class CartView(View):
         except:
             raise Http404('Product not found')
 
-        request.session["cart"][product_id] = quantity
+        if quantity <= 0:
+            if str(product_id) in request.session["cart"]:
+                del request.session["cart"][str(product_id)]
+        else:
+            request.session["cart"][product_id] = quantity
+
         request.session.modified = True
         return HttpResponse(200)
 
@@ -105,6 +109,9 @@ class CheckoutView(View):
         user = request.user
         customer = Customer.objects.get(user=user)
         line_items = get_line_items(cart=request.session["cart"])
+
+        if len(line_items) == 0:
+            return redirect("/")
 
         total_price = 0.00
         quantity_errors = []
@@ -156,7 +163,7 @@ class PurchaseView(View):
     @customer_required
     def get(request):
 
-        if not request.session["approved_cart"]:
+        if "approved_cart" not in request.session or not request.session["approved_cart"]:
             return redirect("/checkout/cart/")
 
         cart = request.session["cart"]
