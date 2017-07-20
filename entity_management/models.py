@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db.models import (
     Q,
     Model,
@@ -31,6 +32,12 @@ class Product(Model):
     def current_price(self):
         price = self.pricehistory_set.filter(effective_to=None)[0]
         return price.price
+
+    def change_price(self, new_price):
+        current_price_history = self.pricehistory_set.filter(effective_to=None)[0]
+        current_price_history.effective_to = datetime.now()
+        current_price_history.save()
+        self.pricehistory_set.create(price=new_price)
 
     def price_for_date(self, date):
         priceHistory = self.pricehistory_set.get(
