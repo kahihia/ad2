@@ -7,7 +7,7 @@ from .models import LineItem
 from .contexts import make_context
 from customer_profile.models import Customer
 from django.http import HttpResponse
-from order_management.recommended_items import get_recommended_products
+from order_management.tasks import get_recommended_products
 
 
 def available_stalls():
