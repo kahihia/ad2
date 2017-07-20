@@ -33,11 +33,12 @@ class Order(Model):
                 print(line_item.product.name)
             print()
 
+    @property
     def total_price(self):
         order_items = self.orderlineitems_set.all()
         total_price = 0.00
         for order_item in order_items:
-            total_price += float(order_item.line_price())
+            total_price += float(order_item.line_price)
         return total_price
 
     def has_products(self, *products):
