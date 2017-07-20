@@ -7,6 +7,7 @@ from .models import LineItem
 from .contexts import make_context
 from customer_profile.models import Customer
 from django.http import HttpResponse
+from order_management.recommended_items import get_recommended_products
 
 
 def available_stalls():
@@ -48,12 +49,14 @@ class ProductCatalogView(View):
         request.session.modified = True
         context = make_context(request=request)
 
+        recommendations = get_recommended_products(product=product)
+
         context.update({
             'added_to_cart': product,
             'quantity': quantity,
+            'recommendations': recommendations
         })
 
-        # TODO: Compute recommendations
         return render(request, 'product_catalog.html', context)
 
 

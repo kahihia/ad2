@@ -60,11 +60,11 @@
 
 {% if added_to_cart %}
     <div class="d-flex">
-        <div id="added-to-cart-notification" class="card w-50">
+        <div id="added-to-cart-notification" class="card w-50 rounded-0">
             <h6 class="card-header">Added to cart</h6>
             <div class="card-block">
                 <div id="product-preview">
-                    <img id="added-image" src="{{ added_to_cart.photo.url }}" draggable="false">
+                    <img id="added-image" class="rounded" src="{{ added_to_cart.photo.url }}" draggable="false">
                     <!-- These come from the previous page -->
                     <div id="product-details" class="ml-3">
                         <!-- Name -->
@@ -84,59 +84,44 @@
             </div>
         </div>
         <!-- TODO: Recommendations -->
-        <div id="recommendation-items" class="card w-50">
+        <div id="recommendation-items" class="card w-50 border-left-0 rounded-0">
             <h6 class="card-header">Recommended Items</h6>
-            <div id="recommendation-items">
-                <div class="recommended-item p-3 m-1">
-                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
-                    <div class="recommended-details">
-                        <h4 class="ml-2">Dave Gilmour</h4>
-                        <div class="d-flex">
-                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                                   name="quantity">
-                            <p class="mt-3">P 200</p>
+
+            <div id="recommendation-items" class="p-3">
+                {% for product in recommendations %}
+                    <div class="recommended-details m-2 d-flex">
+
+                        <div class="d-inline-block">
+                            <img class="recommendation-image rounded" src="{{ product.photo.url }}" alt="No image">
                         </div>
-                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
-                    </div>
-                </div>
-                <div class="recommended-item p-3 m-1">
-                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
-                    <div class="recommended-details">
-                        <h4 class="ml-2">Dave Gilmour</h4>
-                        <div class="d-flex">
-                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                                   name="quantity">
-                            <p class="mt-3">P 200</p>
+
+                        <div class="d-inline-block ml-3">
+                            <h6>{{ product.name }}</h6>
+                            <div><p>₱{{ product.price }}</p></div>
+                            <form method="POST" action="/product-catalog/" class="display-inline d-flex">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ product.id }}" name="product">
+                                <input type="number" class="form-control col-sm-5 mt-0 ml-0" min="1" max="100" value="1"
+                                       name="quantity">
+                                <button type="submit" class="btn btn-outline-primary mt-0">Add</button>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
                     </div>
-                </div>
-                <div class="recommended-item p-3 m-1">
-                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
-                    <div class="recommended-details">
-                        <h4 class="ml-2">Dave Gilmour</h4>
-                        <div class="d-flex">
-                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                                   name="quantity">
-                            <p class="mt-3">P 200</p>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
-                    </div>
-                </div>
-                <div class="recommended-item p-3 m-1">
-                    <img src="{% static '/images/dave.jpg' %}" alt="No image">
-                    <div class="recommended-details">
-                        <h4 class="ml-2">Dave Gilmour</h4>
-                        <div class="d-flex">
-                            <input type="number" class="form-control col-5  mr-2" min="1" max="100" value="1"
-                                   name="quantity">
-                            <p class="mt-3">P 200</p>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
+
+        <style>
+            .recommended-details {
+                min-width : 300px;
+            }
+
+            .recommendation-image {
+                width      : 120px;
+                height     : 145px;
+                object-fit : cover;
+            }
+        </style>
     </div>
 
 {% endif %}
