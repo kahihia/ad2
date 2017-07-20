@@ -10,7 +10,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'IrisOnline.settings')
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0',include=[
     "IrisOnline.tasks",
-    "order_management.tasks"])
+    "order_management.tasks"
+])
+
+app.conf.update(
+        CELERY_TIMEZONE = 'Asia/Manila'
+)
 
 app.conf.update(
     broker_url = 'redis://localhost:6379',
