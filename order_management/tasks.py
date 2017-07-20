@@ -9,6 +9,7 @@ def get_recommended_products(product):
     products = [association.associated_product for association in associations]
     return products
 
+@periodic_task(run_every=(crontab(minute='*/1')), name="calculate_recommendations")
 def calculate_recommendations():
     print("calculate recommendations is working")
     for product in Product.objects.all():
@@ -67,5 +68,4 @@ def get_probability(*products):
     total_count = total_orders_count()
     if total_count == 0:
         return 0
-
     return count_occurrences(*products) / total_count
