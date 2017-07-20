@@ -45,12 +45,12 @@
 
             {% if orders %}
                 <div id="pending-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <ul class="list-group">
+                    <ul class="list-group rounded-0">
                         {% for order in orders %}
                             {% if order.status == "P" %}
                                 <li class="list-group-item">
                                     <div class="card-block">
-                                        <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
+                                        <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
                                     </div>
                                 </li>
                             {% endif %}
@@ -74,7 +74,7 @@
                     {% for order in orders %}
                         {% if order.status == "A" %}
                             <div class="card-block">
-                                <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
+                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -95,7 +95,7 @@
                     {% for order in orders %}
                         {% if order.status == "S" %}
                             <div class="card-block">
-                                <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
+                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -116,7 +116,7 @@
                     {% for order in orders %}
                         {% if order.status == "C" %}
                             <div class="card-block">
-                                <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
+                                <a href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
                             </div>
                         {% endif %}
                     {% endfor %}
