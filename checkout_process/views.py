@@ -26,7 +26,7 @@ class CartView(View):
         for product_id, quantity in request.session["cart"].items():
             product = Product.objects.get(id=product_id)
             line_items.append(LineItem(product, quantity=quantity))
-            total_price += float(product.price) * float(quantity)
+            total_price += float(product.current_price) * float(quantity)
 
         context = make_context(request)
         context.update({
@@ -61,15 +61,13 @@ class CartView(View):
             raise Http404('Invalid JSON')
 
         try:
-            product = Product.objects.get(id=product_id)
+            Product.objects.get(id=product_id)
         except:
             raise Http404('Product not found')
 
-        # TODO: Update tuple
-        cart = request.session["cart"]
-
-        print(product_id)
-        print(quantity)
+        request.session["cart"][product_id] = quantity
+        request.session.modified = True
+        return HttpResponse(200)
 
 
 class CheckoutView(View):
@@ -81,18 +79,15 @@ class CheckoutView(View):
         customer = Customer.objects.get(user=user)
 
         total_price = 0.00
-        total_quantity = 0
 
         for product_id, quantity in request.session["cart"].items():
             product = Product.objects.get(id=product_id)
             line_items.append(LineItem(product, quantity=quantity))
-            total_price += float(product.price) * float(quantity)
-            total_quantity += quantity
+            total_price += float(product.current_price) * float(quantity)
 
         context = make_context(request)
         context.update({
             "total_price": total_price,
-            "total_quantity": total_quantity,
             "line_items": line_items,
             "customer": customer
         })

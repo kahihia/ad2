@@ -60,16 +60,15 @@
             </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
             {% if line_items %}
                 {% for product in line_items %}
                     <tr>
                         <td><img class="cart-product-image rounded-circle" src="{{ product.product.photo.url }}"></td>
                         <td>{{ product.product.name }}</td>
-                        <td>₱{{ product.product.price }}</td>
-                        <td><input type="number" class="form-control col-3 product_quantity" min="1" max="100"
+                        <td>₱{{ product.product.current_price }}</td>
+                        <td><input type="number" class="form-control col-3 line-item-quantity-input" min="1" max="100"
                                    placeholder="{{ product.quantity }}">
-                            <input type="hidden" value="{{ product.id }}">
+                            <input class="line-item-product-id" type="hidden" value="{{ product.product.id }}">
                         </td>
 
                         <td>
@@ -81,26 +80,6 @@
                     </tr>
                 {% endfor %}
             {% endif %}
-
-=======
-            {% for line_item in line_items %}
-                <tr>
-                    <td><img class="cart-product-image rounded-circle" src="{{ line_item.product.photo.url }}"></td>
-                    <td>{{ line_item.product.name }}</td>
-                    <td>₱{{ line_item.product.price }}</td>
-                    <td><input type="number" class="form-control col-3 line-item-quantity-input" min="1"
-                               max="100"
-                               placeholder="{{ line_item.quantity }}">
-                        <input type="hidden" class="line-item-product-id" value="{{ line_item.product.id }}">
-                    </td>
-                    <td>
-                        <a href="#" id="remove-product-button" class="btn btn-outline-danger"
-                           data-toggle="modal"
-                           data-target="#remove-product-modal-{{ line_item.product.id }}">Remove</a>
-                    </td>
-                </tr>
-            {% endfor %}
->>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
             <tr>
                 <td></td>
                 <td><h4>Total Price</h4></td>

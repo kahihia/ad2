@@ -86,7 +86,7 @@
         </div>
         <!-- TODO: Recommendations -->
         <div id="recommendation-items" class="card w-50 border-left-0 rounded-0">
-            <h6 class="card-header">People that bought this also bought</h6>
+            <h6 class="card-header">People that bought this item also bought</h6>
 
             <div id="recommendation-items" class="p-3">
                 {% for product in recommendations %}
@@ -184,6 +184,7 @@
                                     class="col-sm-3 pl-0">Price</b>₱{{ product.current_price }}</li>
                         </ul>
                         {% if name %}
+                            <!-- Add to cart form -->
                             <form method="POST" action="/product-catalog/">
                                 <div class="card-footer border-top-0">
                                     <div class="col-12 card-purchase-div">

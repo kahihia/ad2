@@ -44,41 +44,37 @@ $(() => {
 
     $('.line-item-quantity-input').each(function () {
 
-<<<<<<< HEAD
-        })
-    }
-$(document).ready(function(){
-
-    $()
-
-=======
         const quantityInput = $(this);
 
         quantityInput.bind('keyup input', () => {
 
             const productIDInput = $(this).parent().find('.line-item-product-id')[0];
             const productID = $(productIDInput).val();
-            const quantity = quantityInput.val();
+            const newQuantity = quantityInput.val();
 
             const pair = {
                 "product_id": productID,
-                "quantity": quantity
+                "quantity": newQuantity
             };
 
+            console.log(pair);
+
             attachCSRF();
-            console.log(window.location.pathname)
+            console.log("Sending" + JSON.stringify(pair));
             $.ajax({
                 url: window.location.pathname,
                 method: 'POST',
                 data: JSON.stringify(pair),
+                success: () => {
+                    // location.reload()
+                },
                 error: () => {
-                    location.reload();
+                    // location.reload()
                 },
             })
 
 
         });
     });
->>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
 });
 
