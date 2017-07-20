@@ -29,3 +29,13 @@
     margin-left : 10px;
     margin-top  : 10px;
 }
+
+.recommended-details {
+    min-width : 300px;
+}
+
+.recommendation-image {
+    width      : 120px;
+    height     : 145px;
+    object-fit : cover;
+}
