@@ -115,7 +115,7 @@ class UserOrdersView(View):
             "expand": "pending",
             "orders": {
                 "pending": pending_orders,
-                "approved": approved_orders,
+                "processing": approved_orders,
                 "shipped": shipped_orders,
                 "cancelled": cancelled_orders,
             }
@@ -153,7 +153,7 @@ class OrderView(View):
             "total_price": order.total_price,
             "orders": {
                 "pending": pending_orders,
-                "approved": approved_orders,
+                "processing": approved_orders,
                 "shipped": shipped_orders,
                 "cancelled": cancelled_orders,
             },
