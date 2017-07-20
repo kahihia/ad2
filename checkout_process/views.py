@@ -5,8 +5,7 @@ from product_catalog.contexts import make_context
 import json
 from django.shortcuts import Http404, redirect
 from order_management.models import *
-import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 
 
 class LineItem():
@@ -47,7 +46,7 @@ class CartView(View):
             product_id = json_data['product_id']
             del request.session['cart'][str(product_id)]
         except:
-            raise Http404('Product ID Not found')
+            return HttpResponseBadRequest() # Product ID Not Found
 
         request.session.modified = True
         return HttpResponse(200)
@@ -68,7 +67,12 @@ class CartView(View):
         except:
             raise Http404('Product not found')
 
-        request.session["cart"][product_id] = quantity
+        if quantity <= 0:
+            if str(product_id) in request.session["cart"]:
+                del request.session["cart"][str(product_id)]
+        else:
+            request.session["cart"][product_id] = quantity
+
         request.session.modified = True
         return HttpResponse(200)
 

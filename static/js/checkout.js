@@ -49,11 +49,21 @@ function recalculateTotal() {
 
        console.log(unitPrice);
        console.log(quantity);
+
+       if(quantity <= 0) {
+           lineItem.remove();
+           return;
+       }
+
        const linePrice = unitPrice * quantity;
 
        $(lineItem.find('.line-price')).html("₱" + linePrice);
        totalPrice += linePrice;
     });
+
+    if (totalPrice <= 0) {
+        location.reload();
+    }
 
     $('#cart-total-price').html("₱" + totalPrice);
 }
@@ -82,9 +92,6 @@ $(() => {
                 method: 'POST',
                 data: JSON.stringify(pair),
                 success: recalculateTotal,
-                error: () => {
-                    location.reload()
-                },
             })
 
 
