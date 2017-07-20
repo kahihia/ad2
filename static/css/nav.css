@@ -19,7 +19,9 @@
 
 #wishlist_icon g path:hover,
 .wish-button:hover,
-a.wished .wish-button {
+a.wished .wish-button,
+.wish-link:hover, .wish-link {
     cursor : pointer;
     fill   : rgb(255, 59, 48);
+    color  : rgb(255, 59, 48);
 }
