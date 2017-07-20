@@ -44,6 +44,14 @@ $(() => {
 
     $('.line-item-quantity-input').each(function () {
 
+<<<<<<< HEAD
+        })
+    }
+$(document).ready(function(){
+
+    $()
+
+=======
         const quantityInput = $(this);
 
         quantityInput.bind('keyup input', () => {
@@ -71,5 +79,6 @@ $(() => {
 
         });
     });
+>>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
 });
 

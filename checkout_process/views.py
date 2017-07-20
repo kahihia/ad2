@@ -60,10 +60,15 @@ class CartView(View):
         except:
             raise Http404('Invalid JSON')
 
+<<<<<<< HEAD
+
+        new_cart = [tuple for tuple in cart if tuple[0] != product.id]
+=======
         try:
             product = Product.objects.get(id=product_id)
         except:
             raise Http404('Product not found')
+>>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
 
         # TODO: Update tuple
         cart = request.session["cart"]
@@ -96,13 +101,16 @@ class CheckoutView(View):
             "line_items": line_items,
             "customer": customer
         })
-        return render(request, 'checkout.html', context)
 
+<<<<<<< HEAD
+        return render(request, 'checkout.html', context)
+=======
     @staticmethod
     @customer_required
     def post(request):
         pass
 
+>>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
 
 class PurchaseView(View):
     @staticmethod
@@ -127,3 +135,8 @@ class PurchaseView(View):
         context = make_context(request)
 
         return render(request, 'purchase.html', context)
+    @staticmethod
+    @customer_required
+    def post(request):
+
+        return
