@@ -71,7 +71,7 @@
                             {% if order.id == active_order.id %}
                                 <li class="list-group-item active">Order #{{ order.id }}</li>
                             {% else %}
-                                <li class="list-group-item"href="/orders/{{ order.id }}">Order #{{ order.id }}</li>
+                                <a class="list-group-item" href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
                             {% endif %}
                         {% endfor %}
                     </ul>
@@ -90,7 +90,7 @@
 
             {% if active_order.status == "P" %}
                 <div class="alert alert-warning" role="alert">
-                    <strong>Warning!</strong> This order will be cancelled if payment is
+                    <strong>Warning!</strong> This order will be automatically cancelled if payment is
                     not received by [date]
                 </div>
             {% endif %}
