@@ -160,7 +160,7 @@ class PurchaseView(View):
     @customer_required
     def get(request):
 
-        if not request.session["approved_cart"]:
+        if "approved_cart" not in request.session or not request.session["approved_cart"]:
             return redirect("/checkout/cart/")
 
         cart = request.session["cart"]
