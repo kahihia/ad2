@@ -52,7 +52,7 @@
                     {% for product in line_items %}
                         <tr>
                             <td>{{ product.product.name }}</td>
-                            <td>₱{{ product.product.price }}</td>
+                            <td>₱{{ product.product.current_price }}</td>
                             <td>{{ product.quantity }}</td>
                         </tr>
                     {% endfor %}
@@ -60,7 +60,6 @@
                 <tr>
                     <th scope="row">Total</th>
                     <td><b>₱{{ total_price }}</b></td>
-                    <td>{{ total_quantity }}</td>
                 </tr>
                 </tbody>
             </table>
