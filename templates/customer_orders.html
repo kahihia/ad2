@@ -148,7 +148,7 @@
             not received by [date]
         </div>
 
-        {% if products_ordered %}
+        {% if line_items %}
 
             <table class="table w-100">
                 <thead>
@@ -157,11 +157,11 @@
                 <th>Quantity</th>
                 </thead>
                 <tbody>
-                {% for product in products_ordered %}
+                {% for line_item in line_items %}
                     <tr>
-                        <td>{{ product.product.name }}</td>
-                        <td>{{ product.product.price }}</td>
-                        <td>{{ product.quantity }}</td>
+                        <td>{{ line_item.product.name }}</td>
+                        <td>{{ line_item.line_price }}</td>
+                        <td>{{ line_item.quantity }}</td>
                     </tr>
                 {% endfor %}
 

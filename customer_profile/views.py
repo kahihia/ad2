@@ -121,20 +121,18 @@ class OrderView(View):
         customer = Customer.objects.get(user=user)
         try:
             order = Order.objects.get(id=order_id)
-            products_ordered = OrderLineItems.objects.all().filter(parent_order=order_id)
+            line_items = OrderLineItems.objects.all().filter(parent_order=order_id)
         except:
             raise Http404("Something went wrong")
 
         orders = Order.objects.all().filter(customer=customer)
 
-        total_price = order.total_price()
-
         context.update({
-            "products_ordered": products_ordered,
+            "line_items": line_items,
             "active_order": order,
             "orders": orders,
             "customer": customer,
-            "total_price": total_price
+            "total_price": order.total_price
         })
         return render(request, 'customer_orders.html', context)
 
