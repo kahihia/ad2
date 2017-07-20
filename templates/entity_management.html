@@ -325,7 +325,7 @@
 
                 <div class="input-group form-group row">
                     <label for="create-product-quantity-input" class="col-sm-4 col-form-label">Quantity</label>
-                    <input type="text" class="form-control" name="quantity" id="create-product-quantity-input">
+                    <input type="number" min="0" class="form-control" name="quantity" id="create-product-quantity-input">
                 </div>
 
                 <div class="input-group form-group row">
@@ -397,7 +397,7 @@
 
                         <div class="input-group form-group row">
                             <label for="edit-product-quantity-input" class="col-sm-4 col-form-label">Quantity</label>
-                            <input type="text" class="form-control" name="quantity"
+                            <input type="number" min="0" class="form-control" name="quantity"
                                    id="edit-product-quantity-input-{{ product.id }}" value="{{ product.quantity }}">
                         </div>
 
