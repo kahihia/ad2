@@ -31,7 +31,7 @@ from product_catalog.views import ProductCatalogView
 from entity_management.views import AdministratorSignInView, admin_sign_out
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^database/', admin.site.urls),
     url(r'^entity-management/', include('entity_management.urls')),
     url(r'^product-catalog/', include('product_catalog.urls')),
     url(r'^checkout/', include('checkout_process.urls')),
@@ -50,3 +50,6 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_title = "Strings Manila Database"
+admin.site.site_header = "Strings Manila Database"

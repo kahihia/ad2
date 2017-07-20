@@ -60,8 +60,11 @@ class OrderLineItems(Model):
     quantity = PositiveIntegerField()
     parent_order = ForeignKey(Order, on_delete=CASCADE)
 
+    @property
     def line_price(self):
-        return float(self.product.price) * float(self.quantity)
+        date_ordered = self.parent_order.date_ordered
+        price = self.product.price_for_date(date=date_ordered)
+        return float(price) * float(self.quantity)
 
 class ProductAssociation(Model):
     root_product = ForeignKey(Product, on_delete=PROTECT, related_name="root_product")

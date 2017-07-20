@@ -3,16 +3,19 @@ from django.views import View
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
 import json
-from django.shortcuts import Http404
+from django.shortcuts import Http404, redirect
 from order_management.models import *
-import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 
 
 class LineItem():
     def __init__(self, product, quantity):
         self.product = product
         self.quantity = quantity
+
+    @property
+    def line_price(self):
+        return self.product.current_price * self.quantity
 
 
 class CartView(View):
@@ -26,7 +29,7 @@ class CartView(View):
         for product_id, quantity in request.session["cart"].items():
             product = Product.objects.get(id=product_id)
             line_items.append(LineItem(product, quantity=quantity))
-            total_price += float(product.price) * float(quantity)
+            total_price += float(product.current_price) * float(quantity)
 
         context = make_context(request)
         context.update({
@@ -43,11 +46,10 @@ class CartView(View):
             product_id = json_data['product_id']
             del request.session['cart'][str(product_id)]
         except:
-            raise Http404('Product ID Not found')
+            return HttpResponseBadRequest() # Product ID Not Found
 
         request.session.modified = True
         return HttpResponse(200)
-
 
     @staticmethod
     @customer_required
@@ -61,69 +63,130 @@ class CartView(View):
             raise Http404('Invalid JSON')
 
         try:
-            product = Product.objects.get(id=product_id)
+            Product.objects.get(id=product_id)
         except:
             raise Http404('Product not found')
 
-        # TODO: Update tuple
-        cart = request.session["cart"]
+        if quantity <= 0:
+            if str(product_id) in request.session["cart"]:
+                del request.session["cart"][str(product_id)]
+        else:
+            request.session["cart"][product_id] = quantity
 
-        print(product_id)
-        print(quantity)
+        request.session.modified = True
+        return HttpResponse(200)
+
+
+def has_quantity_errors(line_items):
+    for line_item in line_items:
+        if line_item.product.quantity < line_item.quantity:
+            return True
+
+    return False
+
+
+def has_dead_product_errors(line_items):
+    for line_item in line_items:
+        if not line_item.product.is_active:
+            return True
+
+    return False
+
+
+def get_line_items(cart):
+    line_items = []
+    for product_id, quantity in cart.items():
+        product = Product.objects.get(id=product_id)
+        line_items.append(LineItem(product, quantity=quantity))
+
+    return line_items
 
 
 class CheckoutView(View):
     @staticmethod
     @customer_required
     def get(request):
-        line_items = []
         user = request.user
         customer = Customer.objects.get(user=user)
+        line_items = get_line_items(cart=request.session["cart"])
+
+        if len(line_items) == 0:
+            return redirect("/")
 
         total_price = 0.00
-        total_quantity = 0
+        quantity_errors = []
+        dead_products = []
+        for line_item in line_items:
 
-        for product_id, quantity in request.session["cart"].items():
-            product = Product.objects.get(id=product_id)
-            line_items.append(LineItem(product, quantity=quantity))
-            total_price += float(product.price) * float(quantity)
-            total_quantity += quantity
+            # Check if product is activated
+            if not line_item.product.is_active:
+                dead_products.append(line_item.product)
+                del request.session["cart"][line_item.product.id]
+
+            # Check if inventory can support cart quantity
+            if line_item.product.quantity < line_item.quantity:
+                quantity_errors.append(line_item.product)
+                line_item.quantity = line_item.product.quantity
+
+                request.session["cart"][line_item.product.id] = line_item.quantity
+
+            total_price += float(line_item.product.current_price) * float(line_item.quantity)
+
+        if quantity_errors:
+            request.session.modified = True
 
         context = make_context(request)
         context.update({
             "total_price": total_price,
-            "total_quantity": total_quantity,
             "line_items": line_items,
-            "customer": customer
+            "customer": customer,
+            "quantity_errors": quantity_errors,
+            "dead_products": dead_products
         })
 
         return render(request, 'checkout.html', context)
+
+    @staticmethod
+    @customer_required
+    def post(request):
+        line_items = get_line_items(request.session["cart"])
+        if has_quantity_errors(line_items) or has_dead_product_errors(line_items):
+            return redirect("/checkout/review/")
+
+        request.session["approved_cart"] = True
+        request.session.modified = True
+        return redirect("/checkout/purchase-complete/")
+
 
 class PurchaseView(View):
     @staticmethod
     @customer_required
     def get(request):
+
+        if "approved_cart" not in request.session or not request.session["approved_cart"]:
+            return redirect("/checkout/cart/")
+
         cart = request.session["cart"]
-        order = Order()
-        order.date_ordered = datetime.datetime.now().strftime('%H:%M:%S')
-        order.customer = Customer.objects.get(user=request.user)
-        order.save()
+        customer = Customer.objects.get(user=request.user)
+        order = Order.objects.create(customer=customer)
 
         for product_id, quantity in cart.items():
-            line_item = OrderLineItems()
-            line_item.product = Product.objects.get(id=product_id)
-            line_item.quantity = quantity
-            line_item.parent_order = order
-            line_item.save()
 
-        request.session["cart"] = {} # Empty cart
+            OrderLineItems.objects.create(
+                product=Product.objects.get(id=product_id),
+                quantity=quantity,
+                parent_order=order
+            )
+
+        request.session["cart"] = {}  # Empty cart
+        request.session["approved_cart"] = False
         request.session.modified = True
 
         context = make_context(request)
 
         return render(request, 'purchase.html', context)
+
     @staticmethod
     @customer_required
     def post(request):
-
         return

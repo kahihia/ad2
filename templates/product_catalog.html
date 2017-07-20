@@ -86,7 +86,7 @@
         </div>
         <!-- TODO: Recommendations -->
         <div id="recommendation-items" class="card w-50 border-left-0 rounded-0">
-            <h6 class="card-header">Recommended Items</h6>
+            <h6 class="card-header">People that bought this item also bought</h6>
 
             <div id="recommendation-items" class="p-3">
                 {% for product in recommendations %}
@@ -98,7 +98,7 @@
 
                         <div class="d-inline-block ml-3">
                             <h6>{{ product.name }}</h6>
-                            <div><p>₱{{ product.price }}</p></div>
+                            <div><p>₱{{ product.current_price }}</p></div>
                             <form method="POST" action="/product-catalog/" class="display-inline d-flex">
                                 {% csrf_token %}
                                 <input type="hidden" value="{{ product.id }}" name="product">
@@ -181,36 +181,36 @@
 
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item "><b
-                                    class="col-sm-3 pl-0">Price</b>₱{{ product.price }}</li>
+                                    class="col-sm-3 pl-0">Price</b>₱{{ product.current_price }}</li>
                         </ul>
                         {% if name %}
+                            <!-- Add to cart form -->
                             <form method="POST" action="/product-catalog/">
                                 <div class="card-footer border-top-0">
                                     <div class="col-12 card-purchase-div">
                                         {% csrf_token %}
-                                        <input type="hidden" class="product-id-input" value="{{ product.id }}">
-                                        <input type="hidden" class="product-name-input" value="{{ product.name }}">
-                                        <input type="hidden" class="product-stock-input" value="{{ product.quantity }}">
+                                        <input type="hidden" class="product-id-input" value="{{ product.id }}" name="product">
                                         <input type="number" class="form-control col-3  mr-2" min="1" max="100"
                                                value="1"
                                                name="quantity">
+                                        <button type="submit" class="btn btn-primary col-5">Add to Cart</button>
                                         <!-- TODO: link for wishlisting -->
                                         <a class="container wish-link"
-                                           style="width: 130px; margin: 0; padding: 0; height: 30px;"
+                                           style="width: 30px; height: 30px;"
                                            data-toggle="tooltip"
-                                           data-placement="bottom" title="Add to Wishlist">
-                                            <div class="d-flex">
+                                           data-placement="bottom" title="Add this to my Wishlist">
+                                            <div>
                                                 <span class="wish-button">
                                                     <svg
-                                                         style="height: 30px; width: 30px;"
-                                                         xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                                         xmlns:cc="http://creativecommons.org/ns#"
-                                                         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                                         xmlns:svg="http://www.w3.org/2000/svg"
-                                                         xmlns="http://www.w3.org/2000/svg"
-                                                         xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-                                                         xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-                                                         version="1.1" x="0px" y="0px" viewBox="0 0 90 80">
+                                                            style="height: 30px; width: 30px;"
+                                                            xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                                            xmlns:cc="http://creativecommons.org/ns#"
+                                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                                            xmlns:svg="http://www.w3.org/2000/svg"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                                            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                                            version="1.1" x="0px" y="0px" viewBox="0 0 90 80">
                                                             <g transform="translate(0,-952.36218)">
                                                                 <path d="m 18.35665,975.81931 c -7.1457,7.27618 -7.1387,18.98457 0,26.26779 l 31.6236,32.2751 c 10.5535,-10.7459 21.107,-21.4919 31.6604,-32.2378 7.1458,-7.27617 7.1458,-18.99161 0,-26.26779 -7.1458,-7.27618 -18.6513,-7.27628 -25.7972,0 l -5.8265,5.93266 -5.863,-5.96996 c -7.1459,-7.27618 -18.6514,-7.27618 -25.7973,0 z"
                                                                       style="enable-background:accumulate;"
@@ -221,11 +221,8 @@
                                                             </g>
                                                     </svg>
                                                 </span>
-                                                <p class="mt-2 text-muted ml-2" style="">Wishlist</p>
                                             </div>
                                         </a>
-                                        <button type="submit" class="btn btn-primary mt-2 col-12">Add to Cart</button>
-                                        <!-- TODO: href -->
                                     </div>
                                 </div>
                             </form>
@@ -240,8 +237,7 @@
 
 
         {% else %}
-            <!--No products message -->
-            <!-- TODO it's impossible for a stall to be up without products??? -->
+            <!--Empty search results message -->
             <div class="list-group-item empty-message container p-5" id="empty-stall-message">
                 <div>
                     <h5 class="empty-message-text">No products found.</h5>

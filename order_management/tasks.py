@@ -3,15 +3,22 @@ from entity_management.models import Product
 from celery.schedules import crontab
 from celery.task import periodic_task
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6e07efa094c2a5083abceb4334d5790cb3d66ec8
 def get_recommended_products(product):
     associations = ProductAssociation.objects.filter(root_product=product)
     associations = associations.order_by('-probability')[:3] # Negative sign means DESC
     products = [association.associated_product for association in associations]
     return products
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6e07efa094c2a5083abceb4334d5790cb3d66ec8
 @periodic_task(run_every=(crontab(minute='*/1')), name="calculate_recommendations")
 def calculate_recommendations():
-    print("calculate recommendations is working")
     for product in Product.objects.all():
         print(f"Calculating Recommendations for {product.name}...")
         product_recommendations = calculate_recommendations_for_product(root_product=product)

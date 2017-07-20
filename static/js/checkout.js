@@ -39,46 +39,63 @@ function removeProduct(productID) {
     })
 }
 
+function recalculateTotal() {
+    let totalPrice = 0;
+
+    $('.line-item-row').get().forEach((item) => {
+       const lineItem = $(item);
+       const unitPrice = $(lineItem.find('.unit-price')[0]).val();
+       const quantity = $(lineItem.find('.line-item-quantity-input')).val();
+
+       console.log(unitPrice);
+       console.log(quantity);
+
+       if(quantity <= 0) {
+           lineItem.remove();
+           return;
+       }
+
+       const linePrice = unitPrice * quantity;
+
+       $(lineItem.find('.line-price')).html("₱" + linePrice);
+       totalPrice += linePrice;
+    });
+
+    if (totalPrice <= 0) {
+        location.reload();
+    }
+
+    $('#cart-total-price').html("₱" + totalPrice);
+}
+
 
 $(() => {
 
     $('.line-item-quantity-input').each(function () {
 
-<<<<<<< HEAD
-        })
-    }
-$(document).ready(function(){
-
-    $()
-
-=======
         const quantityInput = $(this);
 
         quantityInput.bind('keyup input', () => {
 
             const productIDInput = $(this).parent().find('.line-item-product-id')[0];
             const productID = $(productIDInput).val();
-            const quantity = quantityInput.val();
+            const newQuantity = quantityInput.val();
 
             const pair = {
                 "product_id": productID,
-                "quantity": quantity
+                "quantity": newQuantity
             };
 
             attachCSRF();
-            console.log(window.location.pathname)
             $.ajax({
                 url: window.location.pathname,
                 method: 'POST',
                 data: JSON.stringify(pair),
-                error: () => {
-                    location.reload();
-                },
+                success: recalculateTotal,
             })
 
 
         });
     });
->>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
 });
 

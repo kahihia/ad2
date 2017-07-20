@@ -36,6 +36,36 @@
 <!-- Content -->
 <div id="content">
     <h1>Checkout</h1>
+    {% if quantity_errors or dead_products %}
+        <div class="alert alert-danger mt-3" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Oh snap!</strong>
+
+            {% if quantity_errors %}
+
+                <p>The following items exceeded inventory count:</p>
+                <ul>
+                    {% for product in quantity_errors %}
+                        <li><b>{{ product.name }}</b></li>
+                    {% endfor %}
+                </ul>
+
+                <p>The quantity has been updated to inventory maximum.</p>
+
+            {% endif %}
+
+            {% if dead_products %}
+                <p>The following products were removed from your cart because they are no longer being offered:</p>
+                <ul>
+                    {% for product in dead_products %}
+                        <li><b>{{ product.name }}<b>/li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endif %}
     <div id="summary">
         <div id="cart-items">
             <table class="table" id="items-table">
@@ -52,7 +82,7 @@
                     {% for product in line_items %}
                         <tr>
                             <td>{{ product.product.name }}</td>
-                            <td>₱{{ product.product.price }}</td>
+                            <td>₱{{ product.product.current_price }}</td>
                             <td>{{ product.quantity }}</td>
                         </tr>
                     {% endfor %}
@@ -60,7 +90,7 @@
                 <tr>
                     <th scope="row">Total</th>
                     <td><b>₱{{ total_price }}</b></td>
-                    <td>{{ total_quantity }}</td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
@@ -87,7 +117,9 @@
     <div id="options" class="col-6 mt-5" style="margin: auto">
         <a class="btn btn-secondary btn-lg mr-2" href="/">Continue Shopping</a>
         <a class="btn btn-secondary btn-lg mr-2" href="/checkout/cart/">Back to Cart</a>
-        <a class="btn btn-outline-primary btn-lg" href="/checkout/purchase-complete/">Purchase</a>
+        <form method="POST">
+            <a class="btn btn-outline-primary btn-lg">Purchase</a>
+        </form>
     </div>
     <div class="col-3"></div>
 </div>
