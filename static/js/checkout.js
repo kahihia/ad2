@@ -39,6 +39,25 @@ function removeProduct(productID) {
     })
 }
 
+function recalculateTotal() {
+    let totalPrice = 0;
+
+    $('.line-item-row').get().forEach((item) => {
+       const lineItem = $(item);
+       const unitPrice = $(lineItem.find('.unit-price')[0]).val();
+       const quantity = $(lineItem.find('.line-item-quantity-input')).val();
+
+       console.log(unitPrice);
+       console.log(quantity);
+       const linePrice = unitPrice * quantity;
+
+       $(lineItem.find('.line-price')).html("₱" + linePrice);
+       totalPrice += linePrice;
+    });
+
+    $('#cart-total-price').html("₱" + totalPrice);
+}
+
 
 $(() => {
 
@@ -62,6 +81,7 @@ $(() => {
                 url: window.location.pathname,
                 method: 'POST',
                 data: JSON.stringify(pair),
+                success: recalculateTotal,
                 error: () => {
                     location.reload()
                 },
