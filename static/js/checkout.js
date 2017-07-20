@@ -57,19 +57,13 @@ $(() => {
                 "quantity": newQuantity
             };
 
-            console.log(pair);
-
             attachCSRF();
-            console.log("Sending" + JSON.stringify(pair));
             $.ajax({
                 url: window.location.pathname,
                 method: 'POST',
                 data: JSON.stringify(pair),
-                success: () => {
-                    // location.reload()
-                },
                 error: () => {
-                    // location.reload()
+                    location.reload()
                 },
             })
 

@@ -14,6 +14,10 @@ class LineItem():
         self.product = product
         self.quantity = quantity
 
+    @property
+    def line_price(self):
+        return self.product.current_price * self.quantity
+
 
 class CartView(View):
     @staticmethod
