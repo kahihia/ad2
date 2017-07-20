@@ -44,17 +44,21 @@
             </div>
 
             {% if orders %}
-                <div id="pending-orders" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                    {% for order in orders %}
-                        {% if order.status == "P" %}
-                            <div class="card-block">
-                                <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                <div id="pending-orders" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <ul class="list-group">
+                        {% for order in orders %}
+                            {% if order.status == "P" %}
+                                <li class="list-group-item">
+                                    <div class="card-block">
+                                        <a href="/orders/{{ order.id }}">Order ID#{{ order.id }}</a>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </div>
             {% endif %}
-
+            <a class="dropdown-item" href="/input-payment-details/">Input Payment Details</a>
         </div>
         <div class="card">
             <div class="card-header" role="tab" id="approved">
