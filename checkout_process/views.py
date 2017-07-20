@@ -110,6 +110,9 @@ class CheckoutView(View):
         customer = Customer.objects.get(user=user)
         line_items = get_line_items(cart=request.session["cart"])
 
+        if len(line_items) == 0:
+            return redirect("/")
+
         total_price = 0.00
         quantity_errors = []
         dead_products = []
