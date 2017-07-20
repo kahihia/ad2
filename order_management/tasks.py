@@ -1,8 +1,11 @@
 from .models import Order, ProductAssociation
 from entity_management.models import Product
+from celery.schedules import crontab
+from celery.task import periodic_task
 
-
+@periodic_task(run_every=(crontab(minute='*/1')), name="calculate_recommendations")
 def calculate_recommendations():
+    print("calculate recommendations is working")
     for product in Product.objects.all():
         product_recommendations = get_recommendations(root_product=product)
 
@@ -50,3 +53,9 @@ def total_orders_count():
 
 def get_probability(*products):
     return count_occurrences(*products) / total_orders_count()
+
+
+
+
+
+

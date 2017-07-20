@@ -45,6 +45,7 @@ class CartView(View):
 
         cart = request.session["cart"]
 
+
         new_cart = [tuple for tuple in cart if tuple[0] != product.id]
 
         request.session["cart"] = new_cart
@@ -80,8 +81,8 @@ class CheckoutView(View):
             "line_items": line_items,
             "customer": customer
         })
-        return render(request, 'checkout.html', context)
 
+        return render(request, 'checkout.html', context)
 
 class PurchaseView(View):
     @staticmethod
@@ -106,3 +107,8 @@ class PurchaseView(View):
         context = make_context(request)
 
         return render(request, 'purchase.html', context)
+    @staticmethod
+    @customer_required
+    def post(request):
+
+        return

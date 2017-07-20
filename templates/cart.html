@@ -107,13 +107,17 @@
                         <td><img class="cart-product-image rounded-circle" src="{{ product.product.photo.url }}"></td>
                         <td>{{ product.product.name }}</td>
                         <td>₱{{ product.product.price }}</td>
-                        <td><input type="number" class="form-control col-3" min="1" max="100"
-                                   placeholder="{{ product.quantity }}"></td>
+                        <td><input type="number" class="form-control col-3 product_quantity" min="1" max="100"
+                                   placeholder="{{ product.quantity }}">
+                            <input type="hidden" value="{{ product.id }}">
+                        </td>
+
                         <td>
                             <a href="#" id="remove-product-button" class="btn btn-outline-danger"
                                data-toggle="modal"
                                data-target="#remove-product-modal-{{ product.product.id }}">Remove</a>
                         </td>
+
                     </tr>
                 {% endfor %}
             {% endif %}

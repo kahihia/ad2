@@ -38,4 +38,9 @@ function attachCSRF() {
 
         })
     }
+$(document).ready(function(){
+
+    $()
+
+});
 
