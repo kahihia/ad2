@@ -98,7 +98,7 @@
 
                         <div class="d-inline-block ml-3">
                             <h6>{{ product.name }}</h6>
-                            <div><p>₱{{ product.price }}</p></div>
+                            <div><p>₱{{ product.current_price }}</p></div>
                             <form method="POST" action="/product-catalog/" class="display-inline d-flex">
                                 {% csrf_token %}
                                 <input type="hidden" value="{{ product.id }}" name="product">
@@ -181,7 +181,7 @@
 
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item "><b
-                                    class="col-sm-3 pl-0">Price</b>₱{{ product.price }}</li>
+                                    class="col-sm-3 pl-0">Price</b>₱{{ product.current_price }}</li>
                         </ul>
                         {% if name %}
                             <form method="POST" action="/product-catalog/">
@@ -238,8 +238,7 @@
 
 
         {% else %}
-            <!--No products message -->
-            <!-- TODO it's impossible for a stall to be up without products??? -->
+            <!--Empty search results message -->
             <div class="list-group-item empty-message container p-5" id="empty-stall-message">
                 <div>
                     <h5 class="empty-message-text">No products found.</h5>
