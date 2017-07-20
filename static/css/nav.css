@@ -10,3 +10,16 @@
 #search-bar {
     flex-grow : 2;
 }
+
+#wishlist_icon g path,
+.wish-button {
+    fill       : #bebebe;
+    transition : fill 250ms;
+}
+
+#wishlist_icon g path:hover,
+.wish-button:hover,
+a.wished .wish-button {
+    cursor: pointer;
+    fill : rgb(255, 59, 48);
+}
