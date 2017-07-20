@@ -6,6 +6,7 @@ import json
 from django.shortcuts import Http404, redirect
 from order_management.models import *
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.contrib.auth.decorators import login_required
 
 
 class LineItem():
@@ -20,6 +21,7 @@ class LineItem():
 
 class CartView(View):
     @staticmethod
+    @login_required
     @customer_required
     def get(request):
         line_items = []
@@ -39,6 +41,7 @@ class CartView(View):
         return render(request, 'cart.html', context)
 
     @staticmethod
+    @login_required
     @customer_required
     def delete(request):
         json_data = json.loads(request.body)
@@ -52,6 +55,7 @@ class CartView(View):
         return HttpResponse(200)
 
     @staticmethod
+    @login_required
     @customer_required
     def post(request):
 
@@ -104,6 +108,7 @@ def get_line_items(cart):
 
 class CheckoutView(View):
     @staticmethod
+    @login_required
     @customer_required
     def get(request):
         user = request.user
@@ -147,6 +152,7 @@ class CheckoutView(View):
         return render(request, 'checkout.html', context)
 
     @staticmethod
+    @login_required
     @customer_required
     def post(request):
         line_items = get_line_items(request.session["cart"])
@@ -160,6 +166,7 @@ class CheckoutView(View):
 
 class PurchaseView(View):
     @staticmethod
+    @login_required
     @customer_required
     def get(request):
 
@@ -185,8 +192,3 @@ class PurchaseView(View):
         context["total_price"] = order.total_price
 
         return render(request, 'purchase.html', context)
-
-    @staticmethod
-    @customer_required
-    def post(request):
-        return
