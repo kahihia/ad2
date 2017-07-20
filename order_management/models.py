@@ -7,21 +7,37 @@ from django.db.models import (
     CASCADE,
     PositiveIntegerField,
     DateTimeField,
-    BooleanField,
-    DecimalField
+    CharField,
+    FloatField
 )
 
 
 class Order(Model):
+    ORDER_STATUSES = (
+        ('P', 'Pending'),
+        ('A', 'Approved'),
+        ('S', 'Shipped'),
+        ('C', 'Cancelled')
+    )
+
     date_ordered = DateTimeField(auto_now=True)
-    approved = BooleanField(default=False)
     customer = ForeignKey(Customer, on_delete=CASCADE)
+    status = CharField(max_length=2, choices=ORDER_STATUSES, default='P')
+
+    @staticmethod
+    def print_orders_containing_product(product):
+        orders = [order for order in Order.objects.all() if order.has_product(product)]
+        for order in orders:
+            print(f"Order #{order.id}")
+            for line_item in order.orderlineitems_set.all():
+                print(line_item.product.name)
+            print()
 
     def total_price(self):
         order_items = self.orderlineitems_set.all()
-        total_price = 0
+        total_price = 0.00
         for order_item in order_items:
-            total_price += order_item.line_price()
+            total_price += float(order_item.line_price())
         return total_price
 
     def has_products(self, *products):
@@ -41,13 +57,16 @@ class Order(Model):
 class OrderLineItems(Model):
     # TODO: Prevent product deletion when ordered
     product = ForeignKey(Product, on_delete=PROTECT)
-    quantity = PositiveIntegerField(),
+    quantity = PositiveIntegerField()
     parent_order = ForeignKey(Order, on_delete=CASCADE)
 
     def line_price(self):
-        return self.product.price * self.quantity
+        return float(self.product.price) * float(self.quantity)
 
 class ProductAssociation(Model):
     root_product = ForeignKey(Product, on_delete=PROTECT, related_name="root_product")
     associated_product = ForeignKey(Product, on_delete=PROTECT,related_name="associated_product")
-    probability = DecimalField(decimal_places=2, max_digits=3)
+    probability = FloatField()
+
+    def __str__(self):
+        return f"{self.root_product.name} to {self.associated_product.name} - {self.probability}"

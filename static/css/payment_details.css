@@ -1,0 +1,20 @@
+#content {
+    margin-top : 100px;
+}
+
+#payment-details {
+    margin-top : 50px;
+}
+
+.form-group {
+    width      : 300px;
+    text-align : left;
+}
+
+#name-help {
+    width : 500px;
+}
+
+.form-grouprow {
+    width : 500px;
+}

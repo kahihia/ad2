@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+{% load static %}
+<nav class="navbar navbar-toggleable-md navbar-light">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a href="/" class="navbar-brand mr-3 ml-3 mt-1 mb-1" id="logo">STRINGS MANILA</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form method="GET" action="/product-catalog/search" class="form-inline my-2 my-lg-0 mr-3 ml-3"
+              id="search-group">
+            <input class="form-control mr-sm-2 bg-faded" type="text" placeholder="Search" id="search-bar"
+                   name="search-query" value="{{ search_term }}">
+        </form>
+
+        <ul class="navbar-nav">
+            {% if name %}
+                <li class="nav-item">
+                    <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
+                        {% if cart_count and cart_count > 0 %}
+                            <span class="badge badge-success">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-left: 0px; margin-right: 35px; margin-top: 1px" data-toggle="tooltip"
+                    data-placement="bottom" title="Wishlist">
+                    <a href="/wishlist/" class="container">
+                        <span>
+                            <svg
+                                    id="wishlist_icon"
+                                    xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                    xmlns:cc="http://creativecommons.org/ns#"
+                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                    xmlns:svg="http://www.w3.org/2000/svg"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                    version="1.1" x="0px" y="0px" viewBox="0 0 90 80">
+                            <g transform="translate(0,-952.36218)">
+                                <path d="m 18.35665,975.81931 c -7.1457,7.27618 -7.1387,18.98457 0,26.26779 l 31.6236,32.2751 c 10.5535,-10.7459 21.107,-21.4919 31.6604,-32.2378 7.1458,-7.27617 7.1458,-18.99161 0,-26.26779 -7.1458,-7.27618 -18.6513,-7.27628 -25.7972,0 l -5.8265,5.93266 -5.863,-5.96996 c -7.1459,-7.27618 -18.6514,-7.27618 -25.7973,0 z"
+                                      style="enable-background:accumulate;"
+                                      stroke="none" marker="none"
+                                      visibility="visible" display="inline" overflow="visible">
+                                </path>
+                            </g>
+                        </svg>
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Hello, {{ name }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="/user-profile/">Customer Profile</a>
+                            <a class="dropdown-item" href="/orders/">View Orders</a>
+                            <a class="dropdown-item" href="/input-payment-details/">Input Payment Details</a>
+                            <a class="dropdown-item" href="/sign-out/">Sign Out</a>
+                        </div>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-in/">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer-sign-up/">Create an account</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

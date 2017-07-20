@@ -38,7 +38,7 @@ def get_user_name(request):
 
 def get_cart_count(request):
     if 'cart' not in request.session:
-        request.session['cart'] = []
+        request.session['cart'] = {}
         cart_count = 0
         request.session.modified = True
     else:

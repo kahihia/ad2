@@ -3,9 +3,10 @@ from django.views import View
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
 import json
-from django.http import HttpResponse
+from django.shortcuts import Http404
 from order_management.models import *
 import datetime
+from django.http import HttpResponse
 
 
 class LineItem():
@@ -22,7 +23,7 @@ class CartView(View):
 
         total_price = 0.00
 
-        for product_id, quantity in request.session["cart"]:
+        for product_id, quantity in request.session["cart"].items():
             product = Product.objects.get(id=product_id)
             line_items.append(LineItem(product, quantity=quantity))
             total_price += float(product.price) * float(quantity)
@@ -37,24 +38,43 @@ class CartView(View):
     @staticmethod
     @customer_required
     def delete(request):
-        dict = json.loads(request.body)
-        product = Product.objects.get(id=dict["product_id"])
-        data = {
-            "name": product.name
-        }
+        json_data = json.loads(request.body)
+        try:
+            product_id = json_data['product_id']
+            del request.session['cart'][str(product_id)]
+        except:
+            raise Http404('Product ID Not found')
 
-        cart = request.session["cart"]
+        request.session.modified = True
+        return HttpResponse(200)
 
+
+    @staticmethod
+    @customer_required
+    def post(request):
+
+        try:
+            json_data = json.loads(request.body)
+            product_id = json_data['product_id']
+            quantity = int(json_data['quantity'])
+        except:
+            raise Http404('Invalid JSON')
+
+<<<<<<< HEAD
 
         new_cart = [tuple for tuple in cart if tuple[0] != product.id]
+=======
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            raise Http404('Product not found')
+>>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
 
-        request.session["cart"] = new_cart
+        # TODO: Update tuple
+        cart = request.session["cart"]
 
-        return HttpResponse(
-            json.dumps(data),
-            content_type="application/json",
-            status=400
-        )
+        print(product_id)
+        print(quantity)
 
 
 class CheckoutView(View):
@@ -68,7 +88,7 @@ class CheckoutView(View):
         total_price = 0.00
         total_quantity = 0
 
-        for product_id, quantity in request.session["cart"]:
+        for product_id, quantity in request.session["cart"].items():
             product = Product.objects.get(id=product_id)
             line_items.append(LineItem(product, quantity=quantity))
             total_price += float(product.price) * float(quantity)
@@ -82,7 +102,15 @@ class CheckoutView(View):
             "customer": customer
         })
 
+<<<<<<< HEAD
         return render(request, 'checkout.html', context)
+=======
+    @staticmethod
+    @customer_required
+    def post(request):
+        pass
+
+>>>>>>> adc0b3033784b42845f8433e16f228db8ba3dbb7
 
 class PurchaseView(View):
     @staticmethod
@@ -94,14 +122,14 @@ class PurchaseView(View):
         order.customer = Customer.objects.get(user=request.user)
         order.save()
 
-        for product_id, quantity in cart:
+        for product_id, quantity in cart.items():
             line_item = OrderLineItems()
             line_item.product = Product.objects.get(id=product_id)
             line_item.quantity = quantity
             line_item.parent_order = order
             line_item.save()
 
-        request.session["cart"] = []
+        request.session["cart"] = {} # Empty cart
         request.session.modified = True
 
         context = make_context(request)

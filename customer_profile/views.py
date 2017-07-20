@@ -3,6 +3,7 @@ from django.views import View
 from customer_profile.forms import UserForm
 from django.contrib.auth.models import User
 from customer_profile.models import Customer
+from order_management.models import Order, OrderLineItems
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -26,7 +27,7 @@ class SignInView(View):
 
         if user is not None:
             login(request, user)
-            request.session['cart'] = []
+            request.session['cart'] = {}
             return redirect("/")
         else:
             return render(request, 'sign_in.html', {
@@ -72,7 +73,7 @@ class SignUpView(View):
                                 address=address, postal_code=postal_code)
 
         login(request, user)
-        request.session['cart'] = []
+        request.session['cart'] = {}
         return redirect('/user-profile/')
 
 
@@ -91,8 +92,57 @@ class UserProfileView(View):
 
         return render(request, 'customer_profile.html', context)
 
-# TODO: shows the orders of a customer -h
+
 class UserOrdersView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request):
+        context = make_context(request)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+
+
+        orders = Order.objects.all().filter(customer=customer)
+
+        context.update({
+            "customer": customer,
+            "orders": orders
+        })
+        return render(request, 'customer_orders.html', context)
+
+class OrderView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request, order_id):
+        context = make_context(request)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        try:
+            order = Order.objects.get(id=order_id)
+            products_ordered = OrderLineItems.objects.all().filter(parent_order=order_id)
+        except:
+            raise Http404("Something went wrong")
+
+        orders = Order.objects.all().filter(customer=customer)
+
+        total_price = order.total_price()
+
+        context.update({
+            "products_ordered": products_ordered,
+            "active_order": order,
+            "orders": orders,
+            "customer": customer,
+            "total_price": total_price
+        })
+        return render(request, 'customer_orders.html', context)
+
+
+
+
+# TODO: Wishlist
+class UserWishlistView(View):
     @staticmethod
     @login_required
     @customer_required
@@ -104,7 +154,25 @@ class UserOrdersView(View):
         context.update({
             "customer": customer
         })
-        return render(request, 'customer_orders.html', context)
+
+        return render(request, 'customer_wishlist.html', context)
+
+
+# TODO: Input details
+class InputDetailsView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request):
+        context = make_context(request)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+
+        context.update({
+            "customer": customer
+        })
+
+        return render(request, 'customer_payment_details.html', context)
 
 
 def sign_out(request):

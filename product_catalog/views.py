@@ -5,6 +5,9 @@ from django.db.models import Q
 from IrisOnline.decorators import customer_required
 from .models import LineItem
 from .contexts import make_context
+from customer_profile.models import Customer
+from django.http import HttpResponse
+from order_management.recommended_items import get_recommended_products
 
 
 def available_stalls():
@@ -36,17 +39,24 @@ class ProductCatalogView(View):
         except:
             raise Http404("Product ID not in database")
 
-        request.session["cart"].append((product.pk, quantity))
-        request.session.modified = True
+        # TODO: Error when item exceeds quantity count
 
+        if product_id in request.session["cart"]:
+            request.session["cart"][product_id] += quantity
+        else:
+            request.session["cart"][product_id] = quantity
+
+        request.session.modified = True
         context = make_context(request=request)
+
+        recommendations = get_recommended_products(product=product)
 
         context.update({
             'added_to_cart': product,
             'quantity': quantity,
+            'recommendations': recommendations
         })
 
-        # TODO: Compute recommendations
         return render(request, 'product_catalog.html', context)
 
 
@@ -55,7 +65,7 @@ class CartView(View):
     def get(request):
         products = []
 
-        for product_id, quantity in request.session["cart"]:
+        for product_id, quantity in request.session["cart"].items():
             product = Product.objects.get(id=product_id)
             products.append(LineItem(product, quantity=quantity))
 
@@ -64,6 +74,26 @@ class CartView(View):
         }
 
         return render(request, 'cart.html', context)
+
+
+class WishList(View):
+    @staticmethod
+    @customer_required
+    def post(request, product_id):
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            Http404('Product not found')
+            return
+
+        try:
+            customer = Customer.objects.get(user=request.user)
+        except:
+            Http404('Could not get Customer object')
+            return
+
+        customer.userwish_set.create(customer, product)
+        return HttpResponse(200)
 
 
 class StallView(View):

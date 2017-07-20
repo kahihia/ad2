@@ -1,27 +1,16 @@
 /* This is the CSS for the orders of a customer */
 
-#content {
-    margin : 49px;
+#accordion {
+    width : 400px;
 }
 
-.list-group {
-    max-height : 600px;
-    overflow   : scroll;
+#order-products {
+    width       : 100%;
+    margin-left : 50px;
 }
 
 .card {
-    height    : 350px;
-    width     : 250px;
-    min-width : 250px;
-    max-width : 250px;
-}
-
-.card-img-top {
-    min-height : 230px;
-    min-width  : 250px;
-    max-height : 230px;
-    max-width  : 250px;
-    object-fit : cover;
+    margin-bottom : 5px;
 }
 
 p {
