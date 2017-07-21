@@ -1,10 +1,15 @@
 $(() => {
-    $('.wish-link').click(() => {
+    $('.wish-link').on('click', function () {
         if ($(this).hasClass('wished')) {
-            $(this).removeClass('wished').attr('title', 'Add this to my Wishlist');
+            const link = $(this).removeClass('wished');
+            link.attr('title', 'Add this to my Wishlist');
+            link.attr('data-original-title', 'Add this to my Wishlist');
+            $('[data-toggle="tooltip"]').tooltip();
         }
         else {
-            $(this).addClass('wished').attr('title', 'Remove this from my Wishlist');
+            const link = $(this).addClass('wished');
+            link.attr('title', 'Remove this from my Wishlist');
+            link.attr('data-original-title', 'Remove this from my Wishlist');
         }
     });
 
