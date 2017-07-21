@@ -17,6 +17,9 @@ p {
     margin : 0;
 }
 
-li {
-    height : 60px;
-}
+.list-group .list-group-item {
+        border-radius : 0 !important;
+        border-left   : 0;
+        border-right  : 0;
+        border-bottom : 0;
+    }
