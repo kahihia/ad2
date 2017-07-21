@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from IrisOnline.decorators import customer_required
 from product_catalog.contexts import make_context
+from .models import UserWish
 
 
 class SignInView(View):
@@ -174,9 +175,12 @@ class UserWishlistView(View):
         context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
+        products_wished = UserWish.wishlist_for_customer(customer)
 
         context.update({
-            "customer": customer
+            "customer": customer,
+            "products": products_wished,
+            "wishlist": products_wished
         })
 
         return render(request, 'customer_wishlist.html', context)
