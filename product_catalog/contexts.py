@@ -1,5 +1,5 @@
 from entity_management.models import Stall, Product
-from customer_profile.models import Customer
+from customer_profile.models import Customer, UserWish
 
 
 def available_stalls():
@@ -24,6 +24,17 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
         else:
             active_stall = None
             products = Product.objects.all()
+
+
+        try:
+            user = request.user
+            customer = Customer.objects.get(user=user)
+
+            for product in products:
+                product.wished = UserWish.on_customer_wishlist(customer, product)
+        except:
+            pass
+
 
         context.update({
             'products': products,
