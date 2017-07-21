@@ -15,7 +15,7 @@ from django.db.models import (
 class Order(Model):
     ORDER_STATUSES = (
         ('P', 'Pending'),
-        ('A', 'Approved'),
+        ('A', 'Processing'),
         ('S', 'Shipped'),
         ('C', 'Cancelled')
     )
