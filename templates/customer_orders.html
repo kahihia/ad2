@@ -4,20 +4,8 @@
     <meta charset="UTF-8">
     <title>Orders</title>
 
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Tether -->
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-
-    <!-- Bootstrap 4 Alpha -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
-            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
-          crossorigin="anonymous">
+    <!-- Bootstrap CDNs -->
+    {% include 'bootstrap.html' %}
 
     <!-- Custom CSS go here -->
     {% load static %}
@@ -30,26 +18,17 @@
 <!-- Navigation Bar -->
 {% include 'customer_nav.html' %}
 
-<style>
-    .list-group .list-group-item {
-        border-radius : 0 !important;
-        border-left   : 0;
-        border-right  : 0;
-        border-bottom : 0;
-    }
-</style>
-
 <!-- Content -->
 <div class="container-fluid d-flex p-5 m-3">
 
-{#    <!--TODO: Remove-->#}
-{#    <a class="dropdown-item" href="/input-payment-details/">Input Payment Details</a>#}
-{##}
+    {#    <!--TODO: Remove-->#}
+    {#    <a class="dropdown-item" href="/input-payment-details/">Input Payment Details</a>#}
+    {##}
 
     <script>
         $(() => {
-           const expand = "{{ expand }}";
-           $('#' + expand + "-orders").collapse('show');
+            const expand = "{{ expand }}";
+            $('#' + expand + "-orders").collapse('show');
         });
     </script>
 
@@ -58,7 +37,8 @@
             <div class="card">
                 <div class="card-header" role="tab" id="approved">
                     <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#{{ order_type }}-orders" aria-expanded="true"
+                        <a data-toggle="collapse" data-parent="#accordion" href="#{{ order_type }}-orders"
+                           aria-expanded="true"
                            aria-controls="pending-orders">
                             {{ order_type|capfirst }} Orders
                         </a>
@@ -89,9 +69,15 @@
             </div>
 
             {% if active_order.status == "P" %}
-                <div class="alert alert-warning" role="alert">
-                    <strong>Warning!</strong> This order will be automatically cancelled if payment is
-                    not received by [date]
+                <div class="alert alert-warning mr-auto d-flex" role="alert">
+                    <div class="">
+                        <p><strong>Warning! </strong> This order will be cancelled if
+                            payment details are not received.
+                        </p>
+                    </div>
+                    <button data-toggle="modal"
+                            data-target="#payment-details-modal" class="btn btn-warning ml-auto">Confirm Payment
+                    </button>
                 </div>
             {% endif %}
 
@@ -129,6 +115,29 @@
             </table>
         {% endif %}
     </section>
+</div>
+
+
+<!-- Input Payment Details Modal -->
+<div class="modal fade" id="payment-details-modal" tabindex="-1" role="dialog" aria-labelledby="title"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title">Confirm Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- TODO: input payment details -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
