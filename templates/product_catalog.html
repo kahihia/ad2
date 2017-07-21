@@ -197,17 +197,26 @@
                                         <button type="submit" class="btn btn-primary col-6 mr-auto">Add to Cart</button>
                                         <!-- TODO: link for wishlisting -->
 
-                                        <a
-                                                {% if product.wished %}
-                                                    class="d-block wish-link ml-0 wished"
-                                                {% else %}
-                                                    class="d-block wish-link ml-0"
-                                                {% endif %}
 
+
+
+
+                                        {% if product in wishlist %}
+                                            <a
+                                                    class="d-block wish-link ml-0 wished"
+                                                    style="width: 40px; height: 40px;"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top" title="Remove this from my Wishlist">
+                                        {% else %}
+                                            <a
+                                                    class="d-block wish-link ml-0"
                                                     style="width: 40px; height: 40px;"
                                                     data-toggle="tooltip"
                                                     data-placement="top" title="Add this to my Wishlist">
-                                            <div>
+                                        {% endif %}
+
+
+                                        <div>
                                                 <span class="wish-button">
                                                     <svg
                                                             xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -228,7 +237,7 @@
                                                             </g>
                                                     </svg>
                                                 </span>
-                                            </div>
+                                        </div>
                                         </a>
                                     </div>
                                 </div>
