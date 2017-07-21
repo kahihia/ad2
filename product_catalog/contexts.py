@@ -25,15 +25,19 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
             active_stall = None
             products = Product.objects.all()
 
-        user = request.user
-        customer = Customer.objects.get(user=user)
-        user_wishlist = UserWish.wishlist_for_customer(customer=customer)
+        if request.user.is_authenticated:
+            user = request.user
+            customer = Customer.objects.get(user=user)
+            user_wishlist = UserWish.wishlist_for_customer(customer=customer)
+
+            context.update({
+                'wishlist': user_wishlist
+            })
 
         context.update({
             'products': products,
             'stalls': stalls,
-            'active_stall': active_stall,
-            'wishlist': user_wishlist
+            'active_stall': active_stall
         })
 
     return context

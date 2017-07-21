@@ -215,7 +215,6 @@
                                                     data-placement="top" title="Add this to my Wishlist">
                                         {% endif %}
 
-
                                         <div>
                                                 <span class="wish-button">
                                                     <svg
@@ -248,7 +247,11 @@
                     </div>
 
                 {% endfor %}
-
+                <!-- Dummy card for waitlisting button. -->
+                <div class="card product-card col-6 mr-auto" data-toggle="modal"
+                     data-target="#waitlist-modal">
+                    <button class="btn btn-secondary">Waitlist</button>
+                </div>
             </div>
 
 
@@ -267,5 +270,30 @@
 
     </section>
 </div>
+
+<!-- Input Payment Details Modal -->
+<!-- TODO: Link this modal to the waitlist buttons -->
+<div class="modal fade" id="waitlist-modal" tabindex="-1" role="dialog" aria-labelledby="title"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Product Waitlisting</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                Would you like to waitlist [product.name]? When stocks arrive, the waitlist for this product will be converted into an order. Only one unit of this product will be placed into the order.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm Waitlist</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
