@@ -23,5 +23,7 @@ class UserWish(Model):
     product = ForeignKey(Product, on_delete=CASCADE)
 
     @staticmethod
-    def on_customer_wishlist(customer, product):
-        return len(User.objects.filter(customer=customer, product=product)) > 0
+    def wishlist_for_customer(customer):
+        user_wishes = UserWish.objects.filter(customer=customer)
+        return [user_wish.product for user_wish in user_wishes]
+

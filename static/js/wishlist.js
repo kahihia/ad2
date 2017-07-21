@@ -31,7 +31,6 @@ $(() => {
                 url: '/product-catalog/wish/' + productID + '/',
                 method: 'POST',
                 success: () => {
-                    alert("SUCCESS");
                     //Perform visual changes
                     const link = wishLink.removeClass('wished');
                     link.attr('title', 'Add this to my Wishlist');
