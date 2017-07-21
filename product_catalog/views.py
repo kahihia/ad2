@@ -92,7 +92,13 @@ class WishList(View):
             Http404('Could not get Customer object')
             return
 
-        customer.userwish_set.create(customer, product)
+        user_wish = customer.userwish_set.filter(customer=customer, product=product)
+
+        if user_wish:
+            user_wish.delete()
+        else:
+            customer.userwish_set.create(customer=customer, product=product)
+
         return HttpResponse(200)
 
 
