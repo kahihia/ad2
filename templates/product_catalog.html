@@ -30,6 +30,7 @@
     <!-- Custom JS go here -->
     <script type="text/javascript" src="{% static '/js/nav.js' %}/"></script>
     <script type="text/javascript" src="{% static '/js/wishlist.js' %}/"></script>
+    <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
 
 </head>
 <body class="bg-faded">
@@ -195,10 +196,17 @@
                                                name="quantity">
                                         <button type="submit" class="btn btn-primary col-6 mr-auto">Add to Cart</button>
                                         <!-- TODO: link for wishlisting -->
-                                        <a class="d-block wish-link ml-0"
-                                           style="width: 40px; height: 40px;"
-                                           data-toggle="tooltip"
-                                           data-placement="top" title="Add this to my Wishlist">
+
+                                        <a
+                                                {% if product.wished %}
+                                                    class="d-block wish-link ml-0 wished"
+                                                {% else %}
+                                                    class="d-block wish-link ml-0"
+                                                {% endif %}
+
+                                                    style="width: 40px; height: 40px;"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top" title="Add this to my Wishlist">
                                             <div>
                                                 <span class="wish-button">
                                                     <svg
