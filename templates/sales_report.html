@@ -42,28 +42,54 @@
     <h1>Stall Sales for <span class="text-muted">March 2017</span></h1>
     <br>
     <div class="mb-3">
-        <form class="d-flex">
-            <div class="form-group row mr-5 ml-2">
-                <label for="start-date-input">Starting Date</label>
-                <input class="form-control col-12" type="date" id="start-date-input">
-            </div>
-            <div class="form-group row">
-                <label for="end-date-input">Ending Date</label>
-                <input class="form-control col-12" type="date" id="end-date-input">
-            </div>
-        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Stall Name</th>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <select class="form-control" id="orderNumbers">
+                                <option>Stall 1</option>
+                                <option>Stall 2</option>
+                                <option>Stall 3</option>
+                                <option>Stall 4</option>
+                                <option>Stall 5</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input class="form-control" type="date" id="start-date-input">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input class="form-control" type="date" id="end-date-input">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>Stall Name</th>
-            <th>Su</th>
-            <th>Mo</th>
-            <th>Tu</th>
-            <th>We</th>
-            <th>Th</th>
-            <th>Fr</th>
-            <th>Sa</th>
+            <th>Sunday</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wedenesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
             <th>Total</th>
         </tr>
         </thead>
@@ -102,6 +128,15 @@
             <th>P 700</th>
         </tr>
         </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="9" class="text-center text-muted pt-5">
+                <small>
+                    <b>END OF REPORT</b>
+                </small>
+            </td>
+        </tr>
+        </tfoot>
     </table>
 </div>
 
