@@ -59,3 +59,4 @@ class PriceHistory(Model):
 
     def __str__(self):
         return f"{self.price} - {self.effective_from} to {self.effective_to}"
+

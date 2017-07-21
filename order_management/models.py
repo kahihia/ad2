@@ -56,7 +56,6 @@ class Order(Model):
 
 
 class OrderLineItems(Model):
-    # TODO: Prevent product deletion when ordered
     product = ForeignKey(Product, on_delete=PROTECT)
     quantity = PositiveIntegerField()
     parent_order = ForeignKey(Order, on_delete=CASCADE)
@@ -67,10 +66,25 @@ class OrderLineItems(Model):
         price = self.product.price_for_date(date=date_ordered)
         return float(price) * float(self.quantity)
 
+
 class ProductAssociation(Model):
     root_product = ForeignKey(Product, on_delete=PROTECT, related_name="root_product")
-    associated_product = ForeignKey(Product, on_delete=PROTECT,related_name="associated_product")
+    associated_product = ForeignKey(Product, on_delete=PROTECT, related_name="associated_product")
     probability = FloatField()
 
     def __str__(self):
         return f"{self.root_product.name} to {self.associated_product.name} - {self.probability}"
+
+
+class Waitlist(Model):
+    product = ForeignKey(Product)
+    customer = ForeignKey(Customer)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.customer.user.username}"
+
+    def to_order(self):
+        order = Order.objects.create(customer=self.customer)
+        OrderLineItems.objects.create(parent_order=order,
+                                      quantity=1)
+        self.delete()
