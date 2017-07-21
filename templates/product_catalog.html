@@ -197,17 +197,25 @@
                                         <button type="submit" class="btn btn-primary col-6 mr-auto">Add to Cart</button>
                                         <!-- TODO: link for wishlisting -->
 
-                                        <a
-                                                {% if product.wished %}
-                                                    class="d-block wish-link ml-0 wished"
-                                                {% else %}
-                                                    class="d-block wish-link ml-0"
-                                                {% endif %}
 
+
+
+
+                                        {% if product in wishlist %}
+                                            <a
+                                                    class="d-block wish-link ml-0 wished"
+                                                    style="width: 40px; height: 40px;"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top" title="Remove this from my Wishlist">
+                                        {% else %}
+                                            <a
+                                                    class="d-block wish-link ml-0"
                                                     style="width: 40px; height: 40px;"
                                                     data-toggle="tooltip"
                                                     data-placement="top" title="Add this to my Wishlist">
-                                            <div>
+                                        {% endif %}
+
+                                        <div>
                                                 <span class="wish-button">
                                                     <svg
                                                             xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -228,7 +236,7 @@
                                                             </g>
                                                     </svg>
                                                 </span>
-                                            </div>
+                                        </div>
                                         </a>
                                     </div>
                                 </div>
@@ -239,7 +247,11 @@
                     </div>
 
                 {% endfor %}
-
+                <!-- Dummy card for waitlisting button. -->
+                <div class="card product-card col-6 mr-auto" data-toggle="modal"
+                     data-target="#waitlist-modal">
+                    <button class="btn btn-secondary">Waitlist</button>
+                </div>
             </div>
 
 
@@ -258,5 +270,30 @@
 
     </section>
 </div>
+
+<!-- Input Payment Details Modal -->
+<!-- TODO: Link this modal to the waitlist buttons -->
+<div class="modal fade" id="waitlist-modal" tabindex="-1" role="dialog" aria-labelledby="title"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Product Waitlisting</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                Would you like to waitlist [product.name]? When stocks arrive, the waitlist for this product will be converted into an order. Only one unit of this product will be placed into the order.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm Waitlist</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
