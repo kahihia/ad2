@@ -17,7 +17,6 @@ function attachCSRF() {
 
 $(() => {
     $('.wish-link').on('click', function () {
-
         const wishLink = $(this);
 
         if (wishLink.hasClass('wished')) {
@@ -55,10 +54,9 @@ $(() => {
                     link.attr('data-original-title', 'Remove this from my Wishlist');
                 }
             });
-
-
         }
     });
 
     $('[data-toggle="tooltip"]').tooltip();
 });
+
