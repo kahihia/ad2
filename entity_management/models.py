@@ -41,9 +41,9 @@ class Product(Model):
 
     def price_for_date(self, date):
         # Cut off all that are not within parameter date range and sort descending (present to past)
-        price_histories = self.pricehistory_set.filter(effective_from__gte=date).order_by("-effective_from")
+        price_histories = self.pricehistory_set.filter(effective_from__lte=date).order_by("-effective_from")
         # Take most recent entry
-        return price_histories[0]
+        return price_histories[0].price
 
     def __str__(self):
         return f"{self.name} - {self.stall}"
