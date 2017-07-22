@@ -309,9 +309,9 @@ class OrderTypeView(View):
 
         try:
             status = Order.ORDER_STATUSES
-            for letter, word in status:
-                if order_type == word:
-                    selected_type = orders.filter(status=letter)
+            for key, value in status:
+                if order_type == value:
+                    selected_type = orders.filter(status=key)
         except:
             raise Http404("Order type does not exist!")
 
