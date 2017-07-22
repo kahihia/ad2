@@ -1,4 +1,7 @@
 from datetime import datetime
+from django.dispatch import receiver
+from order_management.models import Waitlist
+from django.db.models.signals import post_save
 from django.db.models import (
     Q,
     Model,
@@ -52,6 +55,25 @@ class Product(Model):
 
     def __str__(self):
         return f"{self.name} - {self.stall}"
+
+
+@receiver(post_save, sender=Product)
+def on_product_save(sender, instance, created, **kwargs):
+    if instance.quantity == 0:
+        # Cannot fulfill waitlists with an empty inventory
+        return
+
+    waitlists = Waitlist.waitlist_for_product(product=instance)
+
+    for waitlist in waitlists:
+        if instance.quantity == 0:
+            # Cannot fulfill the rest of the waitlists
+            break
+
+        waitlist.convert_to_order()
+        instance.quantity -= 1
+
+    instance.save()
 
 
 class PriceHistory(Model):

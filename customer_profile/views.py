@@ -102,7 +102,7 @@ class UserWishlistView(View):
         context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
-        products_wished = Wishlist.wishlist_for_customer(customer)
+        products_wished = Wishlist.wishlist_products_for_customer(customer)
 
         context.update({
             "customer": customer,
