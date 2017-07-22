@@ -20,34 +20,34 @@
 
 <!-- Content -->
 <div id="content" class="p-5 m-5">
+
     <h1 class="text-center mb-5">Waitlisted Items</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Amount</th>
-            <th>Waitlist Date</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>System Complexity</td>
-            <td>P 1900</td>
-            <td>18-06-2017</td>
-            <td><button class="btn btn-outline-danger">Cancel</button></td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="4" class="text-center text-muted pt-5">
-                <small>
-                    <b>END OF WAITLISTED ITEMS</b>
-                </small>
-            </td>
-        </tr>
-        </tfoot>
-    </table>
+    {% if waitlist %}
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Product Name</th>
+                <th>Waitlist Date</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for waitlist in waitlists %}
+                <tr>
+                    <td></td>
+                    <td><b>{{ waitlist.product.name }}</b></td>
+                    <td>{{ waitlist.date_added | date:"SHORT_DATE_FORMAT" }}</td>
+                    <td><a href="#" class="btn btn-danger">Remove</a></td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+    {% endif %}
 </div>
 
 </body>
