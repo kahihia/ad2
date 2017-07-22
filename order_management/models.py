@@ -129,6 +129,25 @@ def on_waitlist_save(sender, instance, created, **kwargs):
     waitlist_count.save()
 
 
+@receiver(post_save, sender=Product)
+def on_product_save(sender, instance, created, **kwargs):
+    if instance.quantity == 0:
+        # Cannot fulfill waitlists with an empty inventory
+        return
+
+    waitlists = Waitlist.waitlist_for_product(product=instance)
+
+    for waitlist in waitlists:
+        if instance.quantity == 0:
+            # Cannot fulfill the rest of the waitlists
+            break
+
+        waitlist.convert_to_order()
+        instance.quantity -= 1
+
+    instance.save()
+
+
 class CustomerPaymentDetails(Model):
     customer = ForeignKey(Customer, on_delete=CASCADE)
     parent_order = ForeignKey(Order, on_delete=CASCADE)
