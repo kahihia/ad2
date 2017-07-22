@@ -23,7 +23,7 @@ from customer_profile.views import (
     sign_out,
     UserProfileView,
     UserWishlistView,
-    InputDetailsView
+    UserWaitlistView
 )
 from product_catalog.views import ProductCatalogView
 from entity_management.views import AdministratorSignInView, admin_sign_out
@@ -49,8 +49,8 @@ urlpatterns = [
 
     # Others
     url(r'^wishlist/$', UserWishlistView.as_view()),
-    url(r'^input-payment-details/$', InputDetailsView.as_view()),
-    url(r'^confirm-payment/$', ConfirmPaymentView.as_view())
+    url(r'^confirm-payment/$', ConfirmPaymentView.as_view()),
+    url(r'^waitlist/$', UserWaitlistView.as_view())
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,14 +1,14 @@
-from django.shortcuts import render, Http404
-from django.views import View
-from customer_profile.forms import UserForm
-from django.contrib.auth.models import User
-from customer_profile.models import Customer
-from order_management.models import Order, OrderLineItems
 from django.contrib.auth import login, logout, authenticate
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.views import View
+
+from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
-from product_catalog.contexts import make_context
+from customer_profile.forms import UserForm
+from customer_profile.models import Customer
 from .models import Wishlist
 
 
@@ -94,7 +94,6 @@ class UserProfileView(View):
         return render(request, 'customer_profile.html', context)
 
 
-# TODO: Wishlist
 class UserWishlistView(View):
     @staticmethod
     @login_required
@@ -103,7 +102,7 @@ class UserWishlistView(View):
         context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
-        products_wished = Wishlist.wishlist_for_customer(customer)
+        products_wished = Wishlist.wishlist_products_for_customer(customer)
 
         context.update({
             "customer": customer,
@@ -114,21 +113,20 @@ class UserWishlistView(View):
         return render(request, 'customer_wishlist.html', context)
 
 
-# TODO: Input details
-class InputDetailsView(View):
+# TODO: Waitlist page
+class UserWaitlistView(View):
     @staticmethod
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request, include_stalls_and_products=False)
+        context = make_context(request)
         user = request.user
         customer = Customer.objects.get(user=user)
-
         context.update({
-            "customer": customer
+            "customer": customer,
         })
 
-        return render(request, 'customer_payment_details.html', context)
+        return render(request, 'customer_waitlist.html', context)
 
 
 def sign_out(request):

@@ -31,15 +31,13 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
         if request.user.is_authenticated:
             user = request.user
             customer = Customer.objects.get(user=user)
-            user_wishlist = Wishlist.wishlist_for_customer(customer=customer)
-            user_waitlists = Waitlist.waitlist_for_customer(customer=customer)
+            user_wishlist = Wishlist.wishlist_products_for_customer(customer=customer)
+            user_waitlists = Waitlist.waitlist_products_for_customer(customer=customer)
 
             context.update({
                 'wishlist': user_wishlist,
                 'waitlist': user_waitlists
             })
-
-            print(context)
 
         context.update({
             'products': products,
