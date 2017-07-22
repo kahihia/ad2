@@ -18,12 +18,12 @@ class Customer(Model):
     postal_code = CharField(max_length=32)
 
 
-class UserWish(Model):
+class Wishlist(Model):
     customer = ForeignKey(Customer, on_delete=CASCADE)
     product = ForeignKey(Product, on_delete=CASCADE)
 
     @staticmethod
-    def wishlist_for_customer(customer):
-        user_wishes = UserWish.objects.filter(customer=customer)
+    def wishlist_products_for_customer(customer):
+        user_wishes = Wishlist.objects.filter(customer=customer)
         return [user_wish.product for user_wish in user_wishes]
 

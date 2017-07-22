@@ -4,20 +4,8 @@
     <meta charset="UTF-8">
     <title>Strings Manila</title>
 
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Tether -->
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-
-    <!-- Bootstrap 4 Alpha -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
-            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
-          crossorigin="anonymous">
+    <!-- Bootstrap CDNs -->
+    {% include 'bootstrap.html' %}
 
     <!-- Custom CSS go here -->
     {% load static %}
@@ -58,6 +46,15 @@
     </div>
 {% endif %}
 
+{% if waitlisted %}
+    <div class="alert alert-success rounded-0 d-flex" role="alert">
+        <div class="mr-auto">
+            <strong>Success!</strong> {{ waitlisted.name }} is added to your waitlists.
+        </div>
+        <a href="/orders/waitlist/" class="btn btn-success btn-sm">View Waitlist</a>
+    </div>
+
+{% endif %}
 
 {% if added_to_cart %}
     <div class="d-flex">
@@ -185,46 +182,55 @@
                         </ul>
                         {% if name %}
                             <!-- Add to cart form -->
-                            <form method="POST" action="/product-catalog/">
-                                <div class="card-footer border-top-0">
-                                    <div class="col-12 card-purchase-div">
-                                        {% csrf_token %}
+                            <div class="card-footer border-top-0 pr-2">
+                                <div class="col-12 card-purchase-div">
+                                    {% if product not in out_of_stock %}
+                                        <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
+
+                                            {% csrf_token %}
+                                            <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                                   name="product">
+                                            <input type="number" class="form-control col-3  mr-2" min="1" max="100"
+                                                   value="1"
+                                                   name="quantity">
+                                            <button type="submit" class="btn btn-primary col-8">Add to Cart</button>
+                                        </form>
+                                    {% else %}
+
                                         <input type="hidden" class="product-id-input" value="{{ product.id }}"
                                                name="product">
-                                        <input type="number" class="form-control col-3  mr-2" min="1" max="100"
-                                               value="1"
-                                               name="quantity">
-                                        <button type="submit" class="btn btn-primary col-6 mr-auto">Add to Cart</button>
-                                        <!-- TODO: link for wishlisting -->
 
-
-
-
-
-                                        {% if product in wishlist %}
-                                            <a
-                                                    class="d-block wish-link ml-0 wished"
-                                                    style="width: 40px; height: 40px;"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top" title="Remove this from my Wishlist">
+                                        {% if product in waitlist %}
+                                            <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
+                                                    disabled>
+                                                Waitlisted
+                                            </button>
                                         {% else %}
-                                            <a
-                                                    class="d-block wish-link ml-0"
-                                                    style="width: 40px; height: 40px;"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top" title="Add this to my Wishlist">
-                                        {% endif %}
+                                            <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
+                                               data-target="#waitlist-modal-{{ product.id }}">Add to Waitlist</a>
 
-                                        <div>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if product in wishlist %}
+                                        <a
+                                                class="d-block wish-link ml-0 wished"
+                                                style="width: 40px; height: 40px;"
+                                                data-toggle="tooltip"
+                                                data-placement="top" title="Remove this from my Wishlist">
+                                    {% else %}
+                                        <a
+                                                class="d-block wish-link ml-0"
+                                                style="width: 40px; height: 40px;"
+                                                data-toggle="tooltip"
+                                                data-placement="top" title="Add this to my Wishlist">
+                                    {% endif %}
+
+                                    <div>
                                                 <span class="wish-button">
                                                     <svg
-                                                            xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                                            xmlns:cc="http://creativecommons.org/ns#"
-                                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                                                             xmlns:svg="http://www.w3.org/2000/svg"
                                                             xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-                                                            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                                                             version="1.1" x="0px" y="0px" viewBox="0 0 100 100">
                                                             <g transform="translate(0,-952.36218)">
                                                                 <path d="m 18.35665,975.81931 c -7.1457,7.27618 -7.1387,18.98457 0,26.26779 l 31.6236,32.2751 c 10.5535,-10.7459 21.107,-21.4919 31.6604,-32.2378 7.1458,-7.27617 7.1458,-18.99161 0,-26.26779 -7.1458,-7.27618 -18.6513,-7.27628 -25.7972,0 l -5.8265,5.93266 -5.863,-5.96996 c -7.1459,-7.27618 -18.6514,-7.27618 -25.7973,0 z"
@@ -236,22 +242,17 @@
                                                             </g>
                                                     </svg>
                                                 </span>
-                                        </div>
-                                        </a>
                                     </div>
+                                    </a>
                                 </div>
-                            </form>
+                            </div>
+
 
                         {% endif %}
 
                     </div>
 
                 {% endfor %}
-                <!-- Dummy card for waitlisting button. -->
-                <div class="card product-card col-6 mr-auto" data-toggle="modal"
-                     data-target="#waitlist-modal">
-                    <button class="btn btn-secondary">Waitlist</button>
-                </div>
             </div>
 
 
@@ -273,27 +274,35 @@
 
 <!-- Input Payment Details Modal -->
 <!-- TODO: Link this modal to the waitlist buttons -->
-<div class="modal fade" id="waitlist-modal" tabindex="-1" role="dialog" aria-labelledby="title"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Product Waitlisting</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-body">
-                Would you like to waitlist [product.name]? When stocks arrive, the waitlist for this product will be converted into an order. Only one unit of this product will be placed into the order.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm Waitlist</button>
+{% for product in out_of_stock %}
+    <div class="modal fade" id="waitlist-modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="title"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Product Waitlisting</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Would you like to waitlist {{ product.name }}? When stocks arrive, the waitlist for this product
+                    will be
+                    converted into an order. Only one unit of this product will be placed into the order.
+                </div>
+                <form action="/orders/waitlist/{{ product.id }}/" method="POST" class="modal-footer">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning">Confirm Waitlist</button>
+                </form>
             </div>
         </div>
     </div>
-</div>
+{% endfor %}
+
 
 </body>
 </html>

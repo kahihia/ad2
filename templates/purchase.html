@@ -4,20 +4,8 @@
     <meta charset="UTF-8">
     <title>Purchase Complete</title>
 
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Tether -->
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-
-    <!-- Bootstrap 4 Alpha -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
-            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
-          crossorigin="anonymous">
+    <!-- Bootstrap CDNs -->
+    {% include 'bootstrap.html' %}
 
     <!-- Custom CSS go here -->
     {% load static %}
@@ -27,7 +15,7 @@
     <!-- Custom JS go here -->
 
 </head>
-<body class="h-100">
+<body class="h-100 bg-faded">
 
 <!-- Navigation Bar -->
 {% include 'customer_nav.html' %}
@@ -39,15 +27,28 @@
         <hr class="my-4">
     </div>
     <div id="instructions">
-        <h4>Please deposit your total amount of ₱{{ total_price }} in the following account:</h4>
+        <h4>Please deposit your total amount of <span class="text-primary">₱{{ total_price }}</span> in the following account immediately to begin processing your order:</h4>
         <div class="mt-4">
-            <p>Account Number: 0000000000</p>
-            <p>Account Name: Paulina de Ramos</p>
+            <table class="table table-bordered">
+                <tr>
+                    <th scope="row">Account Number</th>
+                    <td>0000000000</td>
+                </tr>
+                <tr>
+                    <th scope="row">Account Name</th>
+                    <td>Strings Manila</td>
+                </tr>
+
+            </table>
+            <p>You can view these instructions again in the order page.</p>
         </div>
+
+        <hr class="my-4">
+
     </div>
     <p class="lead mt-4" style="margin-left: 100px;">
-        <a class="btn btn-primary" href="/orders/" role="button">View Orders</a>
-        <a class="btn btn-primary" href="/" role="button">Back to Strings Manila</a>
+        <a class="btn btn-outline-primary btn-lg mr-2" href="/orders/" role="button">View Orders</a>
+        <a class="btn btn-outline-primary btn-lg" href="/" role="button">Back to Strings Manila</a>
     </p>
 </div>
 

@@ -22,32 +22,33 @@ from customer_profile.views import (
     SignUpView,
     sign_out,
     UserProfileView,
-    UserOrdersView,
-    OrderView,
     UserWishlistView,
-    InputDetailsView
 )
 from product_catalog.views import ProductCatalogView
 from entity_management.views import AdministratorSignInView, admin_sign_out
 from order_management.views import ConfirmPaymentView
 
 urlpatterns = [
+    url(r'^$', ProductCatalogView.as_view()),
     url(r'^database/', admin.site.urls),
+
+    # urls.py
     url(r'^entity-management/', include('entity_management.urls')),
     url(r'^product-catalog/', include('product_catalog.urls')),
     url(r'^checkout/', include('checkout_process.urls')),
-    url(r'^$', ProductCatalogView.as_view()),
+    url(r'^orders/', include('order_management.urls')),
+
+    # Sign in
     url(r'^customer-sign-in/', SignInView.as_view()),
     url(r'^customer-sign-up/', SignUpView.as_view()),
     url(r'^sign-out', sign_out),
     url(r'^admin-sign-in', AdministratorSignInView.as_view()),
     url(r'^admin-sign-out', admin_sign_out),
     url(r'^user-profile/$', UserProfileView.as_view()),
-    url(r'^orders/$', UserOrdersView.as_view()),
-    url(r'^orders/(?P<order_id>(\d+))/$', OrderView.as_view()),
+
+    # Others
     url(r'^wishlist/$', UserWishlistView.as_view()),
-    url(r'^input-payment-details/$', InputDetailsView.as_view()),
-    url(r'^confirm-payment/$', ConfirmPaymentView.as_view())
+    url(r'^confirm-payment/$', ConfirmPaymentView.as_view()),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

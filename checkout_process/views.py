@@ -1,12 +1,14 @@
+import json
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import Http404, redirect
 from django.shortcuts import render
 from django.views import View
+
+from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
-from product_catalog.contexts import make_context
-import json
-from django.shortcuts import Http404, redirect
 from order_management.models import *
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.contrib.auth.decorators import login_required
 
 
 class LineItem():
@@ -14,8 +16,8 @@ class LineItem():
         self.product = product
         self.quantity = quantity
 
-    @property
     def line_price(self):
+        # TODO: Replace current_price
         return self.product.current_price * self.quantity
 
 
@@ -49,7 +51,7 @@ class CartView(View):
             product_id = json_data['product_id']
             del request.session['cart'][str(product_id)]
         except:
-            return HttpResponseBadRequest() # Product ID Not Found
+            return HttpResponseBadRequest()  # Product ID Not Found
 
         request.session.modified = True
         return HttpResponse(200)
@@ -120,6 +122,7 @@ class CheckoutView(View):
 
         total_price = 0.00
         quantity_errors = []
+        out_of_stock_errors = []
         dead_products = []
         for line_item in line_items:
 
@@ -127,6 +130,15 @@ class CheckoutView(View):
             if not line_item.product.is_active:
                 dead_products.append(line_item.product)
                 del request.session["cart"][line_item.product.id]
+                line_items.remove(line_item)
+                continue
+
+            # Check if product is in stock
+            if line_item.product.quantity == 0:
+                out_of_stock_errors.append(line_item.product)
+                del request.session["cart"][str(line_item.product.id)]
+                request.session.modified = True
+                line_items.remove(line_item)
 
             # Check if inventory can support cart quantity
             if line_item.product.quantity < line_item.quantity:
@@ -141,10 +153,12 @@ class CheckoutView(View):
             request.session.modified = True
 
         context = make_context(request)
+
         context.update({
             "total_price": total_price,
             "line_items": line_items,
             "customer": customer,
+            "out_of_stock_errors": out_of_stock_errors,
             "quantity_errors": quantity_errors,
             "dead_products": dead_products
         })
@@ -178,7 +192,12 @@ class PurchaseView(View):
         order = Order.objects.create(customer=customer)
 
         for product_id, quantity in cart.items():
+            # Deduct from inventory
+            product = Product.objects.get(id=product_id)
+            product.quantity -= quantity
+            product.save()
 
+            # Add quantity to order
             OrderLineItems.objects.create(
                 product=Product.objects.get(id=product_id),
                 quantity=quantity,

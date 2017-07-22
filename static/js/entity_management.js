@@ -313,3 +313,25 @@ function deleteProduct(productID){
 
         })
     }
+
+// function changeStatus(){
+//     var stat = $('#order-status').val()
+//     alert(stat);
+//
+//     const dict = {
+//         "status": stat
+//     };
+//
+//     $.ajax({
+//         url: window.location.pathname + "status/",
+//         method: 'GET',
+//         data: JSON.stringify(dict),
+//         success: function () {
+//             location.reload()
+//         },
+//         error: function() {
+//             alert("Yikes something went wrong")
+//         }
+//     })
+//
+// }

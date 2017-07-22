@@ -1,5 +1,7 @@
+from django.dispatch import receiver
 from entity_management.models import Product
 from customer_profile.models import Customer
+from django.db.models.signals import post_save
 from django.db.models import (
     Model,
     ForeignKey,
@@ -10,7 +12,6 @@ from django.db.models import (
     DateTimeField,
     CharField,
     FloatField,
-    DecimalField,
 )
 
 
@@ -58,7 +59,6 @@ class Order(Model):
 
 
 class OrderLineItems(Model):
-    # TODO: Prevent product deletion when ordered
     product = ForeignKey(Product, on_delete=PROTECT)
     quantity = PositiveIntegerField()
     parent_order = ForeignKey(Order, on_delete=CASCADE)
@@ -77,6 +77,75 @@ class ProductAssociation(Model):
 
     def __str__(self):
         return f"{self.root_product.name} to {self.associated_product.name} - {self.probability}"
+
+
+class Waitlist(Model):
+    product = ForeignKey(Product)
+    customer = ForeignKey(Customer)
+    date_added = DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.customer.user.username}"
+
+    def convert_to_order(self):
+        order = Order.objects.create(customer=self.customer)
+        OrderLineItems.objects.create(order=order, product=self.product, quantity=1)
+        self.delete()
+
+    @staticmethod
+    def waitlist_products_for_customer(customer):
+        return [waitlist.product for waitlist in Waitlist.objects.filter(customer=customer)]
+
+    @staticmethod
+    def waitlist_for_product(product):
+        return Waitlist.objects.filter(product=product)
+
+    def to_order(self):
+        order = Order.objects.create(customer=self.customer)
+        OrderLineItems.objects.create(parent_order=order,
+                                      quantity=1)
+        self.delete()
+
+
+class WaitlistCount(Model):
+    product = ForeignKey(Product)
+    count = PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.count}"
+
+
+@receiver(post_save, sender=Waitlist)
+def on_waitlist_save(sender, instance, created, **kwargs):
+    if not created:
+        return
+
+    product_wishlisted = instance.product
+    waitlist_count, is_created = WaitlistCount.objects.get_or_create(product=product_wishlisted, defaults={
+        "count": 0
+    })
+
+    waitlist_count.count += 1
+    waitlist_count.save()
+
+
+@receiver(post_save, sender=Product)
+def on_product_save(sender, instance, created, **kwargs):
+    if instance.quantity == 0:
+        # Cannot fulfill waitlists with an empty inventory
+        return
+
+    waitlists = Waitlist.waitlist_for_product(product=instance)
+
+    for waitlist in waitlists:
+        if instance.quantity == 0:
+            # Cannot fulfill the rest of the waitlists
+            break
+
+        waitlist.convert_to_order()
+        instance.quantity -= 1
+
+    instance.save()
 
 
 class CustomerPaymentDetails(Model):

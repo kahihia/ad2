@@ -11,25 +11,19 @@ def get_recommended_products(product):
     return products
 
 
-@periodic_task(run_every=(crontab(minute='*/1')), name="calculate_recommendations")
+@periodic_task(run_every=(crontab(hour='*/24')), name="calculate_recommendations")
 def calculate_recommendations():
     for product in Product.objects.all():
         print(f"Calculating Recommendations for {product.name}...")
         product_recommendations = calculate_recommendations_for_product(root_product=product)
 
         for recommendation in product_recommendations:
-            association = ProductAssociation.objects.filter(root_product=product,
-                                                            associated_product=recommendation.associated_product)
-            if association:
-                association = association[0]
-                association.probability = recommendation.probability
-                association.save()
-            else:
-                ProductAssociation.objects.create(root_product=product,
-                                                  associated_product=recommendation.associated_product,
-                                                  probability=recommendation.probability)
+            association, is_created = ProductAssociation.objects.get_or_create(root_product=product,
+                                                                               associated_product=recommendation.associated_product,
+                                                                               defaults={"probability": 0.00})
+            association.probability = recommendation.probability
+            association.save()
 
-        print()
     print("Recommendation calculation done")
 
 

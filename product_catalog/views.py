@@ -1,13 +1,14 @@
+from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, Http404, redirect
 from django.views import View
-from entity_management.models import Stall, Product
-from django.db.models import Q
+
+from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
-from .models import LineItem
-from .contexts import make_context
 from customer_profile.models import Customer
-from django.http import HttpResponse
+from entity_management.models import Stall, Product
 from order_management.tasks import get_recommended_products
+from .models import LineItem
 
 
 def available_stalls():

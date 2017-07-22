@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{% static '/css/customer_orders.css' %}">
 
 </head>
-<body class="">
+<body class="bg-faded">
 
 <!-- Navigation Bar -->
 {% include 'customer_nav.html' %}
@@ -72,11 +72,12 @@
                         </p>
                     </div>
                     <button data-toggle="modal"
-                            data-target="#payment-instructions-modal" class="btn btn-warning ml-auto mr-2">Payment
+                            data-target="#payment-instructions-modal" class="btn btn-sm btn-warning ml-auto mr-2">
+                        Payment
                         Instructions
                     </button>
                     <button data-toggle="modal"
-                            data-target="#payment-details-modal" class="btn btn-warning">Confirm Payment
+                            data-target="#payment-details-modal" class="btn btn-sm btn-warning">Confirm Payment
                     </button>
                 </div>
             {% endif %}
@@ -92,9 +93,12 @@
 
             <table class="table w-100">
                 <thead>
-                <th>Product Name</th>
-                <th>Product Price</th>
-                <th>Quantity</th>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
                 {% for line_item in line_items %}
@@ -102,6 +106,11 @@
                         <td>{{ line_item.product.name }}</td>
                         <td>{{ line_item.line_price }}</td>
                         <td>{{ line_item.quantity }}</td>
+                        <td>
+                            <button class="btn btn-outline-danger" data-toggle="modal"
+                                    data-target="#cancel-product-modal">Cancel
+                            </button>
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -122,12 +131,14 @@
 <div class="modal fade" id="payment-details-modal" tabindex="-1" role="dialog" aria-labelledby="title"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="container p-5 mt-1">
-                    <h3 class="text-muted">Enter your date of payment and upload a photo of your deposit slip for your
-                        order to be delivered.</h3>
-                    <form method="POST" action="/confirm-payment/" id="payment-details">
+        <form method="POST" action="/confirm-payment/" id="payment-details">
+
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container p-4 mt-1">
+                        <h5 class="text-muted">Enter your date of payment and upload a photo of your deposit slip for
+                            your
+                            order to be delivered.</h5>
                         {% csrf_token %}
                         <div>
                             <div class="form-group row mt-3">
@@ -143,15 +154,19 @@
                                        aria-describedby="fileHelp" name="deposit-slip">
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+
+                    </div>
                 </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
             </div>
 
-        </div>
+        </form>
+
     </div>
 </div>
 
@@ -161,16 +176,44 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="container p-5 mt-1">
-                    <h3>This is how to have your order processed and delivered.</h3>
-                    <p class="text-muted">Simply deposit the total amount to the following bank account:</p>
-                    <div class="mt-3">
-                        <p>Account Number: 0000000000</p>
-                        <p>Account Name: Paulina de Ramos</p>
+                <div class="container p-4 mt-1">
+                    <h5>Please deposit your total amount of <span class="text-primary">₱{{ total_price }}</span> in the
+                        following account immediately to
+                        begin processing your order:</h5>
+                    <div class="mt-4">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th scope="row">Account Number</th>
+                                <td>0000000000</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Account Name</th>
+                                <td>Strings Manila</td>
+                            </tr>
+
+                        </table>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Product Modal -->
+<div class="modal fade" id="cancel-product-modal" tabindex="-1" role="dialog" aria-labelledby="title"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container p-4 mt-1">
+                    <h5>Are you sure you want to cancel this order?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Cancel Order</button>
                 </div>
             </div>
         </div>
