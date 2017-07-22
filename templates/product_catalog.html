@@ -194,6 +194,9 @@
                                         </form>
                                     {% else %}
 
+                                        <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                               name="product">
+
                                         {% if product in waitlist %}
                                             <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
                                                     disabled>
