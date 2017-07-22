@@ -42,22 +42,21 @@
                 <td>
                     <div class="form-group">
                         <div class="form-group">
+<<<<<<< HEAD
+                            <select class="form-control" id="order-status"> <!-- onchange="changeStatus()" -->
+                                <option value="All">All</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Cancelled">Cancelled</option>
+=======
                             <select class="form-control" id="orderStatus">
                                 {% for order_type, order_list in orders.items %}
                                     <option>{{ order_type }}</option>
                                 {% endfor %}
+>>>>>>> e9f67d00120da82a75f3f42c7443d84dffc196e8
                             </select>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="start-date-input">
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="end-date-input">
                     </div>
                 </td>
             </tr>
@@ -74,6 +73,18 @@
         </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
+        {% for order_type, order_list in orders.items %}
+            {% for order in order_list %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.total_price }}</td>
+                    <td>{{ order.date_ordered }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+
+=======
         <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
             <td>000000</td>
             <td>P 1900</td>
@@ -98,10 +109,11 @@
             <td>[Date]</td>
             <td>Pending</td>
         </tr>
+>>>>>>> e9f67d00120da82a75f3f42c7443d84dffc196e8
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="3" class="text-center text-muted pt-5">
+            <td colspan="4" class="text-center text-muted pt-5">
                 <small>
                     <b>END OF REPORT</b>
                 </small>
@@ -109,6 +121,35 @@
         </tr>
         </tfoot>
     </table>
+
+    <!-- For actual quantifiable data -->
+    <h1>Orders Report</h1>
+    <h6 class="text-muted">Generated on [date]</h6>
+    <br>
+    <div class="mb-3">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input class="form-control" type="date" id="start-date-input">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input class="form-control" type="date" id="end-date-input">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Order Details Modal -->

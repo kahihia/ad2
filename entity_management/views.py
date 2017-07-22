@@ -277,6 +277,12 @@ class OrderReportView(View):
     @login_required
     @admin_required
     def get(request):
+        # try:
+        #     dict = json.loads(request.body)
+        #     print(dict['status'])
+        # except ValueError:
+        #     print("fuck my life")
+        #
         context = make_context(request)
 
         orders = Order.objects.all()
