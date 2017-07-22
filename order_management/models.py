@@ -135,7 +135,8 @@ def on_product_save(sender, instance, created, **kwargs):
         # Cannot fulfill waitlists with an empty inventory
         return
 
-    waitlists = Waitlist.waitlist_for_product(product=instance)
+    # Sort by earlier to later
+    waitlists = Waitlist.waitlist_for_product(product=instance).order_by('date_added')
 
     for waitlist in waitlists:
         if instance.quantity == 0:
