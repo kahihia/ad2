@@ -122,12 +122,14 @@
 <div class="modal fade" id="payment-details-modal" tabindex="-1" role="dialog" aria-labelledby="title"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="container p-5 mt-1">
-                    <h3 class="text-muted">Enter your date of payment and upload a photo of your deposit slip for your
-                        order to be delivered.</h3>
-                    <form method="POST" action="/confirm-payment/" id="payment-details">
+        <form method="POST" action="/confirm-payment/" id="payment-details">
+
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container p-4 mt-1">
+                        <h5 class="text-muted">Enter your date of payment and upload a photo of your deposit slip for
+                            your
+                            order to be delivered.</h5>
                         {% csrf_token %}
                         <div>
                             <div class="form-group row mt-3">
@@ -143,15 +145,19 @@
                                        aria-describedby="fileHelp" name="deposit-slip">
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+
+                    </div>
                 </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
             </div>
 
-        </div>
+        </form>
+
     </div>
 </div>
 
@@ -161,12 +167,22 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="container p-5 mt-1">
-                    <h3>This is how to have your order processed and delivered.</h3>
-                    <p class="text-muted">Simply deposit the total amount to the following bank account:</p>
-                    <div class="mt-3">
-                        <p>Account Number: 0000000000</p>
-                        <p>Account Name: Paulina de Ramos</p>
+                <div class="container p-4 mt-1">
+                    <h5>Please deposit your total amount of <span class="text-primary">₱{{ total_price }}</span> in the
+                        following account immediately to
+                        begin processing your order:</h5>
+                    <div class="mt-4">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th scope="row">Account Number</th>
+                                <td>0000000000</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Account Name</th>
+                                <td>Strings Manila</td>
+                            </tr>
+
+                        </table>
                     </div>
                 </div>
                 <div class="modal-footer">
