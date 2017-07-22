@@ -27,16 +27,14 @@
 
 <!-- Content -->
 <div id="content" class="p-4 m-4">
-    <h1>Orders Report</h1>
-    <h6 class="text-muted">Generated [current date]</h6>
+    <h1>View Orders</h1>
+    <h6 class="text-muted">Filter orders by status</h6>
     <br>
     <div class="mb-3">
         <table class="table">
             <thead>
             <tr>
-                <th>Stall Name</th>
-                <th>Starting Date</th>
-                <th>Ending Date</th>
+                <th>Order Status</th>
             </tr>
             </thead>
             <tbody>
@@ -44,12 +42,10 @@
                 <td>
                     <div class="form-group">
                         <div class="form-group">
-                            <select class="form-control" id="orderNumbers">
-                                <option>Stall 1</option>
-                                <option>Stall 2</option>
-                                <option>Stall 3</option>
-                                <option>Stall 4</option>
-                                <option>Stall 5</option>
+                            <select class="form-control" id="orderStatus">
+                                {% for order_type, order_list in orders.items %}
+                                    <option>{{ order_type }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>

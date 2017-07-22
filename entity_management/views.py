@@ -8,6 +8,7 @@ import json
 from IrisOnline.decorators import admin_required
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
+from order_management.views import *
 
 
 def admin_sign_out(request):
@@ -276,7 +277,25 @@ class OrderReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'orders_report.html', make_context(request))
+        context = make_context(request)
+
+        orders = Order.objects.all()
+
+        pending_orders = orders.filter(status="P")
+        approved_orders = orders.filter(status="A")
+        shipped_orders = orders.filter(status="S")
+        cancelled_orders = orders.filter(status="C")
+
+        context.update({
+            "orders": {
+                "pending": pending_orders,
+                "processing": approved_orders,
+                "shipped": shipped_orders,
+                "cancelled": cancelled_orders,
+            },
+        })
+
+        return render(request, 'orders_report.html', context)
 
 
 class WishlistReportView(View):
