@@ -5,10 +5,11 @@ from django.db.models import (
     ForeignKey,
     PROTECT,
     CASCADE,
+    FileField,
     PositiveIntegerField,
     DateTimeField,
     CharField,
-    FloatField
+    FloatField,
 )
 
 
@@ -88,3 +89,10 @@ class Waitlist(Model):
         OrderLineItems.objects.create(parent_order=order,
                                       quantity=1)
         self.delete()
+
+
+class CustomerPaymentDetails(Model):
+    customer = ForeignKey(Customer, on_delete=CASCADE)
+    parent_order = ForeignKey(Order, on_delete=CASCADE)
+    deposit_slip = FileField(null=True, blank=True)
+    date = DateTimeField(null=True, default=None)

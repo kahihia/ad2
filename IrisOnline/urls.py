@@ -29,6 +29,7 @@ from customer_profile.views import (
 )
 from product_catalog.views import ProductCatalogView
 from entity_management.views import AdministratorSignInView, admin_sign_out
+from order_management.views import ConfirmPaymentView
 
 urlpatterns = [
     url(r'^database/', admin.site.urls),
@@ -45,7 +46,8 @@ urlpatterns = [
     url(r'^orders/$', UserOrdersView.as_view()),
     url(r'^orders/(?P<order_id>(\d+))/$', OrderView.as_view()),
     url(r'^wishlist/$', UserWishlistView.as_view()),
-    url(r'^input-payment-details/$', InputDetailsView.as_view())
+    url(r'^input-payment-details/$', InputDetailsView.as_view()),
+    url(r'^confirm-payment/$', ConfirmPaymentView.as_view())
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{% static '/css/customer_orders.css' %}">
 
 </head>
-<body class="">
+<body class="bg-faded">
 
 <!-- Navigation Bar -->
 {% include 'customer_nav.html' %}
@@ -72,7 +72,11 @@
                         </p>
                     </div>
                     <button data-toggle="modal"
-                            data-target="#payment-details-modal" class="btn btn-warning ml-auto">Confirm Payment
+                            data-target="#payment-instructions-modal" class="btn btn-warning ml-auto mr-2">Payment
+                        Instructions
+                    </button>
+                    <button data-toggle="modal"
+                            data-target="#payment-details-modal" class="btn btn-warning">Confirm Payment
                     </button>
                 </div>
             {% endif %}
@@ -120,33 +124,54 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="container p-5">
-                    <h3 class="text-muted mb-5">Enter your payment details for your order to be delivered.</h3>
-                    <form action="" id="payment-details">
+                <div class="container p-5 mt-1">
+                    <h3 class="text-muted">Enter your date of payment and upload a photo of your deposit slip for your
+                        order to be delivered.</h3>
+                    <form method="POST" action="/confirm-payment/" id="payment-details">
+                        {% csrf_token %}
                         <div>
-                            <div class="form-group">
-                                <label for="customer-name">Full Name</label>
-                                <input class="form-control" id="customer-name" aria-describedby="name-help"
-                                       placeholder="Enter your name">
-                            </div>
                             <div class="form-group row mt-3">
                                 <div class="col-10">
                                     <label for="payment-date-input">Date of Payment</label>
-                                    <input class="form-control" type="date" value="" id="payment-date-input">
+                                    <input class="form-control" type="date" value="" id="payment-date-input"
+                                           name="date">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="slip-photo">Deposit Slip Photo</label>
                                 <input type="file" class="form-control-file" id="slip-photo"
-                                       aria-describedby="fileHelp">
+                                       aria-describedby="fileHelp" name="deposit-slip">
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+
+        </div>
+    </div>
+</div>
+
+<!-- Payment Instructions Modal -->
+<div class="modal fade" id="payment-instructions-modal" tabindex="-1" role="dialog" aria-labelledby="title"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container p-5 mt-1">
+                    <h3>This is how to have your order processed and delivered.</h3>
+                    <p class="text-muted">Simply deposit the total amount to the following bank account:</p>
+                    <div class="mt-3">
+                        <p>Account Number: 0000000000</p>
+                        <p>Account Name: Paulina de Ramos</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
