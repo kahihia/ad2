@@ -69,7 +69,6 @@
 
 .card-purchase-div {
     display   : flex;
-    flex-wrap : wrap;
     width     : 400px;
     padding   : 0;
 }

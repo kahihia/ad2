@@ -25,6 +25,8 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
             active_stall = None
             products = Product.objects.all()
 
+        out_of_stock = products.filter(quantity=0)
+
         if request.user.is_authenticated:
             user = request.user
             customer = Customer.objects.get(user=user)
@@ -37,7 +39,8 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
         context.update({
             'products': products,
             'stalls': stalls,
-            'active_stall': active_stall
+            'active_stall': active_stall,
+            'out_of_stock': out_of_stock
         })
 
     return context
