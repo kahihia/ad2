@@ -42,29 +42,14 @@
                 <td>
                     <div class="form-group">
                         <div class="form-group">
-<<<<<<< HEAD
-                            <select class="form-control" id="orderStatus">
-                                {% for order_type, order_list in orders.items %}
-                                    <option>{{ order_type }}</option>
-                                {% endfor %}
-=======
-                            <select class="form-control" id="order-status-choices">
-                                <option>Shipped</option>
-                                <option>On the way</option>
-                                <option>Unshipped</option>
->>>>>>> 6eeb8002d0addcadeb0e3f94104e55122cc5a019
+                            <select class="form-control" id="order-status"> <!-- onchange="changeStatus()" -->
+                                <option value="All">All</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="start-date-input">
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="end-date-input">
                     </div>
                 </td>
             </tr>
@@ -80,21 +65,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>000000</td>
-            <td>P 1900</td>
-            <td>[Date]</td>
-        </tr>
-        <tr>
-            <td>111111</td>
-            <td>P 25000</td>
-            <td>[Date]</td>
-        </tr>
-        <tr>
-            <td>777777</td>
-            <td>P 340</td>
-            <td>[Date]</td>
-        </tr>
+        {% for order_type, order_list in orders.items %}
+            {% for order in order_list %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.total_price }}</td>
+                    <td>{{ order.date_ordered }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+
         </tbody>
         <tfoot>
         <tr>
@@ -106,6 +86,35 @@
         </tr>
         </tfoot>
     </table>
+
+    <!-- For actual quantifiable data -->
+    <h1>Orders Report</h1>
+    <h6 class="text-muted">Generated on [date]</h6>
+    <br>
+    <div class="mb-3">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input class="form-control" type="date" id="start-date-input">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input class="form-control" type="date" id="end-date-input">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </body>
