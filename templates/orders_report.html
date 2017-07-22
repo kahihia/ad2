@@ -28,28 +28,56 @@
 <!-- Content -->
 <div id="content" class="p-4 m-4">
     <h1>View Orders</h1>
-    <h6 class="text-muted">Filter orders by status</h6>
+    <h6 class="text-muted">Generated [current date and time]</h6>
     <br>
-    <div class="mb-3">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Order Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-secondary">Cancelled</button>
-                        <button type="button" class="btn btn-secondary">Pending</button>
-                        <button type="button" class="btn btn-secondary">Processing</button>
-                        <button type="button" class="btn btn-secondary">Shipped</button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="d-flex">
+        <div class="mb-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Order Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button type="button" class="btn btn-secondary">All</button>
+                            <button type="button" class="btn btn-secondary">Shipped</button>
+                            <button type="button" class="btn btn-secondary">Processing</button>
+                            <button type="button" class="btn btn-secondary">Pending</button>
+                            <button type="button" class="btn btn-secondary">Cancelled</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="mb-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Starting Date</th>
+                    <th>Ending Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <input class="form-control" type="date" id="start-date-input">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input class="form-control" type="date" id="end-date-input">
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <table class="table table-striped table-hover">
         <thead>
@@ -96,35 +124,6 @@
         </tr>
         </tfoot>
     </table>
-
-    <!-- For actual quantifiable data -->
-    <h1>Orders Report</h1>
-    <h6 class="text-muted">Generated on [date]</h6>
-    <br>
-    <div class="mb-3">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Starting Date</th>
-                <th>Ending Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="start-date-input">
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="end-date-input">
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 
 <!-- Order Details Modal -->
