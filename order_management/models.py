@@ -1,5 +1,7 @@
 from entity_management.models import Product
 from customer_profile.models import Customer
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.db.models import (
     Model,
     ForeignKey,
@@ -77,14 +79,6 @@ class ProductAssociation(Model):
         return f"{self.root_product.name} to {self.associated_product.name} - {self.probability}"
 
 
-class WatlistCount(Model):
-    product = ForeignKey(Product)
-    count = PositiveIntegerField()
-
-    def __str__(self):
-        return f"{product.name} - {count}"
-
-
 class Waitlist(Model):
     product = ForeignKey(Product)
     customer = ForeignKey(Customer)
@@ -98,6 +92,32 @@ class Waitlist(Model):
         OrderLineItems.objects.create(parent_order=order,
                                       quantity=1)
         self.delete()
+
+
+class WaitlistCount(Model):
+    product = ForeignKey(Product)
+    count = PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.count}"
+
+
+@receiver(post_save, sender=Waitlist)
+def on_waitlist_create(sender, instance, created, **kwargs):
+    if not created:
+        return
+
+    product_wishlisted = instance.product
+    waitlist_count = WaitlistCount.objects.get_or_create(product=product_wishlisted, defaults={
+        "count": 0
+    })
+
+    waitlist_count.count += 1
+    waitlist_count.save()
+
+
+
+
 
 
 class CustomerPaymentDetails(Model):
