@@ -288,10 +288,10 @@ class OrderReportView(View):
 
         context.update({
             "orders": {
-                "pending": pending_orders,
-                "processing": approved_orders,
-                "shipped": shipped_orders,
-                "cancelled": cancelled_orders,
+                "Pending": pending_orders,
+                "Processing": approved_orders,
+                "Shipped": shipped_orders,
+                "Cancelled": cancelled_orders,
             },
             "selected_type": orders
         })
@@ -308,16 +308,10 @@ class OrderTypeView(View):
         orders = Order.objects.all()
 
         try:
-            if order_type == "pending":
-                type = "P"
-            elif order_type == "processing":
-                type = "A"
-            elif order_type == "shipped":
-                type = "S"
-            else:
-                type = "C"
-
-            selected_type = orders.filter(status=type)
+            status = Order.ORDER_STATUSES
+            for letter, word in status:
+                if order_type == word:
+                    selected_type = orders.filter(status=letter)
         except:
             raise Http404("Order type does not exist!")
 
@@ -329,10 +323,10 @@ class OrderTypeView(View):
 
         context.update({
             "orders": {
-                "pending": pending_orders,
-                "processing": approved_orders,
-                "shipped": shipped_orders,
-                "cancelled": cancelled_orders,
+                "Pending": pending_orders,
+                "Processing": approved_orders,
+                "Shipped": shipped_orders,
+                "Cancelled": cancelled_orders,
             },
             "selected_type": selected_type
         })
