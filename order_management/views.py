@@ -1,3 +1,4 @@
+from django.shortcuts import render, Http404,redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, Http404
@@ -149,29 +150,31 @@ class ConfirmPaymentView(View):
     @login_required()
     @customer_required
     def post(request):
-        if 'deposit_slip' not in request.FILES or "date" not in request.POST:
-            return HttpResponse(status=400)
+        # kams code
+        # if 'deposit_slip' not in request.FILES or "date" not in request.POST:
+        #     return HttpResponse(status=400)
+        #
+        # try:
+        #     customer = Customer.objects.get(user=request.user)
+        # except:
+        #     Http404('Could not get Customer object')
+        #     return
+        #
+        # try:
+        #     order_id = request.POST.get('order-id')
+        #     order = Order.objects.get(id=order_id)
+        # except:
+        #     Http404('Could not find order')
+        #     return
+        #
+        # date_paid = request.POST.get('date'),
+        # deposit_slip = request.FILES.get('deposit-slip')
+        #
+        # print(date_paid)
 
-        try:
-            customer = Customer.objects.get(user=request.user)
-        except:
-            Http404('Could not get Customer object')
-            return
-
-        try:
-            order_id = request.POST.get('order-id')
-            order = Order.objects.get(id=order_id)
-        except:
-            Http404('Could not find order')
-            return
-
-        date_paid = request.POST.get('date'),
-        deposit_slip = request.FILES.get('deposit-slip')
-
-        print(date_paid)
-
+        customer = Customer.objects.get(user=request.user)
         customer.customerpaymentdetails_set.create(customer=customer,
                                                    parent_order=order,
                                                    deposit_slip=deposit_slip,
                                                    date=date_paid)
-        return HttpResponse(200)
+        return redirect('/orders')
