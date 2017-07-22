@@ -95,7 +95,7 @@
                     <td>{{ order.id }}</td>
                     <td>P {{ order.total_price }}</td>
                     <td>{{ order.date_ordered }}</td>
-                    <td>{{ order.status }}</td>
+                    <td>{{ order.get_status }}</td>
                 </tr>
             {% endfor %}
         {% endif %}
