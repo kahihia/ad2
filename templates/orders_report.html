@@ -70,23 +70,33 @@
             <th>Order No.</th>
             <th>Total</th>
             <th>Purchase Date</th>
+            <th>Status</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
             <td>000000</td>
             <td>P 1900</td>
             <td>[Date]</td>
+            <td>Shipped</td>
         </tr>
-        <tr>
+        <tr class="clickable-row table-danger" data-toggle="modal" data-target="#details">
             <td>111111</td>
             <td>P 25000</td>
             <td>[Date]</td>
+            <td>Cancelled</td>
         </tr>
-        <tr>
+        <tr class="clickable-row table-info" data-toggle="modal" data-target="#details">
             <td>777777</td>
             <td>P 340</td>
             <td>[Date]</td>
+            <td>Processing</td>
+        </tr>
+        <tr class="clickable-row table-warning" data-toggle="modal" data-target="#details">
+            <td>777777</td>
+            <td>P 340</td>
+            <td>[Date]</td>
+            <td>Pending</td>
         </tr>
         </tbody>
         <tfoot>
@@ -99,6 +109,53 @@
         </tr>
         </tfoot>
     </table>
+</div>
+
+<!-- Order Details Modal -->
+<div class="modal fade" id="details">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div>
+                <div class="modal-body d-flex">
+                    <div class="mr-5">
+                        <h6>Order Details</h6>
+                        <p class="text-muted m-0">Order #</p>
+                        <p class="text-muted m-0">[Order Date]</p>
+                        <p class="text-muted m-0">[Amount Paid]</p>
+                    </div>
+                    <div class="ml-5">
+                        <h6>Customer Details</h6>
+                        <p class="text-muted m-0">[Customer Name]</p>
+                        <p class="text-muted m-0">[Customer Number</p>
+                        <p class="text-muted m-0">[Date of Payment]</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group col-6 mt-4">
+                        <label>Change Status</label>
+                        <div class="form-group">
+                            <select class="form-control" id="orderStatus">
+                                {% for order_type, order_list in orders.items %}
+                                    <option>{{ order_type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="create-stall-button" class="btn btn-primary">Update</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
