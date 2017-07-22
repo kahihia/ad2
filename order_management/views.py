@@ -1,12 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from IrisOnline.decorators import customer_required
-from product_catalog.contexts import make_context
-from customer_profile.models import Customer
-from django.shortcuts import render, Http404
-from entity_management.models import Product
 from django.http import HttpResponse
+from django.shortcuts import render, Http404
 from django.views import View
-from .models import Waitlist
+
+from IrisOnline.contexts import make_context
+from IrisOnline.decorators import customer_required
 from .models import *
 
 

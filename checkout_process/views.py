@@ -1,12 +1,14 @@
+import json
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import Http404, redirect
 from django.shortcuts import render
 from django.views import View
+
+from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
-from product_catalog.contexts import make_context
-import json
-from django.shortcuts import Http404, redirect
 from order_management.models import *
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.contrib.auth.decorators import login_required
 
 
 class LineItem():

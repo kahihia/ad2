@@ -39,8 +39,6 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
                 'waitlist': user_waitlists
             })
 
-            print(context)
-
         context.update({
             'products': products,
             'stalls': stalls,
