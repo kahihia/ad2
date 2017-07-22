@@ -56,7 +56,5 @@ $(() => {
             });
         }
     });
-
-    $('[data-toggle="tooltip"]').tooltip();
 });
 

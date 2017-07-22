@@ -36,6 +36,21 @@ class UserOrdersView(View):
         })
         return render(request, 'customer_orders.html', context)
 
+
+class UserWaitlistView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request):
+        context = make_context(request)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+
+        context["waitlists"] = Waitlist.objects.filter(customer=customer)
+
+        return render(request, 'customer_waitlist.html', context)
+
+
 class OrderView(View):
     @staticmethod
     @login_required
