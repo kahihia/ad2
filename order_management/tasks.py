@@ -24,10 +24,7 @@ def calculate_recommendations():
             association.probability = recommendation.probability
             association.save()
 
-    print()
-
-
-print("Recommendation calculation done")
+    print("Recommendation calculation done")
 
 
 def calculate_recommendations_for_product(root_product):
