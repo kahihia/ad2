@@ -10,7 +10,6 @@
     <!-- Custom CSS go here -->
     {% load static %}
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
-    <link rel="stylesheet" href="{% static '/css/cart.css' %}">
 
     <!-- Custom JS go here -->
 </head>
@@ -22,12 +21,13 @@
 <!-- Content -->
 <div id="content" class="p-5 m-5">
     <h1 class="text-center mb-5">Waitlisted Items</h1>
-    <table class="table table-hover">
+    <table class="table">
         <thead>
         <tr>
             <th>Product Name</th>
             <th>Amount</th>
             <th>Waitlist Date</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -35,11 +35,12 @@
             <td>System Complexity</td>
             <td>P 1900</td>
             <td>18-06-2017</td>
+            <td><button class="btn btn-outline-danger">Cancel</button></td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="3" class="text-center text-muted pt-5">
+            <td colspan="4" class="text-center text-muted pt-5">
                 <small>
                     <b>END OF WAITLISTED ITEMS</b>
                 </small>
