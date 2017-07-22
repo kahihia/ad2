@@ -277,12 +277,6 @@ class OrderReportView(View):
     @login_required
     @admin_required
     def get(request):
-        # try:
-        #     dict = json.loads(request.body)
-        #     print(dict['status'])
-        # except ValueError:
-        #     print("fuck my life")
-        #
         context = make_context(request)
 
         orders = Order.objects.all()
@@ -294,11 +288,47 @@ class OrderReportView(View):
 
         context.update({
             "orders": {
-                "pending": pending_orders,
-                "processing": approved_orders,
-                "shipped": shipped_orders,
-                "cancelled": cancelled_orders,
+                "Pending": pending_orders,
+                "Processing": approved_orders,
+                "Shipped": shipped_orders,
+                "Cancelled": cancelled_orders,
             },
+            "selected_type": orders
+        })
+
+        return render(request, 'orders_report.html', context)
+
+
+class OrderTypeView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request, order_type):
+        context = make_context(request)
+        orders = Order.objects.all()
+
+        try:
+            status = Order.ORDER_STATUSES
+            for key, value in status:
+                if order_type == value:
+                    selected_type = orders.filter(status=key)
+        except:
+            raise Http404("Order type does not exist!")
+
+        pending_orders = orders.filter(status="P")
+        approved_orders = orders.filter(status="A")
+        shipped_orders = orders.filter(status="S")
+        cancelled_orders = orders.filter(status="C")
+
+
+        context.update({
+            "orders": {
+                "Pending": pending_orders,
+                "Processing": approved_orders,
+                "Shipped": shipped_orders,
+                "Cancelled": cancelled_orders,
+            },
+            "selected_type": selected_type
         })
 
         return render(request, 'orders_report.html', context)
