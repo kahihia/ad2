@@ -14,8 +14,9 @@ class LineItem():
         self.product = product
         self.quantity = quantity
 
-    @property
     def line_price(self):
+
+        # TODO: Replace current_price
         return self.product.current_price * self.quantity
 
 
@@ -120,6 +121,7 @@ class CheckoutView(View):
 
         total_price = 0.00
         quantity_errors = []
+        out_of_stock_errors = []
         dead_products = []
         for line_item in line_items:
 
@@ -127,6 +129,15 @@ class CheckoutView(View):
             if not line_item.product.is_active:
                 dead_products.append(line_item.product)
                 del request.session["cart"][line_item.product.id]
+                line_items.remove(line_item)
+                continue
+
+            # Check if product is in stock
+            if line_item.product.quantity == 0:
+                out_of_stock_errors.append(line_item.product)
+                del request.session["cart"][str(line_item.product.id)]
+                request.session.modified = True
+                line_items.remove(line_item)
 
             # Check if inventory can support cart quantity
             if line_item.product.quantity < line_item.quantity:
@@ -141,10 +152,12 @@ class CheckoutView(View):
             request.session.modified = True
 
         context = make_context(request)
+
         context.update({
             "total_price": total_price,
             "line_items": line_items,
             "customer": customer,
+            "out_of_stock_errors": out_of_stock_errors,
             "quantity_errors": quantity_errors,
             "dead_products": dead_products
         })
@@ -179,6 +192,12 @@ class PurchaseView(View):
 
         for product_id, quantity in cart.items():
 
+            # Deduct from inventory
+            product = Product.objects.get(id=product_id)
+            product.quantity -= quantity
+            product.save()
+
+            # Add quantity to order
             OrderLineItems.objects.create(
                 product=Product.objects.get(id=product_id),
                 quantity=quantity,

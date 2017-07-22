@@ -8,6 +8,7 @@ from django.views import View
 from .models import Waitlist
 from .models import *
 
+
 # Create your views here.
 class WaitlistView(View):
     @staticmethod
@@ -31,6 +32,7 @@ class WaitlistView(View):
 
         Waitlist.objects.get_or_create(customer=customer, product=product)
         return HttpResponse(200)
+
 
 class ConfirmPaymentView(View):
     @staticmethod
@@ -58,10 +60,8 @@ class ConfirmPaymentView(View):
 
         print(date_paid)
 
-
         customer.customerpaymentdetails_set.create(customer=customer,
                                                    parent_order=order,
                                                    deposit_slip=deposit_slip,
                                                    date=date_paid)
         return HttpResponse(200)
-
