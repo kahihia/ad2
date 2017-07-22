@@ -94,7 +94,6 @@ class UserProfileView(View):
         return render(request, 'customer_profile.html', context)
 
 
-# TODO: Wishlist
 class UserWishlistView(View):
     @staticmethod
     @login_required
@@ -114,21 +113,20 @@ class UserWishlistView(View):
         return render(request, 'customer_wishlist.html', context)
 
 
-# TODO: Input details
-class InputDetailsView(View):
+# TODO: Waitlist page
+class UserWaitlistView(View):
     @staticmethod
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request, include_stalls_and_products=False)
+        context = make_context(request)
         user = request.user
         customer = Customer.objects.get(user=user)
-
         context.update({
-            "customer": customer
+            "customer": customer,
         })
 
-        return render(request, 'customer_payment_details.html', context)
+        return render(request, 'customer_waitlist.html', context)
 
 
 def sign_out(request):
