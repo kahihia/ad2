@@ -42,11 +42,11 @@
                 <tr>
                     <td>
                         <div class="btn-group mr-2" role="group" aria-label="First group">
-                            <button type="button" class="btn btn-secondary">All</button>
-                            <button type="button" class="btn btn-secondary">Shipped</button>
-                            <button type="button" class="btn btn-secondary">Processing</button>
-                            <button type="button" class="btn btn-secondary">Pending</button>
-                            <button type="button" class="btn btn-secondary">Cancelled</button>
+                            <a href="/entity-management/orders-report/" class="btn btn-secondary">All</a>
+                            {% for order_type, order_list in orders.items %}
+                                <a href="/entity-management/orders-report/{{ order_type }}/"
+                                   class="btn btn-secondary">{{ order_type }}</a>
+                            {% endfor %}
                         </div>
                     </td>
                 </tr>
@@ -89,30 +89,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
-            <td>000000</td>
-            <td>P 1900</td>
-            <td>[Date]</td>
-            <td>Shipped</td>
-        </tr>
-        <tr class="clickable-row table-danger" data-toggle="modal" data-target="#details">
-            <td>111111</td>
-            <td>P 25000</td>
-            <td>[Date]</td>
-            <td>Cancelled</td>
-        </tr>
-        <tr class="clickable-row table-info" data-toggle="modal" data-target="#details">
-            <td>777777</td>
-            <td>P 340</td>
-            <td>[Date]</td>
-            <td>Processing</td>
-        </tr>
-        <tr class="clickable-row table-warning" data-toggle="modal" data-target="#details">
-            <td>777777</td>
-            <td>P 340</td>
-            <td>[Date]</td>
-            <td>Pending</td>
-        </tr>
+        {% if selected_type %}
+            {% for order in selected_type %}
+                <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
+                    <td>{{ order.id }}</td>
+                    <td>P {{ order.total_price }}</td>
+                    <td>{{ order.date_ordered }}</td>
+                    <td>{{ order.status }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+
         </tbody>
         <tfoot>
         <tr>
