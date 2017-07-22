@@ -91,12 +91,20 @@
         <tbody>
         {% if selected_type %}
             {% for order in selected_type %}
-                <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
-                    <td>{{ order.id }}</td>
-                    <td>P {{ order.total_price }}</td>
-                    <td>{{ order.date_ordered }}</td>
-                    <td>{{ order.get_status }}</td>
-                </tr>
+                {% if order.status == "P" %}
+                    <tr class="clickable-row table-warning" data-toggle="modal" data-target="#details">
+                {% elif order.status == "S "%}
+                    <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
+                {% elif order.status == "A "%}
+                    <tr class="clickable-row table-info" data-toggle="modal" data-target="#details">
+                {% else %}
+                    <tr class="clickable-row table-danger" data-toggle="modal" data-target="#details">
+                {% endif %}
+                        <td>{{ order.id }}</td>
+                        <td>P {{ order.total_price }}</td>
+                        <td>{{ order.date_ordered }}</td>
+                        <td>{{ order.get_status }}</td>
+                    </tr>
             {% endfor %}
         {% endif %}
 
