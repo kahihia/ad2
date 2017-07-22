@@ -10,7 +10,6 @@
     <!-- Custom CSS go here -->
     {% load static %}
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
-    <link rel="stylesheet" href="{% static '/css/cart.css' %}">
 
     <!-- Custom JS go here -->
 </head>
@@ -21,32 +20,47 @@
 
 <!-- Content -->
 <div id="content" class="p-5 m-5">
+
     <h1 class="text-center mb-5">Waitlisted Items</h1>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Amount</th>
-            <th>Waitlist Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>System Complexity</td>
-            <td>P 1900</td>
-            <td>18-06-2017</td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="3" class="text-center text-muted pt-5">
-                <small>
-                    <b>END OF WAITLISTED ITEMS</b>
-                </small>
-            </td>
-        </tr>
-        </tfoot>
-    </table>
+    {% if waitlists %}
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Product Name</th>
+                <th>Waitlist Date</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for waitlist in waitlists %}
+                <tr>
+                    <td></td>
+                    <td><b>{{ waitlist.product.name }}</b></td>
+                    <td>{{ waitlist.date_added | date:"DATE_FORMAT" }}</td>
+                    <td>
+                        <form action="/orders/waitlist/{{ waitlist.product.id }}/" method="GET">
+                            <input type="hidden" name="delete" value="true">
+                            <button type=submit class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <!--No products message -->
+        <div class="list-group-item empty-message container p-5" id="empty-stall-message">
+            <div class="container text-center p-5 m-5">
+                <h3 class="empty-message-text w-100">There are no products in your waitlist.</h3>
+                <p class="text-muted w-100 mb-5">Products in your waitlist will show up here.</p>
+                <a class="btn btn-outline-primary btn-lg ml-auto mr-auto" href="/">Browse products</a>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 </body>

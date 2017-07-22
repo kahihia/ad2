@@ -17,7 +17,6 @@ class LineItem():
         self.quantity = quantity
 
     def line_price(self):
-
         # TODO: Replace current_price
         return self.product.current_price * self.quantity
 
@@ -52,7 +51,7 @@ class CartView(View):
             product_id = json_data['product_id']
             del request.session['cart'][str(product_id)]
         except:
-            return HttpResponseBadRequest() # Product ID Not Found
+            return HttpResponseBadRequest()  # Product ID Not Found
 
         request.session.modified = True
         return HttpResponse(200)
@@ -193,7 +192,6 @@ class PurchaseView(View):
         order = Order.objects.create(customer=customer)
 
         for product_id, quantity in cart.items():
-
             # Deduct from inventory
             product = Product.objects.get(id=product_id)
             product.quantity -= quantity
