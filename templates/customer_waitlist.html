@@ -39,7 +39,7 @@
                 <tr>
                     <td></td>
                     <td><b>{{ waitlist.product.name }}</b></td>
-                    <td>{{ waitlist.date_added | date:"SHORT_DATE_FORMAT" }}</td>
+                    <td>{{ waitlist.date_added | date:"DATE_FORMAT" }}</td>
                     <td><a href="#" class="btn btn-danger">Remove</a></td>
                 </tr>
 
@@ -47,6 +47,14 @@
             </tbody>
         </table>
     {% else %}
+        <!--No products message -->
+        <div class="list-group-item empty-message container p-5" id="empty-stall-message">
+            <div class="container text-center p-5 m-5">
+                <h3 class="empty-message-text w-100">There are no products in your waitlist.</h3>
+                <p class="text-muted w-100 mb-5">Products in your waitlist will show up here.</p>
+                <a class="btn btn-outline-primary btn-lg ml-auto mr-auto" href="/">Browse products</a>
+            </div>
+        </div>
     {% endif %}
 </div>
 
