@@ -40,12 +40,12 @@ class Product(Model):
         self.pricehistory_set.create(price=new_price)
 
     def price_for_date(self, date):
-        priceHistory = self.pricehistory_set.get(
+        price_history = self.pricehistory_set.get(
             Q(effective_to__gte=date) | Q(effective_to=None),
             Q(effective_from__lte=date),
         )
 
-        return priceHistory.price
+        return price_history.price
 
     def __str__(self):
         return f"{self.name} - {self.stall}"

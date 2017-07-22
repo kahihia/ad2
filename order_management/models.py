@@ -77,9 +77,18 @@ class ProductAssociation(Model):
         return f"{self.root_product.name} to {self.associated_product.name} - {self.probability}"
 
 
+class WatlistCount(Model):
+    product = ForeignKey(Product)
+    count = PositiveIntegerField()
+
+    def __str__(self):
+        return f"{product.name} - {count}"
+
+
 class Waitlist(Model):
     product = ForeignKey(Product)
     customer = ForeignKey(Customer)
+    date_added = DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.product.name} - {self.customer.user.username}"
