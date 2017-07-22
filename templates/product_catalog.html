@@ -47,8 +47,11 @@
 {% endif %}
 
 {% if waitlisted %}
-    <div class="alert alert-success rounded-0" role="alert">
-        <strong>Success!</strong> {{ waitlisted.name }} is added to your waitlists.
+    <div class="alert alert-success rounded-0 d-flex" role="alert">
+        <div class="mr-auto">
+            <strong>Success!</strong> {{ waitlisted.name }} is added to your waitlists.
+        </div>
+        <a href="/orders/waitlist/" class="btn btn-success btn-sm">View Waitlist</a>
     </div>
 
 {% endif %}

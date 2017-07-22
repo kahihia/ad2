@@ -42,11 +42,12 @@ class UserWaitlistView(View):
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request)
+        context = make_context(request, include_stalls_and_products=False)
         user = request.user
         customer = Customer.objects.get(user=user)
 
         context["waitlists"] = Waitlist.objects.filter(customer=customer)
+        print(context["waitlists"])
 
         return render(request, 'customer_waitlist.html', context)
 
@@ -97,9 +98,26 @@ class WaitlistView(View):
     @staticmethod
     @login_required
     @customer_required
-    def get(request):
-        # TODO: Render
-        pass
+    def get(request, product_id):
+        # This is the delete function for waitlists
+        delete = request.GET.get('delete')
+
+        context = make_context(request, include_stalls_and_products=False)
+        customer = Customer.objects.get(user=request.user)
+        waitlists = list(Waitlist.objects.filter(customer=customer))
+        context["waitlists"] = waitlists
+
+        if not delete:
+            return render(request, 'customer_waitlist.html', context)
+
+        for waitlist in waitlists:
+            if waitlist.product.id == int(product_id):
+                waitlists.remove(waitlist)
+                waitlist.delete()
+
+        return render(request, 'customer_waitlist.html', context)
+
+
 
     @staticmethod
     @login_required
@@ -118,7 +136,6 @@ class WaitlistView(View):
         # Waitlist only products that are out of stock
         if product.quantity == 0:
             Waitlist.objects.get_or_create(customer=customer, product=product)
-            waitlisted = True
 
             context.update({
                 'waitlisted': product
