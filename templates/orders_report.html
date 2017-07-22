@@ -40,23 +40,11 @@
             <tbody>
             <tr>
                 <td>
-                    <div class="form-group">
-                        <div class="form-group">
-<<<<<<< HEAD
-                            <select class="form-control" id="order-status"> <!-- onchange="changeStatus()" -->
-                                <option value="All">All</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Cancelled">Cancelled</option>
-=======
-                            <select class="form-control" id="orderStatus">
-                                {% for order_type, order_list in orders.items %}
-                                    <option>{{ order_type }}</option>
-                                {% endfor %}
->>>>>>> e9f67d00120da82a75f3f42c7443d84dffc196e8
-                            </select>
-                        </div>
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-secondary">Cancelled</button>
+                        <button type="button" class="btn btn-secondary">Pending</button>
+                        <button type="button" class="btn btn-secondary">Processing</button>
+                        <button type="button" class="btn btn-secondary">Shipped</button>
                     </div>
                 </td>
             </tr>
@@ -73,18 +61,6 @@
         </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
-        {% for order_type, order_list in orders.items %}
-            {% for order in order_list %}
-                <tr>
-                    <td>{{ order.id }}</td>
-                    <td>{{ order.total_price }}</td>
-                    <td>{{ order.date_ordered }}</td>
-                </tr>
-            {% endfor %}
-        {% endfor %}
-
-=======
         <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
             <td>000000</td>
             <td>P 1900</td>
@@ -109,7 +85,6 @@
             <td>[Date]</td>
             <td>Pending</td>
         </tr>
->>>>>>> e9f67d00120da82a75f3f42c7443d84dffc196e8
         </tbody>
         <tfoot>
         <tr>
