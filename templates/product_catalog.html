@@ -46,6 +46,12 @@
     </div>
 {% endif %}
 
+{% if waitlisted %}
+    <div class="alert alert-success rounded-0" role="alert">
+        <strong>Success!</strong> {{ waitlisted.name }} is added to your waitlists.
+    </div>
+
+{% endif %}
 
 {% if added_to_cart %}
     <div class="d-flex">
@@ -187,8 +193,17 @@
                                             <button type="submit" class="btn btn-primary col-8">Add to Cart</button>
                                         </form>
                                     {% else %}
-                                        <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
-                                           data-target="#waitlist-modal-{{ product.id }}">Waitlist</a>
+
+                                        {% if product in waitlist %}
+                                            <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
+                                                    disabled>
+                                                Waitlisted
+                                            </button>
+                                        {% else %}
+                                            <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
+                                               data-target="#waitlist-modal-{{ product.id }}">Waitlist</a>
+
+                                        {% endif %}
                                     {% endif %}
 
                                     {% if product in wishlist %}
@@ -269,12 +284,14 @@
                 </div>
 
                 <div class="modal-body">
-                    Would you like to waitlist {{ product.name }}? When stocks arrive, the waitlist for this product will be
+                    Would you like to waitlist {{ product.name }}? When stocks arrive, the waitlist for this product
+                    will be
                     converted into an order. Only one unit of this product will be placed into the order.
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Confirm Waitlist</button>
-                </div>
+                <form action="/orders/waitlist/{{ product.id }}/" method="POST" class="modal-footer">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning">Confirm Waitlist</button>
+                </form>
             </div>
         </div>
     </div>

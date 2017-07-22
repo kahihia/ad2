@@ -87,6 +87,10 @@ class Waitlist(Model):
     def __str__(self):
         return f"{self.product.name} - {self.customer.user.username}"
 
+    @staticmethod
+    def waitlist_for_customer(customer):
+        return [waitlist.product for waitlist in Waitlist.objects.filter(customer=customer)]
+
     def to_order(self):
         order = Order.objects.create(customer=self.customer)
         OrderLineItems.objects.create(parent_order=order,
@@ -108,16 +112,12 @@ def on_waitlist_create(sender, instance, created, **kwargs):
         return
 
     product_wishlisted = instance.product
-    waitlist_count = WaitlistCount.objects.get_or_create(product=product_wishlisted, defaults={
+    waitlist_count, is_created = WaitlistCount.objects.get_or_create(product=product_wishlisted, defaults={
         "count": 0
     })
 
     waitlist_count.count += 1
     waitlist_count.save()
-
-
-
-
 
 
 class CustomerPaymentDetails(Model):

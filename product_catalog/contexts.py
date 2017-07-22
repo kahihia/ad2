@@ -1,5 +1,6 @@
 from entity_management.models import Stall, Product
 from customer_profile.models import Customer, UserWish
+from order_management.models import Waitlist
 
 
 def available_stalls():
@@ -31,10 +32,14 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
             user = request.user
             customer = Customer.objects.get(user=user)
             user_wishlist = UserWish.wishlist_for_customer(customer=customer)
+            user_waitlists = Waitlist.waitlist_for_customer(customer=customer)
 
             context.update({
-                'wishlist': user_wishlist
+                'wishlist': user_wishlist,
+                'waitlist': user_waitlists
             })
+
+            print(context)
 
         context.update({
             'products': products,
