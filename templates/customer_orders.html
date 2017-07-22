@@ -72,7 +72,8 @@
                         </p>
                     </div>
                     <button data-toggle="modal"
-                            data-target="#payment-instructions-modal" class="btn btn-sm btn-warning ml-auto mr-2">Payment
+                            data-target="#payment-instructions-modal" class="btn btn-sm btn-warning ml-auto mr-2">
+                        Payment
                         Instructions
                     </button>
                     <button data-toggle="modal"
@@ -92,9 +93,12 @@
 
             <table class="table w-100">
                 <thead>
-                <th>Product Name</th>
-                <th>Product Price</th>
-                <th>Quantity</th>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
                 {% for line_item in line_items %}
@@ -102,6 +106,11 @@
                         <td>{{ line_item.product.name }}</td>
                         <td>{{ line_item.line_price }}</td>
                         <td>{{ line_item.quantity }}</td>
+                        <td>
+                            <button class="btn btn-outline-danger" data-toggle="modal"
+                                    data-target="#cancel-product-modal">Cancel
+                            </button>
+                        </td>
                     </tr>
                 {% endfor %}
 
@@ -187,6 +196,24 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Product Modal -->
+<div class="modal fade" id="cancel-product-modal" tabindex="-1" role="dialog" aria-labelledby="title"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container p-4 mt-1">
+                    <h5>Are you sure you want to cancel this order?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Cancel Order</button>
                 </div>
             </div>
         </div>

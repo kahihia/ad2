@@ -44,6 +44,10 @@ class Order(Model):
             total_price += float(order_item.line_price)
         return total_price
 
+    def get_status(self):
+        return self.get_status_display()
+
+
     def has_products(self, *products):
         for product in products:
             if not self.has_product(product):
