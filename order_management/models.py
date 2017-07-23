@@ -5,7 +5,6 @@ from django.db.models.signals import post_save, pre_save
 from django.db.models import (
     Model,
     ForeignKey,
-    PROTECT,
     CASCADE,
     FileField,
     PositiveIntegerField,
@@ -47,7 +46,6 @@ class Order(Model):
     def get_status(self):
         return self.get_status_display()
 
-
     def has_products(self, *products):
         for product in products:
             if not self.has_product(product):
@@ -63,7 +61,7 @@ class Order(Model):
 
 
 class OrderLineItems(Model):
-    product = ForeignKey(Product, on_delete=PROTECT)
+    product = ForeignKey(Product, on_delete=CASCADE)
     quantity = PositiveIntegerField()
     parent_order = ForeignKey(Order, on_delete=CASCADE)
 
@@ -75,8 +73,8 @@ class OrderLineItems(Model):
 
 
 class ProductAssociation(Model):
-    root_product = ForeignKey(Product, on_delete=PROTECT, related_name="root_product")
-    associated_product = ForeignKey(Product, on_delete=PROTECT, related_name="associated_product")
+    root_product = ForeignKey(Product, on_delete=CASCADE, related_name="root_product")
+    associated_product = ForeignKey(Product, on_delete=CASCADE, related_name="associated_product")
     probability = FloatField()
 
     def __str__(self):
