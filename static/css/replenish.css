@@ -7,14 +7,6 @@ body {
     background    : white;
 }
 
-#out-of-stock {
-    margin-bottom : 100px;
-}
-
-#low-stock {
-    margin-top : 100px;
-}
-
 tr {
     cursor : pointer;
 }
