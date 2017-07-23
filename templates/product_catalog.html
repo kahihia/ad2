@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
     <link rel="stylesheet" href="{% static '/css/stalls.css' %}">
     <link rel="stylesheet" href="{% static '/css/added_product.css' %}">
-    <link rel="stylesheet" href="{% static '/css/recommendations.css' %}">
-
 
     <!-- Custom JS go here -->
     <script type="text/javascript" src="{% static '/js/nav.js' %}/"></script>
@@ -57,8 +55,8 @@
 {% endif %}
 
 {% if added_to_cart %}
-    <div class="d-flex">
-        <div id="added-to-cart-notification" class="card w-50 rounded-0">
+    <div class="card-group">
+        <div id="added-to-cart-notification" class="card border-right-0 rounded-0">
             <h6 class="card-header">Added to cart</h6>
             <div class="card-block">
                 <div id="product-preview">
@@ -81,33 +79,36 @@
                 </div>
             </div>
         </div>
-        <!-- TODO: Recommendations -->
-        <div id="recommendation-items" class="card w-50 border-left-0 rounded-0">
-            <h6 class="card-header">People that bought this item also bought</h6>
+        {% if recommendations %}
+            <!-- TODO: Recommendations -->
+            <div id="recommendation-items" class="card border-left-0 rounded-0">
+                <h6 class="card-header">People that bought this item also bought</h6>
 
-            <div id="recommendation-items" class="p-3">
-                {% for product in recommendations %}
-                    <div class="recommended-details m-2 d-flex">
+                <div id="recommendation-items" class="p-3">
+                    {% for product in recommendations %}
+                        <div class="recommended-details m-2 d-flex">
 
-                        <div class="d-inline-block">
-                            <img class="recommendation-image rounded" src="{{ product.photo.url }}" alt="No image">
+                            <div class="d-inline-block">
+                                <img class="recommendation-image rounded" src="{{ product.photo.url }}" alt="No image">
+                            </div>
+
+                            <div class="d-inline-block ml-3">
+                                <h6>{{ product.name }}</h6>
+                                <div><p>₱{{ product.current_price }}</p></div>
+                                <form method="POST" action="/product-catalog/" class="display-inline d-flex">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ product.id }}" name="product">
+                                    <input type="number" class="form-control col-sm-5 mt-0 ml-0" min="1" max="100"
+                                           value="1"
+                                           name="quantity">
+                                    <button type="submit" class="btn btn-outline-primary mt-0">Add</button>
+                                </form>
+                            </div>
                         </div>
-
-                        <div class="d-inline-block ml-3">
-                            <h6>{{ product.name }}</h6>
-                            <div><p>₱{{ product.current_price }}</p></div>
-                            <form method="POST" action="/product-catalog/" class="display-inline d-flex">
-                                {% csrf_token %}
-                                <input type="hidden" value="{{ product.id }}" name="product">
-                                <input type="number" class="form-control col-sm-5 mt-0 ml-0" min="1" max="100" value="1"
-                                       name="quantity">
-                                <button type="submit" class="btn btn-outline-primary mt-0">Add</button>
-                            </form>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 
 {% endif %}

@@ -42,6 +42,9 @@ class ProductCatalogView(View):
 
         # TODO: Error when item exceeds quantity count
 
+        if "cart" not in request.session:
+            request.session["cart"] = {}
+
         if product_id in request.session["cart"]:
             request.session["cart"][product_id] += quantity
         else:
