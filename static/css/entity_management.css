@@ -57,8 +57,9 @@ div#create-product-errors {
     width  : 100%;
 }
 
-.card {
+#products .card {
     min-width     : 250px;
-    margin-right  : 10px;
+    max-width     : 350px;
+    margin-left   : 0;
     margin-bottom : 10px;
 }
