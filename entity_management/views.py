@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import *
 from django.shortcuts import Http404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from IrisOnline.decorators import admin_required
 from django.shortcuts import redirect
@@ -252,6 +252,7 @@ def make_context(request, active_stall=None, include_stalls_and_products=False):
 
     return context
 
+
 class SalesReportView(View):
     @staticmethod
     @login_required
@@ -338,8 +339,6 @@ class ConfirmPaymentsView(View):
         return render(request, 'confirm_payments.html', make_context(request))
 
 
-
-# TODO: replenish shows low and out of stock, reports are self explanatory
 class ReplenishView(View):
     @staticmethod
     @login_required
@@ -347,13 +346,35 @@ class ReplenishView(View):
     def get(request):
         context = make_context(request)
         out_of_stock = Product.objects.filter(quantity=0)
-        low_stock = Product.objects.filter(quantity__range=(1,20)).order_by("quantity")
+        low_stock = Product.objects.filter(quantity__range=(1, 20)).order_by("quantity")
         others = Product.objects.filter(quantity__gt=20).order_by("quantity")
+        products = Product.objects.all()
 
         context.update({
             "out_of_stock": out_of_stock,
             "low_stock": low_stock,
-            "others":others
+            "others": others,
+            "products": products
         })
 
         return render(request, 'replenish_stocks.html', context)
+
+
+class ReplenishProductView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def post(request, product_id):
+        try:
+            product = Product.objects.get(id=product_id)
+        except:
+            raise Http404("Product not found")
+
+        try:
+            product.quantity = request.POST["quantity"]
+        except:
+            return HttpResponseBadRequest
+
+        product.save()
+        return redirect('/entity-management/replenish/')
+
