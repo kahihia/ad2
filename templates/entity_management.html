@@ -302,7 +302,7 @@
                 <div class="input-group form-group row">
                     <label for="create-product-price-input" class="col-sm-4 col-form-label">Price</label>
                     <span class="input-group-addon">₱</span>
-                    <input type="text" class="form-control" name="price" id="create-product-price-input">
+                    <input type="number" min="0" step="0.01" class="form-control" name="price" id="create-product-price-input">
                 </div>
 
                 <div class="input-group form-group row">
@@ -356,7 +356,7 @@
                     </div>
 
 
-                    <div id="error-text-2-{{ product.id }}" class="alert alert-danger" role="alert">
+                    <div id="error-text-2-{{ product.id }}" class="alert alert-danger rounded-0 border-0" role="alert">
                         <strong class="error-strong-text">Product not saved.</strong>
                     </div>
 
@@ -372,7 +372,7 @@
                         <div class="input-group form-group row">
                             <label for="edit-product-price-input" class="col-sm-4 col-form-label">Price</label>
                             <span class="input-group-addon">₱</span>
-                            <input type="text" class="form-control" name="price"
+                            <input type="number" min="0" step="0.01" class="form-control" name="price"
                                    id="edit-product-price-input-{{ product.id }}" value="{{ product.current_price }}">
                         </div>
 
