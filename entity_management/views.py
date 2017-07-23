@@ -339,12 +339,12 @@ class OrderTypeView(View):
         return render(request, 'orders_report.html', context)
 
 
-class WishlistReportView(View):
+class WaitlistReportView(View):
     @staticmethod
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'wishlist_report.html', make_context(request))
+        return render(request, 'waitlist_report.html', make_context(request))
 
 
 # TODO: Confirm payments received from customers
