@@ -25,9 +25,16 @@
 <!--Nav Bar-->
 {% include 'entity_nav.html' %}
 
-<div id="master-detail">
+<!---Nav Bar Active--->
+<script>
+    $(() => {
+        $('#entity-management-nav').addClass('active')
+    })
+</script>
 
-    <div id="stall-list">
+<div class="container-fluid d-flex p-4">
+
+    <div id="stall-list" class="mr-3">
         <ul class="list-group">
             <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
                 <h1 class="navbar-nav navbar-brand mr-auto" href="#">Stalls</h1>
@@ -103,7 +110,7 @@
 
 
         <ul class="list-group">
-            <nav class="list-group-item navbar navbar-toggleable-md navbar-light">
+            <nav class="list-group-item navbar navbar-toggleable-md navbar-light mr-3">
 
                 <h1 class="navbar-nav navbar-brand mr-auto">
                     Products

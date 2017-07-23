@@ -19,50 +19,107 @@
 <!--Nav Bar-->
 {% include 'entity_nav.html' %}
 
+<!---Nav Bar Active--->
+<script>
+    $(() => {
+        $('#replenish-stocks-nav').addClass('active')
+    })
+</script>
 
-<div id="master-detail">
+
+<div class="container-fluid p-5 ml-5 mr-5">
+
+    <h1 class="text-center m-5">Replenish Stocks</h1>
 
     <!-- OUT OF STOCK -->
     <div id="out-of-stock">
-        <h3>&nbspOut of Stock</h3>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Product No.</th>
-                <th>Product Name</th>
-                <th>Product Quantity</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-toggle="modal" data-target="#restock-modal">
-                <td>33</td>
-                <td>iPhone 6S</td>
-                <td>0</td>
-            </tr>
-            </tbody>
-        </table>
+        <h3 class="mb-3">Out of Stock</h3>
+        {% if out_of_stock %}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Quantity</th>
+                    <th>Stall</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in out_of_stick %}
+                    <tr data-toggle="modal" data-target="#restock-modal">
+                        <td>{{ product.name }}</td>
+                        <td><b>OUT OF STOCK</b></td>
+                        <td>{{ product.stall.name }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        {% else %}
+            <div class="container-fluid alert alert-success p-5 text-center">
+                <h3 class="mb-2 pt-3">There's nothing here</h3>
+                <h6 class="text-muted pb-3">Products that are out of stock will show up here</h6>
+            </div>
+        {% endif %}
     </div>
 
     <!-- LOW ON STOCK -->
     <div id="low-stock">
-        <h3>&nbspLow Stock</h3>
+        <h3>Low Stock</h3>
+        <h6 class="text-muted mb-4">Products with a quantity of less than 20</h6>
+
+        {% if low_stock %}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Quantity</th>
+                    <th>Stall</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for product in low_stock %}
+                    <tr data-toggle="modal" data-target="#restock-modal">
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ product.stall.name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <div class="container-fluid alert alert-success p-5 text-center">
+                <h3 class="mb-2 pt-3">There's nothing here</h3>
+                <h6 class="text-muted pb-3">Products with a quantity of less than 20 will show up here</h6>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <!-- OTHERS -->
+    <div id="low-stock">
+        <h3 class="mb-3">Other products</h3>
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>Product No.</th>
                 <th>Product Name</th>
                 <th>Product Quantity</th>
+                <th>Stall</th>
             </tr>
             </thead>
             <tbody>
-            <tr data-toggle="modal" data-target="#restock-modal">
-                <td>34</td>
-                <td>Macbook Pro</td>
-                <td>5</td>
-            </tr>
+            {% for product in others %}
+                <tr data-toggle="modal" data-target="#restock-modal">
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.stall.name }}</td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
+
 </div>
 
 <!-- Restock Modal -->

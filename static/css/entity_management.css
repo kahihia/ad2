@@ -7,11 +7,6 @@ body {
     background    : white;
 }
 
-#master-detail {
-    display    : flex;
-    margin-top : 20px;
-}
-
 div#master-detail > * {
     padding : 15px;
 }

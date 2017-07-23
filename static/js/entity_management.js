@@ -279,7 +279,7 @@ function editProduct(productID) {
         data: form,
         contentType: false,
         processData: false,
-        success: function (data) {
+        success: function () {
             location.reload();
         },
         error: function (data) {
