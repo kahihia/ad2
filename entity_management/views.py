@@ -252,24 +252,6 @@ def make_context(request, active_stall=None, include_stalls_and_products=False):
 
     return context
 
-
-
-
-# TODO: replenish shows low and out of stock, reports are self explanatory
-class ReplenishView(View):
-    @staticmethod
-    @login_required
-    @admin_required
-    def get(request):
-        return render(request, 'replenish_stocks.html', make_context(request))
-
-    @staticmethod
-    @login_required
-    @admin_required
-    def post(request):
-        pass
-
-
 class SalesReportView(View):
     @staticmethod
     @login_required
@@ -354,3 +336,24 @@ class ConfirmPaymentsView(View):
     @admin_required
     def get(request):
         return render(request, 'confirm_payments.html', make_context(request))
+
+
+
+# TODO: replenish shows low and out of stock, reports are self explanatory
+class ReplenishView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request):
+        context = make_context(request)
+        out_of_stock = Product.objects.filter(quantity=0)
+        low_stock = Product.objects.filter(quantity__range=(1,20)).order_by("quantity")
+        others = Product.objects.filter(quantity__gt=20).order_by("quantity")
+
+        context.update({
+            "out_of_stock": out_of_stock,
+            "low_stock": low_stock,
+            "others":others
+        })
+
+        return render(request, 'replenish_stocks.html', context)
