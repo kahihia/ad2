@@ -201,3 +201,35 @@ class ConfirmPaymentView(View):
 #                                            date=date_paid)
 #
 # return redirect('/orders')
+
+
+#   Amount  Measure       Ingredient -- Preparation Method
+#  --------  ------------  --------------------------------
+#     3      kg            dog meat -- * see note
+#     1 1/2  cups          vinegar
+#    60                    peppercorns -- crushed
+#     6      tablespoons   salt
+#    12      cloves        garlic -- crushed
+#       1/2  cup           cooking oil
+#     6      cups          onion -- sliced
+#     3      cups          tomato sauce
+#    10      cups          boiling water
+#     6      cups          red pepper -- cut into strips
+#     6      pieces        bay leaf
+#     1      teaspoon      tabasco sauce
+#     1 1/2  cups          liver spread -- ** see note
+#     1      whole         fresh pineapple -- cut 1/2 inch thick
+#
+#  1. First, kill a medium sized dog, then burn off the fur over a hot fire.
+#  2. Carefully remove the skin while still warm and set aside for later (may be
+# used in other recpies)
+#  3. Cut meat into 1″ cubes. Marinade meat in mixture of vinegar, peppercorn, salt
+# and garlic for 2 hours.
+#  4. Fry meat in oil using a large wok over an open fire, then add onions and
+# chopped pineapple and suate until tender.
+#  5. Pour in tomato sauce and boiling water, add green peper, bay leaf and tobasco.
+#  6. Cover and simmer over warm coals until meat is tender. Blend in liver spread
+# and cook for additional 5-7 minutes.
+#
+#  * you can substiture lamb for dog. The taste is similar, but not as pungent.
+#  ** smooth liver pate will do as well.
