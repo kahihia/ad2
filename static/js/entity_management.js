@@ -260,7 +260,6 @@ function editProduct(productID) {
 
     const form = new FormData();
     const name = $('#edit-product-name-input-' + productID).val();
-    const quantity = $('#edit-product-quantity-input-' + productID).val();
     const description = $('#edit-product-description-input-' + productID).val();
     const price = $('#edit-product-price-input-' + productID).val();
     const photo = $('#edit-product-photo-' + productID);
@@ -271,7 +270,6 @@ function editProduct(productID) {
     form.append('name', name);
     form.append('price', price);
     form.append('description', description);
-    form.append('quantity', quantity);
     form.append('product_id', productID);
 
     attachCSRF();

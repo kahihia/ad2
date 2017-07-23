@@ -184,8 +184,6 @@ def handle_errors(dict):
         errors.append("Error Missing: Name field required")
     if is_invalid(dict["price"]):
         errors.append("Error Missing: Price field required")
-    if is_invalid(dict["quantity"]):
-        errors.append("Error Missing: Quantity field required")
     if is_invalid(dict["description"]):
         errors.append("Error Missing: Description field required")
 
@@ -201,7 +199,6 @@ def update_product(request, stall_id):
         "product_name": request.POST.get('name'),
         "description": request.POST.get('description'),
         "price": request.POST.get('price'),
-        "quantity": request.POST.get('quantity')
     }
 
     errors = handle_errors(request_data)
@@ -215,7 +212,6 @@ def update_product(request, stall_id):
         if product.current_price != request_data["price"]:
             product.change_price(new_price=request_data["price"])
 
-        product.quantity = request_data["quantity"]
         if 'photo' in request.FILES:
             product.photo = request.FILES.get('photo')
         product.save()
