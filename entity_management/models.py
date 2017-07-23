@@ -15,9 +15,17 @@ from django.db.models import (
 
 class Stall(Model):
     name = CharField(max_length=64)
+    is_active = BooleanField(default=True)
+
+    def deactivate(self):
+        self.is_active = False
+        for product in self.product_set.all():
+            product.deactivate()
+
+        self.save()
 
     def __str__(self):
-        return self.name
+        return self.name if self.is_active else f"DEACTIVATED - {self.name}"
 
 
 class Product(Model):
@@ -27,6 +35,11 @@ class Product(Model):
     stall = ForeignKey(Stall, on_delete=CASCADE)
     quantity = PositiveIntegerField(default=0)
     is_active = BooleanField(default=True)
+
+    def deactivate(self):
+        if self.is_active:
+            self.is_active = False
+            self.save()
 
     @property
     def current_price(self):
@@ -46,7 +59,7 @@ class Product(Model):
         return price_histories[0].price
 
     def __str__(self):
-        return f"{self.name} - {self.stall}"
+        return f"{self.name}" if self.is_active else f"DEACTIVATED - {self.name}"
 
 
 class PriceHistory(Model):
@@ -57,4 +70,3 @@ class PriceHistory(Model):
 
     def __str__(self):
         return f"{self.price} - {self.effective_from} to {self.effective_to}"
-

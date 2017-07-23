@@ -61,8 +61,8 @@ $(function () {
             url: "/entity-management/stalls/",
             method: "POST",
             data: JSON.stringify(dict),
-            success: function () {
-                location.href = "/entity-management/";
+            success: function (data) {
+                location.href = "/entity-management/stalls/" + data.id + "/";
             },
             error: function () {
                 alert("something went wrong");

@@ -103,8 +103,7 @@ class ProductView(View):
         data = {
             "name": product.name
         }
-        product.is_active = False
-        product.save()
+        product.deactivate()
 
         return HttpResponse(
             json.dumps(data),
@@ -119,10 +118,13 @@ class StallView(View):
     @admin_required
     def get(request, stall_id):
         try:
-            stall = Stall.objects.get(id=stall_id)
+            stall = Stall.objects.get(id=stall_id, is_active=True)
             products = Product.objects.all().filter(stall=stall,is_active=True)
         except:
             raise Http404("Stall does not exist")
+
+        if not stall.is_active:
+            raise Http404("Stall is deactivated")
 
         stalls = Stall.objects.all()
         return render(request, 'entity_management.html', {
@@ -141,7 +143,8 @@ class StallView(View):
         new_stall.save()
 
         data = {
-            "new_stall": new_stall.name
+            "new_stall": new_stall.name,
+            "id": new_stall.id
         }
         return HttpResponse(
             json.dumps(data),
@@ -173,8 +176,7 @@ class StallView(View):
     def delete(self, stall_id):
 
         try:
-            Stall.objects.get(pk=stall_id).delete()
-
+            stall = Stall.objects.get(pk=stall_id).deactivate()
         except:
             raise Http404("Stall does not exist")
 
