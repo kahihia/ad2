@@ -133,7 +133,7 @@
 
                     {% if products %}
 
-                        <div class="card-group">
+                        <div class="card-deck">
 
 
                             {% for product in products %}
@@ -149,7 +149,7 @@
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item "><b
-                                                class="col-sm-5">Price</b> {{ product.price }}</li>
+                                                class="col-sm-5">Price</b>₱{{ product.current_price }}</li>
                                         <li class="list-group-item"><b
                                                 class="col-sm-5">Quantity</b> {{ product.quantity }}</li>
                                     </ul>
@@ -373,7 +373,7 @@
                             <label for="edit-product-price-input" class="col-sm-4 col-form-label">Price</label>
                             <span class="input-group-addon">₱</span>
                             <input type="text" class="form-control" name="price"
-                                   id="edit-product-price-input-{{ product.id }}" value="{{ product.price }}">
+                                   id="edit-product-price-input-{{ product.id }}" value="{{ product.current_price }}">
                         </div>
 
                         <div class="input-group form-group row">

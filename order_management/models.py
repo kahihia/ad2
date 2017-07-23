@@ -1,7 +1,7 @@
 from django.dispatch import receiver
 from entity_management.models import Product
 from customer_profile.models import Customer
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.db.models import (
     Model,
     ForeignKey,
@@ -133,8 +133,8 @@ def on_waitlist_save(sender, instance, created, **kwargs):
     waitlist_count.save()
 
 
-@receiver(post_save, sender=Product)
-def on_product_save(sender, instance, created, **kwargs):
+@receiver(pre_save, sender=Product)
+def on_product_save(sender, instance, **kwargs):
     if instance.quantity == 0:
         # Cannot fulfill waitlists with an empty inventory
         return
@@ -149,8 +149,6 @@ def on_product_save(sender, instance, created, **kwargs):
 
         waitlist.convert_to_order()
         instance.quantity -= 1
-
-    instance.save()
 
 
 class CustomerPaymentDetails(Model):

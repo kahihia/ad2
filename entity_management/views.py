@@ -73,14 +73,13 @@ class ProductView(View):
         print(not errors)
 
         if not errors:
-            new_product = Product()
-            new_product.name = dict["product_name"]
-            new_product.description = dict["description"]
-            new_product.photo = request.FILES.get('photo')
-            new_product.price = dict["price"]
-            new_product.stall = Stall.objects.get(pk=stall_id)
-            new_product.quantity = dict["quantity"]
-            new_product.save()
+            new_product = Product.objects.create(name=dict["product_name"],
+                                                 description=dict["description"],
+                                                 photo=request.FILES.get('photo'),
+                                                 stall=Stall.objects.get(id=stall_id),
+                                                 quantity=dict["quantity"])
+
+            PriceHistory.objects.create(product=new_product, price=dict["price"])
 
             data = {
                 "new_product": new_product.name
@@ -104,7 +103,8 @@ class ProductView(View):
         data = {
             "name": product.name
         }
-        product.delete()
+        product.is_active = False
+        product.save()
 
         return HttpResponse(
             json.dumps(data),
@@ -120,7 +120,7 @@ class StallView(View):
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
-            products = Product.objects.all().filter(stall=stall)
+            products = Product.objects.all().filter(stall=stall,is_active=True)
         except:
             raise Http404("Stall does not exist")
 
@@ -319,7 +319,6 @@ class OrderTypeView(View):
         approved_orders = orders.filter(status="A")
         shipped_orders = orders.filter(status="S")
         cancelled_orders = orders.filter(status="C")
-
 
         context.update({
             "orders": {
