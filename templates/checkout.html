@@ -117,13 +117,13 @@
     <div class="col-3"></div>
     <div id="options" class="mt-5 w-100" style="margin: auto">
         <a class="btn btn-secondary btn-lg mr-2 ml-auto" href="/">Continue Shopping</a>
-        <a class="btn btn-secondary btn-lg mr-2 mr-auto" href="/checkout/cart/">Back to Cart</a>
+        <a class="btn btn-secondary btn-lg mr-2" href="/checkout/cart/">Back to Cart</a>
 
         {% if line_items %}
 
-            <form method="POST">
+            <form method="POST" class="mr-auto">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-outline-primary btn-lg mr-auto">Purchase</button>
+                <button type="submit" class="btn btn-outline-primary btn-lg">Purchase</button>
             </form>
 
         {% endif %}
