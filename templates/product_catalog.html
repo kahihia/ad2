@@ -118,7 +118,7 @@
     <!-- Stalls -->
     <section id="stall-list">
         <!-- Items to be retrieved by the database -->
-        <h3 class="ml-1">Stalls</h3>
+        <h3 class="mb-3">Stalls</h3>
         <ul class="list-group">
             {% if stalls %}
 
@@ -151,13 +151,13 @@
     <!-- Items to be retrieved by the database -->
     <section id="product-showcase">
         {% if search_term or active_stall %}
-            <div class="container mb-1">
+            <div class="container mb-3 text-center">
                 {% if search_term %}
-                    <h3>Search results for <span class="text-muted">{{ search_term }}</span></h3>
+                    <h2>Search results for <span class="text-muted">{{ search_term }}</span></h2>
                 {% endif %}
 
                 {% if active_stall %}
-                    <h3>{{ active_stall.name }}</h3>
+                    <h1>{{ active_stall.name }}</h1>
                 {% endif %}
             </div>
         {% endif %}
