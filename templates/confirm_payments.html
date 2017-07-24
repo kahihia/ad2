@@ -48,10 +48,10 @@
         <tbody>
         {% for request in pending_requests %}
             <tr class="clickable-row" data-toggle="modal" data-target="#details">
-                <td>{{ request.parent_order.id }}</td>
-                <td>{{ request.date }}</td>
-                <td>P {{ request.parent_order.total_price }}</td>
-                <td>{{ request.photo.url }}</td>
+                <td>{{ request.id }}</td>
+                <td>{{ request.customer_payment_date }}</td>
+                <td>P {{ request.total_price }}</td>
+                <td>{{ request.customer_deposit_photo.url }}</td>
             </tr>
         {% endfor %}
 

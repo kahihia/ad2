@@ -460,7 +460,15 @@ class ConfirmPaymentsView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'confirm_payments.html', make_context(request))
+        context = make_context(request)
+        pending_requests = Order.objects.filter(customer_deposit_photo__isnull=False)
+        print(pending_requests)
+
+        context.update({
+            "pending_requests": pending_requests
+        })
+
+        return render(request, 'confirm_payments.html', context)
 
 
 class ReplenishView(View):
