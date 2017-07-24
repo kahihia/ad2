@@ -38,7 +38,7 @@
 </script>
 
 <!-- Content -->
-<div id="content" class="p-4 m-4">
+<div id="content" class="p-5 m-5">
     <h1>Stall Sales</h1>
     <h6 class="text-muted">Generated [current date]</h6>
     <br>
@@ -50,18 +50,22 @@
                     <th>Starting Date</th>
                     <th>Ending Date</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>
-                        <input class="form-control" type="date" id="start-date-input" name="start_input">
+                        <input class="form-control" type="date" id="start-date-input" name="start_date">
                     </td>
                     <td>
-                        <input class="form-control" type="date" id="end-date-input" name="end_input">
+                        <input class="form-control" type="date" id="end-date-input" name="end_date">
                     </td>
                     <td>
-                        <button class="btn btn-success">Filter</button>
+                        <button class="btn btn-primary">Filter</button>
+                    </td>
+                    <td>
+                        <a href="/entity-management/orders-report/" class="btn btn-secondary">Remove Filter</a>
                     </td>
                 </tr>
                 </tbody>
@@ -93,6 +97,13 @@
         </tr>
         </tfoot>
     </table>
+    <!-- If there is nothing to show -->
+    <!--No products message -->
+    <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
+        <div class="container text-center p-5 m-5">
+            <h4 class="empty-message-text w-100">There are no sales for the given date range</h4>
+        </div>
+    </div>
 </div>
 
 <!-- Sales Details Modal -->

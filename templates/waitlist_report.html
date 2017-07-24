@@ -37,7 +37,7 @@
 </script>
 
 <!-- Content -->
-<div id="content" class="p-4 m-4">
+<div id="content" class="p-5 m-5">
     <h1>Waitlist Report</h1>
     <h6 class="text-muted">Generated [current date]</h6>
     <br>
@@ -48,6 +48,7 @@
                 <tr>
                     <th>Starting Date</th>
                     <th>Ending Date</th>
+                    <th></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -60,7 +61,10 @@
                         <input class="form-control" type="date" id="end-date-input" name="end_input">
                     </td>
                     <td>
-                        <button class="btn btn-success">Filter</button>
+                        <button class="btn btn-primary">Filter</button>
+                    </td>
+                    <td>
+                        <a href="/entity-management/waitlist-report/" class="btn btn-secondary">Remove Filter</a>
                     </td>
                 </tr>
                 </tbody>
@@ -84,7 +88,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="2" class="text-center text-muted pt-5">
+            <td colspan="3" class="text-center text-muted pt-5">
                 <small>
                     <b>END OF REPORT</b>
                 </small>
@@ -92,6 +96,13 @@
         </tr>
         </tfoot>
     </table>
+    <!-- If there is nothing to show -->
+    <!--No products message -->
+    <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
+        <div class="container text-center p-5 m-5">
+            <h4 class="empty-message-text w-100">There are no sales for the given date range</h4>
+        </div>
+    </div>
 </div>
 
 </body>
