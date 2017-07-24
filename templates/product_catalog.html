@@ -82,7 +82,6 @@
             </div>
         </div>
         {% if recommendations %}
-            <!-- TODO: Recommendations -->
             <div id="recommendation-items" class="card border-left-0 rounded-0">
                 <h6 class="card-header">People that bought this item also bought</h6>
 
@@ -278,9 +277,6 @@
 </div>
 
 <!-- Input Payment Details Modal -->
-<!-- TODO: Link this modal to the waitlist buttons -->
-
-
 {% for product in out_of_stock %}
     <div class="modal fade" id="waitlist-modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="title"
          aria-hidden="true">

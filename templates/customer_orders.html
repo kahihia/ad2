@@ -131,7 +131,7 @@
 <div class="modal fade" id="payment-details-modal" tabindex="-1" role="dialog" aria-labelledby="title"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form method="POST" action="/confirm-payment/" id="payment-details">
+        <form method="POST" action="/confirm-payment/">
 
             <div class="modal-content">
                 <div class="modal-body">
@@ -141,6 +141,7 @@
                             order to be delivered.</h5>
                         {% csrf_token %}
                         <div>
+                            <input type="hidden" name ="order-id" value = "{{ active_order.id }}">
                             <div class="form-group row mt-3">
                                 <div class="col-10">
                                     <label for="payment-date-input">Date of Payment</label>

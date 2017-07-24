@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+``<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,12 +26,12 @@
 {% include 'entity_nav.html' %}
 
 <!-- Date entry alert -->
+
 {% if date_is_conflict %}
     <div class="alert alert-danger rounded-0" role="alert">
         <strong>Woops!</strong> You entered wrong or conflicting dates.
     </div>
 {% endif %}
-
 
 <!---Nav Bar Active--->
 <script>
@@ -157,7 +157,7 @@
     <!--No products message -->
     <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
         <div class="container text-center p-5 m-5">
-            <h4 class="empty-message-text w-100">There are no sales for the given date range</h4>
+            <h4 class="empty-message-text w-100">There are no orders for the given date range</h4>
         </div>
     </div>
 </div>
@@ -281,7 +281,6 @@
         </div>
     </div>
 {% endfor %}
-
 
 </body>
 </html>
