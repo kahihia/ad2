@@ -26,9 +26,11 @@
 {% include 'entity_nav.html' %}
 
 <!-- Date entry alert -->
-<div class="alert alert-danger rounded-0" role="alert">
-    <strong>Woops!</strong> You entered wrong or conflicting dates.
-</div>
+{% if date_is_conflict %}
+    <div class="alert alert-danger rounded-0" role="alert">
+        <strong>Woops!</strong> You entered wrong or conflicting dates.
+    </div>
+{% endif %}
 
 <!---Nav Bar Active--->
 <script>
@@ -40,7 +42,7 @@
 <!-- Content -->
 <div id="content" class="p-5 m-5">
     <h1>Stall Sales</h1>
-    <h6 class="text-muted">Generated [current date]</h6>
+    <h6 class="text-muted">Generated {{ current_date }}</h6>
     <br>
     <div class="mb-3">
         <form method="GET" class="form-group">
@@ -65,7 +67,7 @@
                         <button class="btn btn-primary">Filter</button>
                     </td>
                     <td>
-                        <a href="/entity-management/orders-report/" class="btn btn-secondary">Remove Filter</a>
+                        <a href="/entity-management/sales-report/" class="btn btn-secondary">Remove Filter</a>
                     </td>
                 </tr>
                 </tbody>
@@ -76,16 +78,19 @@
         <thead>
         <tr>
             <th>Stall Name</th>
-            <th>Date</th>
             <th>Sales Total</th>
         </tr>
         </thead>
         <tbody>
-        <tr data-toggle="modal" data-target="#details-modal">
-            <td>Bon Apple</td>
-            <td>06-18-2017</td>
-            <td>P15000</td>
-        </tr>
+        {% if sales_per_stall %}
+            {% for stall in sales_per_stall %}
+                <tr data-toggle="modal" data-target="#details-modal">
+                    <td>{{ stall.line_item_stall }}</td>
+                    <td>P {{ stall.line_item_price }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
         </tbody>
         <tfoot>
         <tr>
