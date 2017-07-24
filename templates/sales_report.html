@@ -26,7 +26,7 @@
 {% include 'entity_nav.html' %}
 
 <!-- Date entry alert -->
-<div class="alert alert-danger" role="alert">
+<div class="alert alert-danger rounded-0" role="alert">
   <strong>Woops!</strong> You entered wrong or conflicting dates.
 </div>
 
@@ -43,28 +43,34 @@
     <h6 class="text-muted">Generated [current date]</h6>
     <br>
     <div class="mb-3">
-        <table class="table" style="width: 700px;">
-            <thead>
-            <tr>
-                <th>Starting Date</th>
-                <th>Ending Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td width="200px">
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="start-date-input">
-                    </div>
-                </td>
-                <td width="200px">
-                    <div class="form-group">
-                        <input class="form-control" type="date" id="end-date-input">
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <table class="table">
+                <thead>
+                <tr>
+                    <th>Starting Date</th>
+                    <th>Ending Date</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <input class="form-control" type="date" id="start-date-input" name="start_input">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input class="form-control" type="date" id="end-date-input" name="end_input">
+                        </div>
+                    </td>
+                    <td>
+                        <form method="GET">
+                            <button class="btn btn-success">Filter</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
     </div>
     <table class="table table-striped table-hover" style="width: 700px;">
         <thead>
