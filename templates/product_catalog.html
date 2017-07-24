@@ -44,7 +44,8 @@
     </div>
 {% endif %}
 
-{% if waitlisted %}
+{% if waitlisted and name %}
+    {# Name is required because you must be logged in #}
     <div class="alert alert-success rounded-0 d-flex" role="alert">
         <div class="mr-auto">
             <strong>Success!</strong> {{ waitlisted.name }} is added to your waitlists.
@@ -54,7 +55,8 @@
 
 {% endif %}
 
-{% if added_to_cart %}
+{% if added_to_cart and name %}
+    {# Name is required because you must be logged in #}
     <div class="card-group">
         <div id="added-to-cart-notification" class="card border-right-0 rounded-0">
             <h6 class="card-header">Added to cart</h6>
