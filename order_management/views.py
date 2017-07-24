@@ -161,6 +161,7 @@ class ConfirmPaymentView(View):
         photo = request.POST['deposit-slip']
         order.customer_payment_date = date_paid
         order.customer_deposit_photo = photo
+        order.save()
         print(order.customer_payment_date)
         print(order.customer_deposit_photo)
 
