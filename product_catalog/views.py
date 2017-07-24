@@ -40,8 +40,6 @@ class ProductCatalogView(View):
         except:
             raise Http404("Product ID not in database")
 
-        # TODO: Error when item exceeds quantity count
-
         Cart(request=request).update_quantity(product_id, quantity)
         context = make_context(request=request)
 
