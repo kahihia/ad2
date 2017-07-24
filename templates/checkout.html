@@ -11,7 +11,6 @@
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static '/css/nav.css/' %}">
     <link rel="stylesheet" href="{% static '/css/cart.css/' %}">
-    <link rel="stylesheet" href="{% static '/css/checkout.css/' %}">
 
     <!-- Custom JS go here -->
 
@@ -22,7 +21,7 @@
 {% include 'customer_nav.html' %}
 
 <!-- Content -->
-<div id="content">
+<div id="content" class="p-5 m-5">
     <h1>Checkout</h1>
     {% if quantity_errors or dead_products or out_of_stock_errors %}
         <div class="alert alert-danger mt-3" role="alert">
@@ -67,7 +66,7 @@
     {% if line_items %}
 
         <div id="summary">
-            <div id="cart-items">
+            <div id="cart-items" class="mb-5">
                 <table class="table" id="items-table">
                     <thead>
                     <tr>
@@ -95,19 +94,36 @@
                     </tbody>
                 </table>
             </div>
-            <div id="account-information">
-                <h4>Delivery Information</h4>
-                <div>
-                    <div>
-                        <p>{{ customer.full_name }}</p>
-                        <p>{{ customer.user }}</p>
-                        <p>{{ customer.phone_number }}</p>
-                    </div>
-                    <div>
-                        <p>{{ customer.address }}</p>
-                        <p>{{ customer.city }}</p>
-                        <p>{{ customer.postal_code }}</p>
-                    </div>
+            <div id="account-information" class="d-flex mt-5">
+                <div class="mr-5" style="width: 450px;">
+                    <h4>Customer Information</h4>
+                    <table class="table mb-5">
+                        <tr>
+                            <th>Full Name</th>
+                            <td>{{ customer.full_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone Number</th>
+                            <td>{{ customer.phone_number }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="ml-5" style="width: 450px;">
+                    <h4>Delivery Information</h4>
+                    <table class="table">
+                        <tr>
+                            <th>Address</th>
+                            <td>{{ customer.address }}</td>
+                        </tr>
+                        <tr>
+                            <th>City</th>
+                            <td>{{ customer.city }}</td>
+                        </tr>
+                        <tr>
+                            <th>Postal Code</th>
+                            <td>{{ customer.postal_code }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
