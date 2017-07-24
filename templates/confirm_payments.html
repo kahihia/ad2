@@ -51,7 +51,7 @@
                 <td>{{ orders.id }}</td>
                 <td>{{ orders.customer_payment_date }}</td>
                 <td>P {{ orders.total_price }}</td>
-                {% if orders.customer_deposit_photo %}
+                {%if confirm_payment_photo.url %}
                     <td><a class="btn btn-primary" href="{{ orders.customer_deposit_photo.url }}">Photo</td>
                 {% else %}
                     <td class="text-muted">No deposit url</td>
