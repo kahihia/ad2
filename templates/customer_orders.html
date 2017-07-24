@@ -74,7 +74,7 @@
 
             {% if active_order.status == "P" %}
                 <div class="alert alert-warning mr-auto d-flex" role="alert">
-                    <div class="">
+                    <div>
                         <p><strong>Warning! </strong> This order will be cancelled if
                             payment details are not received.
                         </p>
@@ -87,6 +87,18 @@
                     <button data-toggle="modal"
                             data-target="#payment-details-modal" class="btn btn-sm btn-warning">Confirm Payment
                     </button>
+                </div>
+                <!-- elif statement -->
+                <div class="alert alert-info mr-auto d-flex" role="alert">
+                    <div>
+                        <p><strong>Note: </strong> Payment is undergoing verification.</p>
+                    </div>
+                </div>
+                <!-- elif statement -->
+                <div class="alert alert-success mr-auto d-flex" role="alert">
+                    <div>
+                        <p><strong>Success! </strong> Payment has already been verified.</p>
+                    </div>
                 </div>
             {% endif %}
 
