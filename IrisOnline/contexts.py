@@ -1,6 +1,7 @@
 from entity_management.models import Stall, Product
 from customer_profile.models import Customer, Wishlist
 from order_management.models import Waitlist
+from product_catalog.cart import Cart
 
 
 def available_stalls():
@@ -9,7 +10,8 @@ def available_stalls():
 
 
 def make_context(request, active_stall=None, include_stalls_and_products=True):
-    cart_count = get_cart_count(request)
+    cart_count = Cart(request=request).cart_count()
+    # cart_products =
     name = get_user_name(request)
 
     context = {
@@ -56,14 +58,3 @@ def get_user_name(request):
         return customer.full_name
     else:
         return None
-
-
-def get_cart_count(request):
-    if 'cart' not in request.session:
-        request.session['cart'] = {}
-        cart_count = 0
-        request.session.modified = True
-    else:
-        cart_count = len(request.session['cart'])
-
-    return cart_count

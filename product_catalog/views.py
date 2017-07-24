@@ -8,7 +8,7 @@ from IrisOnline.decorators import customer_required
 from customer_profile.models import Customer
 from entity_management.models import Stall, Product
 from order_management.tasks import get_recommended_products
-from .models import LineItem
+from product_catalog.cart import Cart
 
 
 def available_stalls():
@@ -42,15 +42,7 @@ class ProductCatalogView(View):
 
         # TODO: Error when item exceeds quantity count
 
-        if "cart" not in request.session:
-            request.session["cart"] = {}
-
-        if product_id in request.session["cart"]:
-            request.session["cart"][product_id] += quantity
-        else:
-            request.session["cart"][product_id] = quantity
-
-        request.session.modified = True
+        Cart(request=request).update_quantity(product_id, quantity)
         context = make_context(request=request)
 
         recommendations = get_recommended_products(product=product)
@@ -67,14 +59,10 @@ class ProductCatalogView(View):
 class CartView(View):
     @staticmethod
     def get(request):
-        products = []
-
-        for product_id, quantity in request.session["cart"].items():
-            product = Product.objects.get(id=product_id)
-            products.append(LineItem(product, quantity=quantity))
+        line_items = Cart(request=request).line_items()
 
         context = {
-            "line_items": products
+            "line_items": line_items
         }
 
         return render(request, 'cart.html', context)
