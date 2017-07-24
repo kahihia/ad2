@@ -103,7 +103,7 @@
     {% if not date_is_conflict %}
         {% if dates %}
             <h4 class="p-3">Showing from {{ dates.start_date }}<span class="text-muted"></span> to <span
-                    class="text-muted">{{ dates.end_date}}</span>
+                    class="text-muted">{{ dates.end_date }}</span>
             </h4>
         {% endif %}
     {% endif %}
@@ -121,13 +121,13 @@
         {% if selected_type %}
             {% for order in selected_type %}
                 {% if order.status == "P" %}
-                    <tr class="clickable-row table-warning" data-toggle="modal" data-target="#details">
+                    <tr class="clickable-row table-warning" data-toggle="modal" data-target="#order-details-{{ order.id }}">
                         {% elif order.status == "S " %}
-                    <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
+                    <tr class="clickable-row table-success" data-toggle="modal" data-target="#order-details-{{ order.id }}">
                         {% elif order.status == "A " %}
-                    <tr class="clickable-row table-info" data-toggle="modal" data-target="#details">
+                    <tr class="clickable-row table-info" data-toggle="modal" data-target="#order-details-{{ order.id }}">
                         {% else %}
-                    <tr class="clickable-row table-danger" data-toggle="modal" data-target="#details">
+                    <tr class="clickable-row table-danger" data-toggle="modal" data-target="#order-details-{{ order.id }}">
                 {% endif %}
             <td>{{ order.id }}</td>
             <td>₱{{ order.total_price }}</td>
@@ -160,7 +160,7 @@
 
 <!-- Order Details Modal -->
 {% for order in selected_type %}
-    <div class="modal fade" id="details">
+    <div class="modal fade" id="order-details-{{ order.id }}">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -249,26 +249,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Apple</td>
-                                    <td>P10</td>
-                                </tr>
-                                <tr>
-                                    <td>Apple</td>
-                                    <td>P10</td>
-                                </tr>
-                                <tr>
-                                    <td>Apple</td>
-                                    <td>P10</td>
-                                </tr>
-                                <tr>
-                                    <td>Apple</td>
-                                    <td>P10</td>
-                                </tr>
-                                <tr>
-                                    <td>Apple</td>
-                                    <td>P10</td>
-                                </tr>
+                                {% for line_item in order.orderlineitems_set.all %}
+                                    <tr>
+                                        <td>{{ line_item.product.name }}</td>
+                                        <td>{{ line_item.quantity }}</td>
+                                    </tr>
+                                {% endfor %}
+
                                 </tbody>
                             </table>
                         </div>
@@ -282,6 +269,7 @@
         </div>
     </div>
 {% endfor %}
+
 
 </body>
 </html>
