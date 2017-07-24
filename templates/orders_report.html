@@ -121,18 +121,6 @@
         {% if selected_type %}
             {% for order in selected_type %}
                 {% if order.status == "P" %}
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <tr class="clickable-row table-warning" data-toggle="modal" data-target="#details">
-                        {% elif order.status == "S " %}
-                    <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
-                        {% elif order.status == "A " %}
-                    <tr class="clickable-row table-info" data-toggle="modal" data-target="#details">
-                        {% else %}
-                    <tr class="clickable-row table-danger" data-toggle="modal" data-target="#details">
-=======
-=======
->>>>>>> 0402f891be7e011e8323b799adafe9aeaa4a18d8
                     <tr class="clickable-row table-warning" data-toggle="modal"
                         data-target="#order-details-{{ order.id }}">
                         {% elif order.status == "S " %}
@@ -144,10 +132,6 @@
                         {% else %}
                     <tr class="clickable-row table-danger" data-toggle="modal"
                         data-target="#order-details-{{ order.id }}">
-<<<<<<< HEAD
->>>>>>> 32792b3b9c6272293d6f9a2648950100c8dc650e
-=======
->>>>>>> 0402f891be7e011e8323b799adafe9aeaa4a18d8
                 {% endif %}
             <td>{{ order.id }}</td>
             <td>₱{{ order.total_price }}</td>

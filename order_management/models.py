@@ -26,8 +26,8 @@ class Order(Model):
     date_ordered = DateTimeField(auto_now=True)
     customer = ForeignKey(Customer, on_delete=CASCADE)
     status = CharField(max_length=2, choices=ORDER_STATUSES, default='P')
-    customer_deposit_photo = FileField(blank=True, null=True)
-    customer_payment_date = DateField(null=True, blank=True)
+    # customer_deposit_photo = FileField(blank=True, null=True, default=None)
+    # customer_payment_date = DateField(null=True, blank=True, default=None)
 
     @staticmethod
     def print_orders_containing_product(product):
