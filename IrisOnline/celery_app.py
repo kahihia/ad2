@@ -8,23 +8,16 @@ from celery.schedules import crontab
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'IrisOnline.settings')
 
-app = Celery('IrisOnline', broker='redis://localhost:6379/0',include=[
+app = Celery('IrisOnline', broker='redis://localhost:6379/0',backend="redis://localhost:6379/0",include=[
     "IrisOnline.tasks",
     "order_management.tasks"
 ])
 
 app.conf.update(
-        CELERY_TIMEZONE = 'Asia/Manila'
-)
-
-app.conf.update(
-    broker_url = 'redis://localhost:6379',
-    result_backend = 'redis://localhost:6379',
     task_serializer='json',
     accept_content=['json'],
     result_serializer='json',
     timezone='Asia/Manila',
-
 )
 app.conf.beat_schedule = {
     'add-every-30-seconds': {
@@ -40,5 +33,9 @@ app.config_from_object('django.conf:settings')
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+@app.task(name="expire")
+def expire():
+    print("shit LMAO this works")
 
 

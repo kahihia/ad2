@@ -143,6 +143,7 @@ LOGIN_URL = '/customer-sign-in/'
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TIMEZONE = 'Asia/Manila'
+CELERY_IGNORE_RESULT=True
 
 
 

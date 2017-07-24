@@ -9,6 +9,8 @@ from django.views import View
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from order_management.models import *
+from IrisOnline.celery_app import expire
+from datetime import datetime
 
 
 class LineItem():
@@ -190,6 +192,9 @@ class PurchaseView(View):
         cart = request.session["cart"]
         customer = Customer.objects.get(user=request.user)
         order = Order.objects.create(customer=customer)
+        print(order.status)
+        # expire.apply_async(args=(order.id,),countdown = 40)
+
 
         for product_id, quantity in cart.items():
             # Deduct from inventory
@@ -211,3 +216,5 @@ class PurchaseView(View):
         context["total_price"] = order.total_price
 
         return render(request, 'purchase.html', context)
+
+
