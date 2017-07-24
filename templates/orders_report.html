@@ -121,13 +121,17 @@
         {% if selected_type %}
             {% for order in selected_type %}
                 {% if order.status == "P" %}
-                    <tr class="clickable-row table-warning" data-toggle="modal" data-target="#order-details-{{ order.id }}">
+                    <tr class="clickable-row table-warning" data-toggle="modal"
+                        data-target="#order-details-{{ order.id }}">
                         {% elif order.status == "S " %}
-                    <tr class="clickable-row table-success" data-toggle="modal" data-target="#order-details-{{ order.id }}">
+                    <tr class="clickable-row table-success" data-toggle="modal"
+                        data-target="#order-details-{{ order.id }}">
                         {% elif order.status == "A " %}
-                    <tr class="clickable-row table-info" data-toggle="modal" data-target="#order-details-{{ order.id }}">
+                    <tr class="clickable-row table-info" data-toggle="modal"
+                        data-target="#order-details-{{ order.id }}">
                         {% else %}
-                    <tr class="clickable-row table-danger" data-toggle="modal" data-target="#order-details-{{ order.id }}">
+                    <tr class="clickable-row table-danger" data-toggle="modal"
+                        data-target="#order-details-{{ order.id }}">
                 {% endif %}
             <td>{{ order.id }}</td>
             <td>₱{{ order.total_price }}</td>
@@ -262,15 +266,13 @@
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer d-flex">
-                        <div class="d-flex">
-                            <h6 class="mt-2 mr-3">Change Order Status</h6>
-                            <div class="btn-group mr-2" role="group" aria-label="status-group">
-                                <button type="button" class="btn btn-outline-danger">Cancelled</button>
-                                <button type="button" class="btn btn-outline-warning">Pending</button>
-                                <button type="button" class="btn btn-outline-primary">Approved</button>
-                                <button type="button" class="btn btn-outline-success">Shipped</button>
-                            </div>
+                    <div class="modal-footer">
+                        <h6 class="mt-2 ml-3 mr-auto">Change Order Status</h6>
+                        <div class="btn-group mr-2" role="group" aria-label="status-group">
+                            <button type="button" class="btn btn-outline-danger">Cancelled</button>
+                            <button type="button" class="btn btn-outline-warning">Pending</button>
+                            <button type="button" class="btn btn-outline-primary">Approved</button>
+                            <button type="button" class="btn btn-outline-success">Shipped</button>
                         </div>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
