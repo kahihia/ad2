@@ -10,12 +10,11 @@ def available_stalls():
 
 
 def make_context(request, active_stall=None, include_stalls_and_products=True):
-    cart_count = Cart(request=request).cart_count()
-    # cart_products =
+    cart = Cart(request=request)
     name = get_user_name(request)
 
     context = {
-        'cart_count': cart_count,
+        'cart': cart,
         'name': name
     }
 

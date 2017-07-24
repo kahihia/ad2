@@ -49,7 +49,7 @@ class Cart:
 
     @property
     def products(self):
-        return [Product.objects.get(id=product_id) for product_id, quantity in self.line_items]
+        return [line_item.product for line_item in self.line_items]
 
     @property
     def is_approved(self):
@@ -69,7 +69,7 @@ class Cart:
     def mark_modified(self):
         self.request.session.modified = True
 
-    def cart_count(self):
+    def product_count(self):
         return len(self.cart)
 
     def update_quantity(self, product_id, quantity):
