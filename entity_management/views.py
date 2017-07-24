@@ -459,11 +459,11 @@ class ConfirmPaymentsView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        pending_requests = Order.objects.filter(customer_deposit_photo__isnull=False)
-        print(pending_requests)
+        pending_orders = Order.objects.filter(customer_deposit_photo__isnull=False)
+        print(pending_orders)
 
         context.update({
-            "pending_requests": pending_requests
+            "pending_orders": pending_orders
         })
 
         return render(request, 'confirm_payments.html', context)
