@@ -98,7 +98,7 @@ class Waitlist(Model):
 
     def convert_to_order(self):
         order = Order.objects.create(customer=self.customer)
-        OrderLineItems.objects.create(order=order, product=self.product, quantity=1)
+        OrderLineItems.objects.create(parent_order=order, product=self.product, quantity=1)
         self.delete()
 
     @staticmethod
@@ -166,6 +166,10 @@ def on_product_save(sender, instance, **kwargs):
             break
 
         waitlist.convert_to_order()
+        print(instance.quantity)
+
+
+        instance.quantity = int(instance.quantity) # For some reason it isn't int
         instance.quantity -= 1
 
 

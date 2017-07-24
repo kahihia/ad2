@@ -439,9 +439,11 @@ class WaitlistReportView(View):
                 })
 
         products_currently_waitlisted = sorted(products_currently_waitlisted,
-                                               key=lambda statistics: statistics["current_waitlists"])
+                                               key=lambda statistics: statistics["current_waitlists"],
+                                               reverse=True)
         products_not_waitlisted = sorted(products_not_waitlisted,
-                                         key=lambda statistics: statistics["total_waitlists"])
+                                         key=lambda statistics: statistics["total_waitlists"],
+                                         reverse=True)
 
         context.update({
             "products_currently_waitlisted": products_currently_waitlisted,
