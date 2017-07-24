@@ -7,7 +7,7 @@ from django.views import View
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from .models import *
-# from .forms import UploadFileForm
+from .forms import ConfirmPaymentForm
 
 
 class UserOrdersView(View):
@@ -154,10 +154,15 @@ class ConfirmPaymentView(View):
         except:
             Http404('Could not get Customer object')
 
-
+        print(request.POST)
         order_id = request.POST.get('order-id')
-        Order.objects.get(id = order_id)
+        order = Order.objects.get(id = order_id)
         date_paid = request.POST.get('date')
+        photo = request.POST['deposit-slip']
+        order.customer_payment_date = date_paid
+        order.customer_deposit_photo = photo
+        print(order.customer_payment_date)
+        print(order.customer_deposit_photo)
 
 
         return redirect(f"/orders/{order_id}/")
