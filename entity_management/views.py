@@ -9,6 +9,7 @@ from IrisOnline.decorators import admin_required
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
+from datetime import datetime
 
 
 def admin_sign_out(request):
@@ -267,6 +268,7 @@ class OrderReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
+        date = datetime.now()
 
         orders = Order.objects.all()
 
@@ -282,7 +284,8 @@ class OrderReportView(View):
                 "Shipped": shipped_orders,
                 "Cancelled": cancelled_orders,
             },
-            "selected_type": orders
+            "selected_type": orders,
+            "current_date": date
         })
 
         return render(request, 'orders_report.html', context)
@@ -295,6 +298,7 @@ class OrderTypeView(View):
     def get(request, order_type):
         context = make_context(request)
         orders = Order.objects.all()
+        date = datetime.now()
 
         try:
             status = Order.ORDER_STATUSES
@@ -316,7 +320,8 @@ class OrderTypeView(View):
                 "Shipped": shipped_orders,
                 "Cancelled": cancelled_orders,
             },
-            "selected_type": selected_type
+            "selected_type": selected_type,
+            "current_date": date
         })
 
         return render(request, 'orders_report.html', context)
