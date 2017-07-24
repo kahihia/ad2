@@ -105,9 +105,14 @@ class Waitlist(Model):
     def waitlist_products_for_customer(customer):
         return [waitlist.product for waitlist in Waitlist.objects.filter(customer=customer)]
 
+
+    @staticmethod
+    def waitlists_for_product(product):
+        return Waitlist.objects.filter(product=product)
+
     @staticmethod
     def waitlist_count_for_product(product):
-        return len(Waitlist.objects.filter(product=product))
+        return len(Waitlist.waitlists_for_product(product))
 
     def to_order(self):
         order = Order.objects.create(customer=self.customer)
@@ -153,7 +158,7 @@ def on_product_save(sender, instance, **kwargs):
         return
 
     # Sort by earlier to later
-    waitlists = Waitlist.waitlist_count_for_product(product=instance).order_by('date_added')
+    waitlists = Waitlist.waitlists_for_product(product=instance).order_by('date_added')
 
     for waitlist in waitlists:
         if instance.quantity == 0:
