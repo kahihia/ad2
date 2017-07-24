@@ -1,12 +1,7 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.views import View
 from .models import *
-from django.shortcuts import Http404
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 import json
 from IrisOnline.decorators import admin_required
-from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
 from datetime import datetime
@@ -450,7 +445,8 @@ class WaitlistReportView(View):
 
         context.update({
             "products_currently_waitlisted": products_currently_waitlisted,
-            "products_not_waitlisted": products_not_waitlisted
+            "products_not_waitlisted": products_not_waitlisted,
+            "current_date": datetime.now()
         })
 
         return render(request, 'waitlists.html', context)
