@@ -166,8 +166,8 @@ class ConfirmPaymentView(View):
 
         date_paid = request.POST.get('date'),
         deposit_slip = request.FILES.get('deposit-slip')
-
         print(date_paid)
+
 
 # kams code
 # if 'deposit_slip' not in request.FILES or "date" not in request.POST:

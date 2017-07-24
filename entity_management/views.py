@@ -273,13 +273,17 @@ class OrderReportView(View):
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
         date_is_conflict = False
+        dict = {}
 
         orders = Order.objects.all()
 
         if start_date and end_date:
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
-            print(start_date)
+            dict = {
+                "start_date": start_date,
+                "end_date": end_date
+            }
 
             if start_date < end_date:
                 orders = orders.filter(date_ordered__gte=start_date)
@@ -301,7 +305,8 @@ class OrderReportView(View):
             },
             "selected_type": orders,
             "current_date": current_date,
-            "date_is_conflict": date_is_conflict
+            "date_is_conflict": date_is_conflict,
+            "dates": dict
         })
 
         return render(request, 'orders_report.html', context)
@@ -314,6 +319,7 @@ class OrderTypeView(View):
     def get(request, order_type):
         context = make_context(request)
         date = datetime.now()
+        dict = {}
 
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
@@ -324,7 +330,10 @@ class OrderTypeView(View):
         if start_date and end_date:
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
-            print(start_date)
+            dict = {
+                "start_date": start_date,
+                "end_date": end_date
+            }
 
             if start_date < end_date:
                 orders = orders.filter(date_ordered__gte=start_date)
@@ -357,7 +366,8 @@ class OrderTypeView(View):
             },
             "selected_type": selected_type,
             "current_date": date,
-            "date_is_conflict": date_is_conflict
+            "date_is_conflict": date_is_conflict,
+            "dates": dict
         })
 
         return render(request, 'orders_report.html', context)
