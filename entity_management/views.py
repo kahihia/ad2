@@ -268,9 +268,24 @@ class OrderReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        date = datetime.now()
+        current_date = datetime.now()
+
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        date_is_conflict = False
 
         orders = Order.objects.all()
+
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+            print(start_date)
+
+            if start_date < end_date:
+                orders = orders.filter(date_ordered__gte=start_date)
+                orders = orders.filter(date_ordered__lte=end_date)
+            else:
+                date_is_conflict = True
 
         pending_orders = orders.filter(status="P")
         approved_orders = orders.filter(status="A")
@@ -285,7 +300,8 @@ class OrderReportView(View):
                 "Cancelled": cancelled_orders,
             },
             "selected_type": orders,
-            "current_date": date
+            "current_date": current_date,
+            "date_is_conflict": date_is_conflict
         })
 
         return render(request, 'orders_report.html', context)
@@ -297,8 +313,27 @@ class OrderTypeView(View):
     @admin_required
     def get(request, order_type):
         context = make_context(request)
-        orders = Order.objects.all()
         date = datetime.now()
+
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        date_is_conflict = False
+
+        orders = Order.objects.all()
+
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+            print(start_date)
+
+            if start_date < end_date:
+                orders = orders.filter(date_ordered__gte=start_date)
+                orders = orders.filter(date_ordered__lte=end_date)
+            else:
+                date_is_conflict = True
+
+
+            orders = orders.filter(date_ordered__lte=end_date)
 
         try:
             status = Order.ORDER_STATUSES
@@ -321,7 +356,8 @@ class OrderTypeView(View):
                 "Cancelled": cancelled_orders,
             },
             "selected_type": selected_type,
-            "current_date": date
+            "current_date": date,
+            "date_is_conflict": date_is_conflict
         })
 
         return render(request, 'orders_report.html', context)
