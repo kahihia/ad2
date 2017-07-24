@@ -3,8 +3,11 @@
  */
 
 $(document).ready(function(){
+    function confirmPaymentCustomer(){
+        const form = new FormData();
+        const photo = $('#edit-product-photo-' + productID);
 
-
+    }
 });
 
 function attachCSRF() {

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Waitlists</title>
+
+    <!-- Bootstrap CDNs -->
+    {% include 'bootstrap.html' %}
+
+    <!--Custom CSS-->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/entity_management.css' %}">
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">
+
+    <!--Import custom JS here-->
+    <script type="text/javascript" src="{% static "/js/general.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/jquery-3.1.1.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/entity_management.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/dates.js" %}"></script>
+
+</head>
+<body>
+
+<!--Nav Bar-->
+{% include 'entity_nav.html' %}
+
+<!---Nav Bar Active--->
+<script>
+    $(() => {
+        $('#wishlist-report-nav').addClass('active')
+    })
+</script>
+
+<!-- Content -->
+<div id="content" class="p-5 m-5">
+    <h1>Waitlists</h1>
+    <h6 class="text-muted">Generated [current-date]</h6>
+    <br>
+
+    <h1>Products currently waitlisted</h1>
+
+    <h1>Products not waitlisted</h1>
+
+    {% if waitlists %}
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Current Waitlist Count</th>
+                <th>Overall Waitlist Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product, statistics in waitlists.items %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ statistics.current_waitlists }}</td>
+                    <td>{{ statistics.total_waitlists }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
+            <div class="container text-center p-5 m-5">
+                <h4 class="empty-message-text w-100">There are no waitlisted products for the given date range</h4>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -420,7 +420,35 @@ class WaitlistReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'waitlist_report.html', make_context(request))
+        context = make_context(request)
+        waitlists = Waitlist.objects.all()
+
+        products_currently_waitlisted = {}
+        products_not_waitlisted = {}
+
+        for product in Product.objects.all():
+            current_waitlists = Waitlist.waitlist_count_for_product(product)
+            total_waitlists = WaitlistCount.total_waitlist_count_for_product(product)
+
+            if current_waitlists:
+                products_currently_waitlisted[product] = {
+                    "current_waitlists": current_waitlists,
+                    "total_waitlists": total_waitlists
+                }
+            else:
+                products_not_waitlisted[product] = {
+                    "current_waitlists": current_waitlists,
+                    "total_waitlists": total_waitlists
+                }
+
+        context.update({
+            "products_currently_waitlisted": products_currently_waitlisted,
+            "products_not_waitlisted": products_not_waitlisted
+        })
+
+        # TODO
+
+        return render(request, 'waitlists.html', context)
 
 
 # TODO: Confirm payments received from customers
