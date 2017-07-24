@@ -44,11 +44,8 @@ function recalculateTotal() {
 
     $('.line-item-row').get().forEach((item) => {
        const lineItem = $(item);
-       const unitPrice = $(lineItem.find('.unit-price')[0]).val();
-       const quantity = $(lineItem.find('.line-item-quantity-input')).val();
-
-       console.log(unitPrice);
-       console.log(quantity);
+       const unitPrice = parseFloat($(lineItem.find('.unit-price')[0]).val());
+       const quantity = parseFloat($(lineItem.find('.line-item-quantity-input')).val());
 
        if(quantity <= 0) {
            lineItem.remove();

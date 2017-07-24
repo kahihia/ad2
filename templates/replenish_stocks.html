@@ -44,11 +44,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for product in out_of_stick %}
+                {% for product in out_of_stock %}
                     <tr data-toggle="modal" data-target="#restock-{{ product.id }}">
                         <td>{{ product.name }}</td>
                         <td>{{ product.stall.name }}</td>
-                        <td><b>OUT OF STOCK</b></td>
+                        <td><b class="text-danger">OUT OF STOCK</b></td>
                     </tr>
                 {% endfor %}
 

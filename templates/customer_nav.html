@@ -31,8 +31,8 @@
             {% if name %}
                 <li class="nav-item">
                     <a href="/checkout/cart/" class="btn btn-primary mr-2">Cart
-                        {% if cart_count and cart_count > 0 %}
-                            <span class="badge badge-success">{{ cart_count }}</span>
+                        {% if cart.product_count > 0 %}
+                            <span class="badge badge-success">{{ cart.product_count }}</span>
                         {% endif %}
                     </a>
                 </li>

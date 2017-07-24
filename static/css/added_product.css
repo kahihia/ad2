@@ -11,6 +11,10 @@
     object-fit : cover;
 }
 
+div#added-to-cart-notification {
+    min-width : 500px;
+}
+
 div#product-preview {
     display     : flex;
     align-items : center;
@@ -42,5 +46,45 @@ div#product-preview {
 #added-image {
     width      : 150px;
     height     : 150px;
+    object-fit : cover;
+}
+
+#recommendations-div {
+    height      : 150px;
+    margin-left : 100px;
+}
+
+#recommendation-items {
+    display    : flex;
+    min-width  : 500px;
+    overflow-y : scroll;
+}
+
+.recommended-item {
+    display : flex;
+}
+
+.recommended-item p {
+    margin : 0;
+}
+
+.recommended-item img {
+    width      : 150px;
+    height     : 150px;
+    object-fit : cover;
+}
+
+.recommended-details input, .recommended-details button {
+    margin-left : 10px;
+    margin-top  : 10px;
+}
+
+.recommended-details {
+    min-width : 300px;
+}
+
+.recommendation-image {
+    width      : 120px;
+    height     : 145px;
     object-fit : cover;
 }
