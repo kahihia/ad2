@@ -26,7 +26,7 @@
 {% include 'entity_nav.html' %}
 
 <!-- Date entry alert -->
-{% if date_is_conflict == True %}
+{% if date_is_conflict %}
     <div class="alert alert-danger rounded-0" role="alert">
         <strong>Woops!</strong> You entered wrong or conflicting dates.
     </div>
@@ -100,9 +100,14 @@
             </form>
         </div>
     </div>
-    <h4 class="p-3">Showing from <span class="text-muted">[start]</span> to <span
-            class="text-muted">[end]</span>
-    </h4>
+    {% if not date_is_conflict %}
+        {% if dates %}
+            <h4 class="p-3">Showing from {{ dates.start_date }}<span class="text-muted"></span> to <span
+                    class="text-muted">{{ dates.end_date}}</span>
+            </h4>
+        {% endif %}
+    {% endif %}
+
     <table class="table table-striped table-hover">
         <thead>
         <tr>
