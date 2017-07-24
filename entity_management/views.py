@@ -341,7 +341,6 @@ class OrderTypeView(View):
             else:
                 date_is_conflict = True
 
-
             orders = orders.filter(date_ordered__lte=end_date)
 
         try:
@@ -381,18 +380,28 @@ class WaitlistReportView(View):
         context = make_context(request)
         waitlists = Waitlist.objects.all()
 
-        product_waitlist_statistics = {}
+        products_currently_waitlisted = {}
+        products_not_waitlisted = {}
 
         for product in Product.objects.all():
-            product_waitlist_statistics[product] = {
-                "current_waitlists": Waitlist.waitlist_count_for_product(product),
-                "total_waitlists": WaitlistCount.total_waitlist_count_for_product(product)
-            }
+            current_waitlists = Waitlist.waitlist_count_for_product(product)
+            total_waitlists = WaitlistCount.total_waitlist_count_for_product(product)
+
+            if current_waitlists:
+                products_currently_waitlisted[product] = {
+                    "current_waitlists": current_waitlists,
+                    "total_waitlists": total_waitlists
+                }
+            else:
+                products_not_waitlisted[product] = {
+                    "current_waitlists": current_waitlists,
+                    "total_waitlists": total_waitlists
+                }
 
         context.update({
-            "waitlists": product_waitlist_statistics,
+            "products_currently_waitlisted": products_currently_waitlisted,
+            "products_not_waitlisted": products_not_waitlisted
         })
-
 
         # TODO
 
