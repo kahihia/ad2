@@ -47,6 +47,7 @@
     <br>
     <div class="d-flex">
         <div class="mb-3">
+
             <table class="table">
                 <thead>
                 <tr>
@@ -108,58 +109,63 @@
         {% endif %}
     {% endif %}
 
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>Order No.</th>
-            <th>Total</th>
-            <th>Purchase Date</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% if selected_type %}
-            {% for order in selected_type %}
-                {% if order.status == "P" %}
-                    <tr class="clickable-row table-warning" data-toggle="modal"
-                        data-target="#order-details-{{ order.id }}">
-                        {% elif order.status == "S " %}
-                    <tr class="clickable-row table-success" data-toggle="modal"
-                        data-target="#order-details-{{ order.id }}">
-                        {% elif order.status == "A " %}
-                    <tr class="clickable-row table-info" data-toggle="modal"
-                        data-target="#order-details-{{ order.id }}">
-                        {% else %}
-                    <tr class="clickable-row table-danger" data-toggle="modal"
-                        data-target="#order-details-{{ order.id }}">
-                {% endif %}
-            <td>{{ order.id }}</td>
-            <td>₱{{ order.total_price }}</td>
-            <td>{{ order.date_ordered }}</td>
-            <td>{{ order.get_status }}</td>
+    {% if selected_type %}
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Order No.</th>
+                <th>Total</th>
+                <th>Purchase Date</th>
+                <th>Status</th>
             </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
+            {% if selected_type %}
+                {% for order in selected_type %}
+                    {% if order.status == "P" %}
+                        <tr class="clickable-row table-warning" data-toggle="modal"
+                            data-target="#order-details-{{ order.id }}">
+                            {% elif order.status == "S " %}
+                        <tr class="clickable-row table-success" data-toggle="modal"
+                            data-target="#order-details-{{ order.id }}">
+                            {% elif order.status == "A " %}
+                        <tr class="clickable-row table-info" data-toggle="modal"
+                            data-target="#order-details-{{ order.id }}">
+                            {% else %}
+                        <tr class="clickable-row table-danger" data-toggle="modal"
+                            data-target="#order-details-{{ order.id }}">
+                    {% endif %}
+                <td>{{ order.id }}</td>
+                <td>₱{{ order.total_price }}</td>
+                <td>{{ order.date_ordered }}</td>
+                <td>{{ order.get_status }}</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4" class="text-center text-muted pt-5">
+                    <small>
+                        <b>END OF REPORT</b>
+                    </small>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    {% else %}
+
+        <!-- If there is nothing to show -->
+        <!--No products message -->
+        {% if not selected_type %}
+            <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
+                <div class="container text-center p-5 m-5">
+                    <h4 class="empty-message-text w-100">There are no sales for the given date range</h4>
+                </div>
+            </div>
         {% endif %}
 
-
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="4" class="text-center text-muted pt-5">
-                <small>
-                    <b>END OF REPORT</b>
-                </small>
-            </td>
-        </tr>
-        </tfoot>
-    </table>
-    <!-- If there is nothing to show -->
-    <!--No products message -->
-    <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
-        <div class="container text-center p-5 m-5">
-            <h4 class="empty-message-text w-100">There are no orders for the given date range</h4>
-        </div>
-    </div>
+    {% endif %}
 </div>
 
 <!-- Order Details Modal -->

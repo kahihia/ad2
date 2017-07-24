@@ -259,7 +259,50 @@ class SalesReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'sales_report.html', make_context(request))
+        context = make_context(request)
+        current_date = datetime.now()
+
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        date_is_conflict = False
+        dict = {}
+
+        orders = Order.objects.filter(Q(status="A") | Q(status="S"))
+
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+            dict = {
+                "start_date": start_date,
+                "end_date": end_date
+            }
+
+            if start_date < end_date:
+                orders = orders.filter(date_ordered__gte=start_date)
+                orders = orders.filter(date_ordered__lte=end_date)
+            else:
+                date_is_conflict = True
+                # TODO: Return from here
+
+        sales_per_stall = {}
+        for order in orders:
+            for line_item in order.orderlineitems_set.all():
+                line_item_stall = line_item.product.stall
+                line_item_price = line_item.line_price
+
+                if line_item_stall in sales_per_stall:
+                    sales_per_stall[line_item_stall] += line_item_price
+                else:
+                    sales_per_stall[line_item_stall] = line_item_price
+
+        context.update({
+            "current_date": current_date,
+            "date_is_conflict": date_is_conflict,
+            "dates": dict,
+            "sales_per_stall": sales_per_stall
+        })
+
+        return render(request, 'sales_report.html', context)
 
 
 class OrderReportView(View):
@@ -371,7 +414,6 @@ class OrderTypeView(View):
 
         return render(request, 'orders_report.html', context)
 
-
 class WaitlistReportView(View):
     @staticmethod
     @login_required
@@ -380,30 +422,36 @@ class WaitlistReportView(View):
         context = make_context(request)
         waitlists = Waitlist.objects.all()
 
-        products_currently_waitlisted = {}
-        products_not_waitlisted = {}
+        products_currently_waitlisted = []
+        products_not_waitlisted = []
 
         for product in Product.objects.all():
             current_waitlists = Waitlist.waitlist_count_for_product(product)
             total_waitlists = WaitlistCount.total_waitlist_count_for_product(product)
 
+            print(current_waitlists)
+
             if current_waitlists:
-                products_currently_waitlisted[product] = {
+                products_currently_waitlisted.append({
+                    "product": product,
                     "current_waitlists": current_waitlists,
                     "total_waitlists": total_waitlists
-                }
+                })
             else:
-                products_not_waitlisted[product] = {
-                    "current_waitlists": current_waitlists,
+                products_not_waitlisted.append({
+                    "product": product,
                     "total_waitlists": total_waitlists
-                }
+                })
+
+        products_currently_waitlisted = sorted(products_currently_waitlisted,
+                                               key=lambda statistics: statistics["current_waitlists"])
+        products_not_waitlisted = sorted(products_not_waitlisted,
+                                         key=lambda statistics: statistics["total_waitlists"])
 
         context.update({
             "products_currently_waitlisted": products_currently_waitlisted,
             "products_not_waitlisted": products_not_waitlisted
         })
-
-        # TODO
 
         return render(request, 'waitlists.html', context)
 
