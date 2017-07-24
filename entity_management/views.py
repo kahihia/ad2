@@ -9,6 +9,7 @@ from IrisOnline.decorators import admin_required
 from django.shortcuts import redirect
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
+from datetime import datetime
 
 
 def admin_sign_out(request):
@@ -267,8 +268,28 @@ class OrderReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
+        current_date = datetime.now()
+
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        date_is_conflict = False
+        dict = {}
 
         orders = Order.objects.all()
+
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+            dict = {
+                "start_date": start_date,
+                "end_date": end_date
+            }
+
+            if start_date < end_date:
+                orders = orders.filter(date_ordered__gte=start_date)
+                orders = orders.filter(date_ordered__lte=end_date)
+            else:
+                date_is_conflict = True
 
         pending_orders = orders.filter(status="P")
         approved_orders = orders.filter(status="A")
@@ -282,7 +303,10 @@ class OrderReportView(View):
                 "Shipped": shipped_orders,
                 "Cancelled": cancelled_orders,
             },
-            "selected_type": orders
+            "selected_type": orders,
+            "current_date": current_date,
+            "date_is_conflict": date_is_conflict,
+            "dates": dict
         })
 
         return render(request, 'orders_report.html', context)
@@ -294,7 +318,31 @@ class OrderTypeView(View):
     @admin_required
     def get(request, order_type):
         context = make_context(request)
+        date = datetime.now()
+        dict = {}
+
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        date_is_conflict = False
+
         orders = Order.objects.all()
+
+        if start_date and end_date:
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+            dict = {
+                "start_date": start_date,
+                "end_date": end_date
+            }
+
+            if start_date < end_date:
+                orders = orders.filter(date_ordered__gte=start_date)
+                orders = orders.filter(date_ordered__lte=end_date)
+            else:
+                date_is_conflict = True
+
+
+            orders = orders.filter(date_ordered__lte=end_date)
 
         try:
             status = Order.ORDER_STATUSES
@@ -316,7 +364,10 @@ class OrderTypeView(View):
                 "Shipped": shipped_orders,
                 "Cancelled": cancelled_orders,
             },
-            "selected_type": selected_type
+            "selected_type": selected_type,
+            "current_date": date,
+            "date_is_conflict": date_is_conflict,
+            "dates": dict
         })
 
         return render(request, 'orders_report.html', context)
