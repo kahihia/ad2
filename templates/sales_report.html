@@ -43,28 +43,32 @@
     <h6 class="text-muted">Generated [current date]</h6>
     <br>
     <div class="mb-3">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Starting Date</th>
-                <th>Ending Date</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <form method="GET">
+        <form method="GET" class="form-group">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Starting Date</th>
+                    <th>Ending Date</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
                         <input class="form-control" type="date" id="start-date-input" name="start_input">
+                    </td>
+                    <td>
                         <input class="form-control" type="date" id="end-date-input" name="end_input">
+                    </td>
+                    <td>
                         <button class="btn btn-success">Filter</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
-    <table class="table table-striped table-hover" style="width: 700px;">
+    <table class="table table-striped table-hover">
         <thead>
         <tr>
             <th>Stall Name</th>
