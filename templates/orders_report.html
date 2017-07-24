@@ -41,7 +41,7 @@
 </script>
 
 <!-- Content -->
-<div id="content" class="p-4 m-4">
+<div id="content" class="p-5 m-5">
     <h1>View Orders</h1>
     <h6 class="text-muted">Generated {{ current_date }}</h6>
     <br>
@@ -144,6 +144,13 @@
         </tr>
         </tfoot>
     </table>
+    <!-- If there is nothing to show -->
+    <!--No products message -->
+    <div class="list-group-item empty-message container p-5" id="empty-stall-message">
+        <div class="container text-center p-5 m-5">
+            <h4 class="empty-message-text w-100">There are no sales for the given date range</h4>
+        </div>
+    </div>
 </div>
 
 <!-- Order Details Modal -->
