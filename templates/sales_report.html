@@ -27,7 +27,7 @@
 
 <!-- Date entry alert -->
 <div class="alert alert-danger rounded-0" role="alert">
-  <strong>Woops!</strong> You entered wrong or conflicting dates.
+    <strong>Woops!</strong> You entered wrong or conflicting dates.
 </div>
 
 <!---Nav Bar Active--->
@@ -44,33 +44,25 @@
     <br>
     <div class="mb-3">
         <table class="table">
-                <thead>
-                <tr>
-                    <th>Starting Date</th>
-                    <th>Ending Date</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <input class="form-control" type="date" id="start-date-input" name="start_input">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input class="form-control" type="date" id="end-date-input" name="end_input">
-                        </div>
-                    </td>
-                    <td>
-                        <form method="GET">
-                            <button class="btn btn-success">Filter</button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <thead>
+            <tr>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <form method="GET">
+                        <input class="form-control" type="date" id="start-date-input" name="start_input">
+                        <input class="form-control" type="date" id="end-date-input" name="end_input">
+                        <button class="btn btn-success">Filter</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <table class="table table-striped table-hover" style="width: 700px;">
         <thead>
