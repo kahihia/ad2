@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 import os
 from celery import Celery
-
 from django.conf import settings
 from celery.schedules import crontab
 
@@ -19,12 +18,7 @@ app.conf.update(
     result_serializer='json',
     timezone='Asia/Manila',
 )
-app.conf.beat_schedule = {
-    'add-every-30-seconds': {
-        'task': 'IrisOnline.tasks.printthis',
-        'schedule':(crontab(hour=13,minute=33)),
-    },
-}
+
 # Using a string here means the worker don't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
@@ -34,8 +28,6 @@ app.config_from_object('django.conf:settings')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
-@app.task(name="expire")
-def expire():
-    print("shit LMAO this works")
+
 
 

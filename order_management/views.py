@@ -7,6 +7,7 @@ from django.views import View
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from .models import *
+# from .forms import UploadFileForm
 
 
 class UserOrdersView(View):
@@ -148,86 +149,21 @@ class ConfirmPaymentView(View):
     @login_required()
     @customer_required
     def post(request):
-        if 'deposit_slip' not in request.FILES or "date" not in request.POST:
-            return HttpResponse(status=400)
-
         try:
             Customer.objects.get(user=request.user)
         except:
             Http404('Could not get Customer object')
-            return
-
-        try:
-            order_id = request.POST.get('order-id')
-            Order.objects.get(id=order_id)
-        except:
-            Http404('Could not find order')
-            return
-
-        date_paid = request.POST.get('date'),
-        deposit_slip = request.FILES.get('deposit-slip')
-
-        print(date_paid)
-
-# kams code
-# if 'deposit_slip' not in request.FILES or "date" not in request.POST:
-#     return HttpResponse(status=400)
-#
-# try:
-#     customer = Customer.objects.get(user=request.user)
-# except:
-#     Http404('Could not get Customer object')
-#     return
-#
-# try:
-#     order_id = request.POST.get('order-id')
-#     order = Order.objects.get(id=order_id)
-# except:
-#     Http404('Could not find order')
-#     return
-#
-# date_paid = request.POST.get('date'),
-# deposit_slip = request.FILES.get('deposit-slip')
-#
-# print(date_paid)
-
-# customer = Customer.objects.get(user=request.user)
-#
-# customer.customerpaymentdetails_set.create(customer=customer,
-#                                            parent_order=order,
-#                                            deposit_slip=deposit_slip,
-#                                            date=date_paid)
-#
-# return redirect('/orders')
 
 
-#   Amount  Measure       Ingredient -- Preparation Method
-#  --------  ------------  --------------------------------
-#     3      kg            dog meat -- * see note
-#     1 1/2  cups          vinegar
-#    60                    peppercorns -- crushed
-#     6      tablespoons   salt
-#    12      cloves        garlic -- crushed
-#       1/2  cup           cooking oil
-#     6      cups          onion -- sliced
-#     3      cups          tomato sauce
-#    10      cups          boiling water
-#     6      cups          red pepper -- cut into strips
-#     6      pieces        bay leaf
-#     1      teaspoon      tabasco sauce
-#     1 1/2  cups          liver spread -- ** see note
-#     1      whole         fresh pineapple -- cut 1/2 inch thick
-#
-#  1. First, kill a medium sized dog, then burn off the fur over a hot fire.
-#  2. Carefully remove the skin while still warm and set aside for later (may be
-# used in other recpies)
-#  3. Cut meat into 1″ cubes. Marinade meat in mixture of vinegar, peppercorn, salt
-# and garlic for 2 hours.
-#  4. Fry meat in oil using a large wok over an open fire, then add onions and
-# chopped pineapple and suate until tender.
-#  5. Pour in tomato sauce and boiling water, add green peper, bay leaf and tobasco.
-#  6. Cover and simmer over warm coals until meat is tender. Blend in liver spread
-# and cook for additional 5-7 minutes.
-#
-#  * you can substiture lamb for dog. The taste is similar, but not as pungent.
-#  ** smooth liver pate will do as well.
+        order_id = request.POST.get('order-id')
+        Order.objects.get(id = order_id)
+        date_paid = request.POST.get('date')
+
+
+        return redirect(f"/orders/{order_id}/")
+
+
+
+
+
+
