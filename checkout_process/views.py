@@ -14,6 +14,7 @@ from IrisOnline.tasks import expire
 from celery.schedules import datetime,timedelta
 
 
+
 class CartView(View):
     @staticmethod
     @login_required
@@ -166,7 +167,6 @@ class PurchaseView(View):
             return redirect("/checkout/cart/")
 
         customer = Customer.objects.get(user=request.user)
-
         order = cart.convert_to_order(customer=customer)
         cart.reset_cart()
         print(order.status)

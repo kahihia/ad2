@@ -9,6 +9,7 @@ from django.db.models import (
     FileField,
     PositiveIntegerField,
     DateTimeField,
+    DateField,
     CharField,
     FloatField,
 )
@@ -25,6 +26,8 @@ class Order(Model):
     date_ordered = DateTimeField(auto_now=True)
     customer = ForeignKey(Customer, on_delete=CASCADE)
     status = CharField(max_length=2, choices=ORDER_STATUSES, default='P')
+    customer_deposit_photo = FileField(blank=True, null=True)
+    customer_payment_date = DateField(null=True, blank=True)
 
     @staticmethod
     def print_orders_containing_product(product):
@@ -86,6 +89,10 @@ class Waitlist(Model):
     customer = ForeignKey(Customer)
     date_added = DateTimeField(auto_now_add=True)
 
+    @staticmethod
+    def total_current_waitlist_for_product(product):
+        return len(Waitlist.objects.filter(product=product))
+
     def __str__(self):
         return f"{self.product.name} - {self.customer.user.username}"
 
@@ -99,8 +106,8 @@ class Waitlist(Model):
         return [waitlist.product for waitlist in Waitlist.objects.filter(customer=customer)]
 
     @staticmethod
-    def waitlist_for_product(product):
-        return Waitlist.objects.filter(product=product)
+    def waitlist_count_for_product(product):
+        return len(Waitlist.objects.filter(product=product))
 
     def to_order(self):
         order = Order.objects.create(customer=self.customer)
@@ -112,6 +119,14 @@ class Waitlist(Model):
 class WaitlistCount(Model):
     product = ForeignKey(Product)
     count = PositiveIntegerField(default=0)
+
+    @staticmethod
+    def total_waitlist_count_for_product(product):
+        waitlist_count, is_created = WaitlistCount.objects.get_or_create(product=product, defaults={
+            "count": 0
+        })
+
+        return waitlist_count.count
 
     def __str__(self):
         return f"{self.product.name} - {self.count}"
@@ -138,7 +153,7 @@ def on_product_save(sender, instance, **kwargs):
         return
 
     # Sort by earlier to later
-    waitlists = Waitlist.waitlist_for_product(product=instance).order_by('date_added')
+    waitlists = Waitlist.waitlist_count_for_product(product=instance).order_by('date_added')
 
     for waitlist in waitlists:
         if instance.quantity == 0:
