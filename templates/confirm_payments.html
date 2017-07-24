@@ -52,7 +52,7 @@
                 <td>{{ orders.customer_payment_date }}</td>
                 <td>P {{ orders.total_price }}</td>
                 {% if orders.customer_deposit_photo %}
-                    <td><a class="btn btn-primary" href="{{ orders.customer_deposit_photo.url }}">Photo</td>
+                    <td><a class="btn btn-primary" href="{{ orders.customer_deposit_photo.url }}">Photo</a></td>
                 {% else %}
                     <td class="text-muted">No deposit url</td>
                 {% endif %}
@@ -85,15 +85,17 @@
                         </div>
                         <div class="ml-5">
                             <h6>Customer Details</h6>
-                            <p class="text-muted m-0">{{ order.customer.user.full_name }}</p>
+                            <p class="text-muted m-0">{{ order.customer.full_name }}</p>
                             <p class="text-muted m-0">{{ order.customer.phone_number }}</p>
                             <p class="text-muted m-0">{{ order.customer_payment_date }}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="create-stall-button" class="btn btn-outline-danger">Delete</button>
-                        <button id="create-stall-button" class="btn btn-primary">Approve</button>
+                        <a href="/entity-management/confirm-payments/{{ order.id }}/cancel/" id="cancel-order-button"
+                           class="btn btn-primary">Cancel</a>
+                        <a href="/entity-management/confirm-payments/{{ order.id }}/approve/" id="approve-order-button"
+                           class="btn btn-primary">Approve</a>
                     </div>
 
                 </div>

@@ -409,6 +409,7 @@ class OrderTypeView(View):
 
         return render(request, 'orders_report.html', context)
 
+
 class WaitlistReportView(View):
     @staticmethod
     @login_required
@@ -461,6 +462,7 @@ class ConfirmPaymentsView(View):
     @admin_required
     def get(request):
         context = make_context(request)
+        # The filtering should also take into consideration processed orders??
         pending_orders = Order.objects.filter(customer_deposit_photo__isnull=False)
         print(pending_orders)
 
@@ -469,6 +471,39 @@ class ConfirmPaymentsView(View):
         })
 
         return render(request, 'confirm_payments.html', context)
+
+# TODO: This is incomplete!! and it has to change status from "Processing: A" to "Verified: V" not from "P" to "A"
+def approve_order(request, order_id):
+    if(request!='GET'):
+        try:
+            current_order = Order.objects.get(id=order_id)
+            current_order.status = 'A'
+            current_order.save()
+
+            current_order_status = current_order.status
+            print(current_order_status)
+        except:
+            raise Http404("Order does not exist")
+
+        # This has to reload back to the previous change
+        return render(request, 'confirm_payments.html')
+
+# TODO: This is incomplete. Status should revert back to "P" from "A"
+def cancel_order(request, order_id):
+    if(request!='GET'):
+        try:
+            current_order = Order.objects.get(id=order_id)
+            current_order.status = 'P'
+            current_order.save()
+
+            current_order_status = current_order.status
+            print(current_order_status)
+        except:
+            raise Http404("Order does not exist")
+
+        # This has to reload back to the previous change
+        return render(request, 'confirm_payments.html')
+
 
 
 class ReplenishView(View):

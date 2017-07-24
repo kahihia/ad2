@@ -14,5 +14,7 @@ urlpatterns = [
     url(r'^orders-report/$', views.OrderReportView.as_view()),
     url(r'^orders-report/(?P<order_type>[\w\-]+)/$', views.OrderTypeView.as_view()),
     url(r'^waitlist-report/$', views.WaitlistReportView.as_view()),
-    url(r'^confirm-payments/$', views.ConfirmPaymentsView.as_view())
+    url(r'^confirm-payments/$', views.ConfirmPaymentsView.as_view()),
+    url(r'^confirm-payments/(?P<order_id>(\d+))/approve/$', views.approve_order),
+    url(r'^confirm-payments/(?P<order_id>(\d+))/cancel/$', views.cancel_order)
 ]
