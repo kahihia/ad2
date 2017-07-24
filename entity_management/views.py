@@ -327,7 +327,25 @@ class WaitlistReportView(View):
     @login_required
     @admin_required
     def get(request):
-        return render(request, 'waitlist_report.html', make_context(request))
+        context = make_context(request)
+        waitlists = Waitlist.objects.all()
+
+        product_waitlist_statistics = {}
+
+        for product in Product.objects.all():
+            product_waitlist_statistics[product] = {
+                "current_waitlists": Waitlist.waitlist_count_for_product(product),
+                "total_waitlists": WaitlistCount.total_waitlist_count_for_product(product)
+            }
+
+        context.update({
+            "waitlists": product_waitlist_statistics,
+        })
+
+
+        # TODO
+
+        return render(request, 'waitlists.html', context)
 
 
 # TODO: Confirm payments received from customers
@@ -377,4 +395,3 @@ class ReplenishProductView(View):
 
         product.save()
         return redirect('/entity-management/replenish/')
-
