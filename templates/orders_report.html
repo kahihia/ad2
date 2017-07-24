@@ -78,17 +78,9 @@
                 <tbody>
                 <tr>
                     <td>
-                        <div class="form-group">
-                            <input class="form-control" type="date" id="start-date-input" name="start_input">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input class="form-control" type="date" id="end-date-input" name="end_input">
-                        </div>
-                    </td>
-                    <td>
                         <form method="GET">
+                            <input class="form-control" type="date" id="start-date-input" name="start_input">
+                            <input class="form-control" type="date" id="end-date-input" name="end_input">
                             <button class="btn btn-success">Filter</button>
                         </form>
                     </td>
@@ -176,14 +168,15 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Customer Details</th>
-                                    <th>Customer Contact No.</th>
+                                    <th>Name</th>
+                                    <th>Contact No.</th>
                                     <th>Date of Payment</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td></td>
+                                    <td>{{ order.customer.full_name }}</td>
+                                    <td>{{ order.customer. }}</td>
                                 </tr>
                                 </tbody>
                             </table>
