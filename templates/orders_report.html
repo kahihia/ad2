@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+``<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,18 +26,12 @@
 {% include 'entity_nav.html' %}
 
 <!-- Date entry alert -->
-<<<<<<< HEAD
-<div class="alert alert-danger" role="alert">
-    <strong>Woops!</strong> You entered wrong or conflicting dates.
-</div>
-=======
+
 {% if date_is_conflict %}
     <div class="alert alert-danger rounded-0" role="alert">
         <strong>Woops!</strong> You entered wrong or conflicting dates.
     </div>
 {% endif %}
-
->>>>>>> 32792b3b9c6272293d6f9a2648950100c8dc650e
 
 <!---Nav Bar Active--->
 <script>
@@ -128,6 +122,7 @@
             {% for order in selected_type %}
                 {% if order.status == "P" %}
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <tr class="clickable-row table-warning" data-toggle="modal" data-target="#details">
                         {% elif order.status == "S " %}
                     <tr class="clickable-row table-success" data-toggle="modal" data-target="#details">
@@ -136,6 +131,8 @@
                         {% else %}
                     <tr class="clickable-row table-danger" data-toggle="modal" data-target="#details">
 =======
+=======
+>>>>>>> 0402f891be7e011e8323b799adafe9aeaa4a18d8
                     <tr class="clickable-row table-warning" data-toggle="modal"
                         data-target="#order-details-{{ order.id }}">
                         {% elif order.status == "S " %}
@@ -147,7 +144,10 @@
                         {% else %}
                     <tr class="clickable-row table-danger" data-toggle="modal"
                         data-target="#order-details-{{ order.id }}">
+<<<<<<< HEAD
 >>>>>>> 32792b3b9c6272293d6f9a2648950100c8dc650e
+=======
+>>>>>>> 0402f891be7e011e8323b799adafe9aeaa4a18d8
                 {% endif %}
             <td>{{ order.id }}</td>
             <td>₱{{ order.total_price }}</td>
@@ -180,13 +180,8 @@
 
 <!-- Order Details Modal -->
 {% for order in selected_type %}
-<<<<<<< HEAD
-    <div class="modal fade" id="details">
-        <div class="modal-dialog" role="document">
-=======
     <div class="modal fade" id="order-details-{{ order.id }}">
         <div class="modal-dialog modal-lg" role="document">
->>>>>>> 32792b3b9c6272293d6f9a2648950100c8dc650e
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Order Details</h5>
@@ -195,39 +190,6 @@
                     </button>
                 </div>
                 <div>
-<<<<<<< HEAD
-                    <div class="modal-body d-flex">
-                        <div class="mr-5">
-                            <h6>Order Details</h6>
-                            <p class="text-muted m-0">Order #{{ order.id }}</p>
-                            <p class="text-muted m-0">{{ order.date_ordered }}</p>
-                            <p class="text-muted m-0">[Amount Paid]</p>
-                        </div>
-                        <div class="ml-5">
-                            <h6>Customer Details</h6>
-                            <p class="text-muted m-0">[Customer Name]</p>
-                            <p class="text-muted m-0">[Customer Number}</p>
-                            <p class="text-muted m-0">[Date of Payment]</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group col-6 mt-4">
-                            <label>Change Status</label>
-                            <div class="form-group">
-                                <select class="form-control" id="orderStatus">
-                                    {% for order_type, order_list in orders.items %}
-                                        <option>{{ order_type }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="create-stall-button" class="btn btn-primary">Update</button>
-                    </div>
-
-=======
                     <div class="p-3">
                         <div class="modal-body">
                             <div class="d-flex mb-4">
@@ -330,16 +292,11 @@
                         </div>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
->>>>>>> 32792b3b9c6272293d6f9a2648950100c8dc650e
                 </div>
             </div>
         </div>
     </div>
 {% endfor %}
-<<<<<<< HEAD
-=======
-
->>>>>>> 32792b3b9c6272293d6f9a2648950100c8dc650e
 
 </body>
 </html>
