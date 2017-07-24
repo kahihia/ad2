@@ -414,7 +414,6 @@ class OrderTypeView(View):
 
         return render(request, 'orders_report.html', context)
 
-
 class WaitlistReportView(View):
     @staticmethod
     @login_required
@@ -423,30 +422,36 @@ class WaitlistReportView(View):
         context = make_context(request)
         waitlists = Waitlist.objects.all()
 
-        products_currently_waitlisted = {}
-        products_not_waitlisted = {}
+        products_currently_waitlisted = []
+        products_not_waitlisted = []
 
         for product in Product.objects.all():
             current_waitlists = Waitlist.waitlist_count_for_product(product)
             total_waitlists = WaitlistCount.total_waitlist_count_for_product(product)
 
+            print(current_waitlists)
+
             if current_waitlists:
-                products_currently_waitlisted[product] = {
+                products_currently_waitlisted.append({
+                    "product": product,
                     "current_waitlists": current_waitlists,
                     "total_waitlists": total_waitlists
-                }
+                })
             else:
-                products_not_waitlisted[product] = {
-                    "current_waitlists": current_waitlists,
+                products_not_waitlisted.append({
+                    "product": product,
                     "total_waitlists": total_waitlists
-                }
+                })
+
+        products_currently_waitlisted = sorted(products_currently_waitlisted,
+                                               key=lambda statistics: statistics["current_waitlists"])
+        products_not_waitlisted = sorted(products_not_waitlisted,
+                                         key=lambda statistics: statistics["total_waitlists"])
 
         context.update({
             "products_currently_waitlisted": products_currently_waitlisted,
             "products_not_waitlisted": products_not_waitlisted
         })
-
-        # TODO
 
         return render(request, 'waitlists.html', context)
 
