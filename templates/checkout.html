@@ -20,8 +20,8 @@
 {% include 'customer_nav.html' %}
 
 <!-- Content -->
-<div id="content" class="m-5" style="padding: 40px;">
-    <h1 class="mb-4">Checkout</h1>
+<div id="content" class="m-5 p-5">
+    <h1 class="mb-4 ml-2">Checkout</h1>
     {% if quantity_errors or dead_products or out_of_stock_errors %}
         <div class="alert alert-danger mt-3" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -65,8 +65,8 @@
     {% if line_items %}
 
         <div id="summary" class="d-flex">
-            <div id="cart-items" class="mb-5" style="width: 900px;">
-                <table class="table" id="items-table">
+            <div id="cart-items" class="mb-5" style="flex-grow: 4">
+                <table class="table mb-5" id="items-table">
                     <thead>
                     <tr>
                         <th>Product Name</th>
@@ -86,13 +86,13 @@
                         {% endfor %}
                     {% endif %}
                     <tr>
-                        <th scope="row">Total</th>
-                        <td><b>₱{{ total_price }}</b></td>
+                        <th scope="row"><h4>Total Price</h4></th>
+                        <td><h4>₱{{ total_price }}</h4></td>
                         <td></td>
                     </tr>
                     </tbody>
                 </table>
-                <div id="options" class="w-100 mt-5 d-flex">
+                <div id="options" class="w-100 mt-5 p-5 d-flex">
                     <a class="btn btn-secondary btn-lg mr-2 ml-auto" href="/">Continue Shopping</a>
                     <a class="btn btn-secondary btn-lg mr-2" href="/checkout/cart/">Back to Cart</a>
 
@@ -106,9 +106,9 @@
                     {% endif %}
                 </div>
             </div>
-            <div id="account-information" class="ml-5 mb-3">
+            <div id="account-information" class="ml-3">
                 <div>
-                    <h4>Customer Information</h4>
+                    <h3 class="mb-3 ml-2">Customer Information</h3>
                     <table class="table mb-5">
                         <tr>
                             <th>Full Name</th>
@@ -121,7 +121,7 @@
                     </table>
                 </div>
                 <div>
-                    <h4>Delivery Information</h4>
+                    <h3 class="mb-3 ml-2">Delivery Information</h3>
                     <table class="table">
                         <tr>
                             <th>Address</th>
