@@ -438,7 +438,7 @@ class ConfirmPaymentsView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        orders_to_confirm = Order.objects.filter(status="A", payment_verified=False)
+        orders_to_confirm = Order.objects.filter(status="A").filter(payment_verified=False)
         context["orders_to_confirm"] = orders_to_confirm
         return render(request, 'confirm_payments.html', context)
 
@@ -449,7 +449,7 @@ class ApproveOrderView(View):
     @admin_required
     def get(request, order_id):
         try:
-            order = Order.objects.get(id=order_id)
+            order = Order.objects.get(id=int(order_id))
             order.approve_customer_payment()
             return redirect("/entity-management/confirm-payments/")
         except:

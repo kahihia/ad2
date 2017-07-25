@@ -88,22 +88,27 @@
                             data-target="#payment-details-modal" class="btn btn-sm btn-warning">Confirm Payment
                     </button>
                 </div>
-                <!-- elif statement -->
-                <div class="alert alert-info mr-auto d-flex" role="alert">
-                    <div>
-                        <p><strong>Note: </strong> Payment is undergoing verification.</p>
+            {% endif %}
+
+            {% if active_order.status == "A" %}
+                {% if active_order.payment_verified %}
+                    <div class="alert alert-success mr-auto d-flex" role="alert">
+                        <div>
+                            <p><strong>Success! </strong> Payment has already been verified.</p>
+                        </div>
                     </div>
-                </div>
-                <!-- elif statement -->
-                <div class="alert alert-success mr-auto d-flex" role="alert">
-                    <div>
-                        <p><strong>Success! </strong> Payment has already been verified.</p>
+                {% else %}
+                    <div class="alert alert-info mr-auto d-flex" role="alert">
+                        <div>
+                            <p><strong>Note: </strong> Payment is undergoing verification.</p>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             {% endif %}
 
         {% else %}
-            <div class="list-group-item rounded empty-message w-100 h-100" style="max-height: 400px; min-height: 400px;">
+            <div class="list-group-item rounded empty-message w-100 h-100"
+                 style="max-height: 400px; min-height: 400px;">
                 <h5 class="empty-message-text w-100 text-center">To view order details, select an order from the
                     left</h5>
             </div>
