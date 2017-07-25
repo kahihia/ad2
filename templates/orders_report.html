@@ -317,7 +317,7 @@
                                 <button type="button" class="btn btn-warning">Pending</button>
                             {% else %}
                                 <a href="/entity-management/orders/{{ order.id }}/set-pending/" type="button"
-                                   class="btn btn-secondary">Processing</a>
+                                   class="btn btn-secondary">Pending</a>
                             {% endif %}
 
                             {% if order.status == "A" %}
@@ -331,14 +331,14 @@
                                 <button type="button" class="btn btn-success">Shipped</button>
                             {% else %}
                                 <a href="/entity-management/orders/{{ order.id }}/set-shipped/" type="button"
-                                   class="btn btn-secondary">Processing</a>
+                                   class="btn btn-secondary">Shipped</a>
                             {% endif %}
 
                             {% if order.status == "C" %}
                                 <button type="button" class="btn btn-danger">Cancelled</button>
                             {% else %}
                                 <a href="/entity-management/orders/{{ order.id }}/set-cancelled/" type="button"
-                                   class="btn btn-secondary">Processing</a>
+                                   class="btn btn-secondary">Cancelled</a>
                             {% endif %}
                         </div>
                     </div>

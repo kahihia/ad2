@@ -28,7 +28,7 @@
 <!-- Date entry alert -->
 {% if date_is_conflict %}
     <div class="alert alert-danger rounded-0" role="alert">
-        <strong>Woops!</strong> You entered wrong or conflicting dates.
+        <strong>Invalid Dates:</strong> The end date is earlier than the start date
     </div>
 {% endif %}
 
@@ -76,7 +76,8 @@
     </div>
     {% if not date_is_conflict %}
         {% if dates %}
-            <h4 class="p-3">Showing from {{ dates.start_date }}<span class="text-muted"></span> to <span
+            <h4 class="pt-4 pb-3">Showing sales from <span class="text-muted">{{ dates.start_date }}</span><span
+                    class="text-muted"></span> to <span
                     class="text-muted">{{ dates.end_date }}</span>
             </h4>
         {% endif %}
@@ -91,10 +92,10 @@
             </thead>
             <tbody>
             {% if sales_per_stall %}
-                {% for stall in sales_per_stall %}
-                    <tr data-toggle="modal" data-target="#details-modal">
-                        <td>{{ stall.line_item_stall }}</td>
-                        <td>P {{ stall.line_item_price }}</td>
+                {% for stall, price in sales_per_stall.items %}
+                    <tr data-toggle="modal" data-target="#stall-detail-{{ stall.id }}">
+                        <td>{{ stall }}</td>
+                        <td>₱{{ price }}</td>
                     </tr>
                 {% endfor %}
             {% endif %}
@@ -129,47 +130,52 @@
 </div>
 
 <!-- Sales Details Modal -->
-<div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">[Stall Name] Orders</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Order No.</th>
-                        <th>Total Amount</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>33</td>
-                        <td>18000</td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-center text-muted pt-5">
-                            <small>
-                                <b>END OF REPORT</b>
-                            </small>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+{% for stall, orders in orders_per_stall.items %}
+    <div class="modal fade" id="stall-detail-{{ stall.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Orders for {{ stall.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Total Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>₱{{ order.total_price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-center text-muted pt-5">
+                                <small>
+                                    <b>END OF REPORT</b>
+                                </small>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+{% endfor %}
 
 </body>
 </html>

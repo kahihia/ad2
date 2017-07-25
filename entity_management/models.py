@@ -66,7 +66,6 @@ class PriceHistory(Model):
     product = ForeignKey(Product)
     price = DecimalField(decimal_places=2, max_digits=10)
     effective_from = DateTimeField(auto_now_add=True)
-    effective_to = DateTimeField(null=True, default=None)
 
     def __str__(self):
-        return f"{self.price} - {self.effective_from} to {self.effective_to}"
+        return f"{self.price} - {self.effective_from}"
