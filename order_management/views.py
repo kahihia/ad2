@@ -156,9 +156,9 @@ class ConfirmPaymentView(View):
 
         order_id = request.POST.get('order-id')
         date_paid = request.POST.get('date')
-        photo = request.POST['deposit-slip']
+        photo = request.FILES.get('deposit-slip')
 
         order = Order.objects.get(id=order_id)
-        order.approve_customer_payment(deposit_photo=photo, payment_date=date_paid)
+        order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
 
         return redirect(f"/orders/{order_id}/")
