@@ -522,3 +522,63 @@ class ReplenishProductView(View):
 
         product.save()
         return redirect('/entity-management/replenish/')
+
+
+class OrderSetPending(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request, order_id):
+        try:
+            order = Order.objects.get(id=order_id)
+        except:
+            raise Http404()
+
+        order.status = "P"
+        order.save()
+        return redirect("/entity-management/orders-report/")
+
+
+class OrderSetProcessing(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request, order_id):
+        try:
+            order = Order.objects.get(id=order_id)
+        except:
+            raise Http404()
+
+        order.status = "A"
+        order.save()
+        return redirect("/entity-management/orders-report/")
+
+
+class OrderSetShipping(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request, order_id):
+        try:
+            order = Order.objects.get(id=order_id)
+        except:
+            raise Http404()
+
+        order.status = "S"
+        order.save()
+        return redirect("/entity-management/orders-report/")
+
+
+class OrderSetCancelled(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request, order_id):
+        try:
+            order = Order.objects.get(id=order_id)
+        except:
+            raise Http404()
+
+        order.status = "C"
+        order.save()
+        return redirect("/entity-management/orders-report/")
