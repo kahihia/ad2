@@ -463,11 +463,11 @@ class ConfirmPaymentsView(View):
     def get(request):
         context = make_context(request)
         # The filtering should also take into consideration processed orders??
-        pending_orders = Order.objects.filter(customer_deposit_photo__isnull=False)
-        print(pending_orders)
+
+        orders_to_confirm = Order.objects.filter(status="A", payment_verified=False)
 
         context.update({
-            "pending_orders": pending_orders
+            "orders_to_confirm": orders_to_confirm
         })
 
         return render(request, 'confirm_payments.html', context)
