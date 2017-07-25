@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static '/css/cart.css' %}">
 
     <!-- Custom JS go here -->
+    <script type="text/javascript" src="{% static "/js/checkout.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/general.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
 
@@ -111,10 +112,11 @@
                         Are you sure you want to delete {{ line_item.product.name }}?
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cancel</button>
+
                         <button type="button" class="btn btn-outline-danger" id="delete-product-button"
                                 onclick="removeProduct({{ line_item.product.id }})">Remove
                         </button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>

@@ -92,10 +92,10 @@
                                 <img class="recommendation-image rounded" src="{{ product.photo.url }}" alt="No image">
                             </div>
 
-                            <div class="d-inline-block ml-3">
+                            <div class="d-inline-block ml-3 d-flex row">
                                 <h6>{{ product.name }}</h6>
-                                <div><p>₱{{ product.current_price }}</p></div>
-                                <form method="POST" action="/product-catalog/" class="display-inline d-flex">
+                                <div class="mb-auto w-100"><p>₱{{ product.current_price }}</p></div>
+                                <form method="POST" action="/product-catalog/" class="display-inline d-flex mt-auto">
                                     {% csrf_token %}
                                     <input type="hidden" value="{{ product.id }}" name="product">
                                     <input type="number" class="form-control col-sm-5 mt-0 ml-0" min="1" max="100"
