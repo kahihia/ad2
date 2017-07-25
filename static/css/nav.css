@@ -12,16 +12,20 @@
 }
 
 #wishlist_icon g path,
-.wish-button {
-    fill       : #bebebe;
-    transition : fill 250ms;
+.wish-button g path {
+    fill         : transparent;
+    transition   : fill 250ms, stroke 250ms;
+    stroke       : #ccc;
+    stroke-width : 5px;
 }
 
-#wishlist_icon g path:hover,
-.wish-button:hover,
-a.wished .wish-button,
-.wish-link:hover, .wish-link {
-    cursor : pointer;
-    fill   : rgb(255, 59, 48);
-    color  : rgb(255, 59, 48);
+#wishlist_icon:hover g path,
+.wish-button:hover g path,
+.wish-link:hover g path,
+.wished .wish-button g path,
+.wish-link g path {
+    cursor       : pointer;
+    fill         : rgb(255, 59, 48);
+    color        : rgb(255, 59, 48);
+    stroke-width : 0px;
 }

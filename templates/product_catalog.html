@@ -177,11 +177,13 @@
                             <p class="card-text">{{ product.description }}</p>
                         </div>
 
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item bg-faded"><b
-                                    class="col-sm-3 pl-0">Price</b>₱{{ product.current_price }}</li>
-                        </ul>
                         {% if name %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1">
+                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                </li>
+                            </ul>
+
                             <!-- Add to cart form -->
                             <div class="card-footer border-top-0 pr-2">
                                 <div class="col-12 card-purchase-div">
@@ -193,10 +195,12 @@
                                             {% csrf_token %}
                                             <input type="hidden" class="product-id-input" value="{{ product.id }}"
                                                    name="product">
-                                            <input type="number" class="form-control col-3  mr-2" min="1" max="100"
+                                            <input type="number" class="form-control bg-faded col-3  mr-2" min="1"
+                                                   max="100"
                                                    value="1"
                                                    name="quantity">
-                                            <button type="submit" class="btn btn-primary col-8">Add to Cart</button>
+                                            <button type="submit" class="btn btn-outline-primary col-8">Add to Cart
+                                            </button>
                                         </form>
                                     {% else %}
 
@@ -250,7 +254,12 @@
                                 </div>
                             </div>
 
-
+                        {% else %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-faded mt-3 p-3">
+                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                </li>
+                            </ul>
                         {% endif %}
 
                     </div>

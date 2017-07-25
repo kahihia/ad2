@@ -52,22 +52,48 @@
                         <p class="card-text">{{ product.description }}</p>
                     </div>
 
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item "><b
-                                class="col-sm-3 pl-0">Price</b>₱{{ product.current_price }}</li>
-                    </ul>
                     {% if name %}
-                        <!-- Add to cart form -->
-                        <form method="POST" action="/product-catalog/">
-                            <div class="card-footer border-top-0">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1">
+                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                </li>
+                            </ul>
+
+                            <!-- Add to cart form -->
+                            <div class="card-footer border-top-0 pr-2">
                                 <div class="col-12 card-purchase-div">
-                                    {% csrf_token %}
-                                    <input type="hidden" class="product-id-input" value="{{ product.id }}"
-                                           name="product">
-                                    <input type="number" class="form-control col-3  mr-2" min="1" max="100"
-                                           value="1"
-                                           name="quantity">
-                                    <button type="submit" class="btn btn-primary col-6 mr-auto">Add to Cart</button>
+                                    {% if product in cart.products %}
+                                        <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
+                                    {% elif product not in out_of_stock %}
+                                        <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
+
+                                            {% csrf_token %}
+                                            <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                                   name="product">
+                                            <input type="number" class="form-control bg-faded col-3  mr-2" min="1"
+                                                   max="100"
+                                                   value="1"
+                                                   name="quantity">
+                                            <button type="submit" class="btn btn-outline-primary col-8">Add to Cart
+                                            </button>
+                                        </form>
+                                    {% else %}
+
+                                        <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                               name="product">
+
+                                        {% if product in waitlist %}
+                                            <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
+                                                    disabled>
+                                                Waitlisted
+                                            </button>
+                                        {% else %}
+                                            <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
+                                               data-target="#waitlist-modal-{{ product.id }}">Add to Waitlist</a>
+
+                                        {% endif %}
+                                    {% endif %}
+
                                     {% if product in wishlist %}
                                         <a
                                                 class="d-block wish-link ml-0 wished"
@@ -82,17 +108,11 @@
                                                 data-placement="top" title="Add this to my Wishlist">
                                     {% endif %}
 
-
                                     <div>
                                                 <span class="wish-button">
                                                     <svg
-                                                            xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                                            xmlns:cc="http://creativecommons.org/ns#"
-                                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                                                             xmlns:svg="http://www.w3.org/2000/svg"
                                                             xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-                                                            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                                                             version="1.1" x="0px" y="0px" viewBox="0 0 100 100">
                                                             <g transform="translate(0,-952.36218)">
                                                                 <path d="m 18.35665,975.81931 c -7.1457,7.27618 -7.1387,18.98457 0,26.26779 l 31.6236,32.2751 c 10.5535,-10.7459 21.107,-21.4919 31.6604,-32.2378 7.1458,-7.27617 7.1458,-18.99161 0,-26.26779 -7.1458,-7.27618 -18.6513,-7.27628 -25.7972,0 l -5.8265,5.93266 -5.863,-5.96996 c -7.1459,-7.27618 -18.6514,-7.27618 -25.7973,0 z"
@@ -108,9 +128,15 @@
                                     </a>
                                 </div>
                             </div>
-                        </form>
 
-                    {% endif %}
+                        {% else %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-faded mt-3 p-3">
+                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                </li>
+                            </ul>
+                        {% endif %}
+
 
                 </div>
 
