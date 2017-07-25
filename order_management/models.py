@@ -12,6 +12,7 @@ from django.db.models import (
     DateField,
     CharField,
     FloatField,
+    BooleanField
 )
 
 
@@ -28,6 +29,7 @@ class Order(Model):
     status = CharField(max_length=2, choices=ORDER_STATUSES, default='P')
     customer_deposit_photo = FileField(blank=True, null=True, default=None)
     customer_payment_date = DateField(null=True, blank=True, default=None)
+    payment_verified = BooleanField(default=False)
 
     @staticmethod
     def print_orders_containing_product(product):
@@ -45,6 +47,12 @@ class Order(Model):
         for order_item in order_items:
             total_price += float(order_item.line_price)
         return total_price
+
+    def add_customer_payment(self, deposit_photo, payment_date):
+        self.customer_deposit_photo = deposit_photo
+        self.customer_payment_date = payment_date
+        self.status = 'A' # Change to Processing
+        self.save()
 
     def get_status(self):
         return self.get_status_display()
