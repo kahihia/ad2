@@ -46,13 +46,13 @@
         </tr>
         </thead>
         <tbody>
-        {% for orders in pending_orders %}
+        {% for order in pending_orders %}
             <tr class="clickable-row" data-toggle="modal" data-target="#details">
-                <td>{{ orders.id }}</td>
-                <td>{{ orders.customer_payment_date }}</td>
-                <td>P {{ orders.total_price }}</td>
-                {% if orders.customer_deposit_photo %}
-                    <td><a class="btn btn-primary" href="{{ orders.customer_deposit_photo.url }}">Photo</a></td>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer_payment_date }}</td>
+                <td>P {{ order.total_price }}</td>
+                {% if order.customer_deposit_photo %}
+                    <td><a class="btn btn-primary" href="{{ order.customer_deposit_photo.url }}">View Photo</a></td>
                 {% else %}
                     <td class="text-muted">No deposit url</td>
                 {% endif %}
@@ -68,7 +68,7 @@
     <!-- Payment Details Modal -->
     <!-- TODO: Make this a table -->
     <div class="modal fade" id="details">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Payment Details</h5>
@@ -77,17 +77,49 @@
                     </button>
                 </div>
                 <div>
-                    <div class="modal-body d-flex">
+                    <div class="modal-body d-flex p-4">
                         <div class="mr-5">
-                            <h6>Order Details</h6>
-                            <p class="text-muted m-0">Order #{{ order.id }}</p>
-                            <p class="text-muted m-0">{{ order.date_ordered }}</p>
+                            <h5 class="ml-2 mb-3">Order Details</h5>
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <td>Order #{{ order.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date ordered</th>
+                                    <td>{{ order.date_ordered }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Deposit photo</th>
+                                    {% if order.customer_deposit_photo %}
+                                        <td><a href="{{ order.customer_deposit_photo.url }}" target="_blank">View Photo</a>
+                                        </td>
+                                    {% else %}
+                                        <td class="text-muted">No deposit url</td>
+                                    {% endif %}
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="ml-5">
-                            <h6>Customer Details</h6>
-                            <p class="text-muted m-0">{{ order.customer.full_name }}</p>
-                            <p class="text-muted m-0">{{ order.customer.phone_number }}</p>
-                            <p class="text-muted m-0">{{ order.customer_payment_date }}</p>
+                        <div>
+                            <h5 class="ml-2 mb-3">Customer Details</h5>
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <td>{{ order.customer.full_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone number</th>
+                                    <td>{{ order.customer.phone_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Payment date</th>
+                                    <td>{{ order.customer_payment_date }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="modal-footer">
