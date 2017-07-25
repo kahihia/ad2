@@ -42,12 +42,15 @@ class Product(Model):
             self.save()
 
     @property
+    def current_price_history(self):
+        return self.pricehistory_set.all().order_by('-effective_from')[0]
+
+    @property
     def current_price(self):
-        price = self.pricehistory_set.filter(effective_to=None)[0]
-        return price.price
+        return self.current_price_history.price
 
     def change_price(self, new_price):
-        current_price_history = self.pricehistory_set.filter(effective_to=None)[0]
+        current_price_history = self.current_price_history
         current_price_history.effective_to = datetime.now()
         current_price_history.save()
         self.pricehistory_set.create(price=new_price)
