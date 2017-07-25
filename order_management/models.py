@@ -51,7 +51,19 @@ class Order(Model):
     def add_customer_payment(self, deposit_photo, payment_date):
         self.customer_deposit_photo = deposit_photo
         self.customer_payment_date = payment_date
-        self.status = 'A' # Change to Processing
+        self.status = 'A'  # Change to Processing
+        # TODO: Cancel initial timer (Jason)
+        self.save()
+
+    def reject_customer_payment(self):
+        self.customer_deposit_photo = None
+        self.customer_payment_date = None
+        self.status = 'P'
+        # TODO: Reset 3 day timer (Jason)
+        self.save()
+
+    def accept_customer_payment(self):
+        self.payment_verified = True
         self.save()
 
     def get_status(self):
