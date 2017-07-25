@@ -44,15 +44,15 @@
         <div class="card-deck">
 
             {% for product in products %}
-                <div class="card m-2 product-card" id="{{ product.name }}">
-                    <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image"
-                         draggable="false">
-                    <div class="card-block">
-                        <h4 class="card-title">{{ product.name }}</h4>
-                        <p class="card-text">{{ product.description }}</p>
-                    </div>
+                    <div class="card m-2 product-card" id="{{ product.name }}">
+                        <img class="card-img-top" src="{{ product.photo.url }}" alt="No product image"
+                             draggable="false">
+                        <div class="card-block">
+                            <h4 class="card-title">{{ product.name }}</h4>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
 
-                                            {% if name %}
+                        {% if name %}
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1 pt-4">
                                     {% if product in out_of_stock %}
@@ -142,9 +142,7 @@
                             </ul>
                         {% endif %}
 
-
-                </div>
-
+                    </div>
             {% endfor %}
 
         </div>
