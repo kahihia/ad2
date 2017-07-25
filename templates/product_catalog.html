@@ -180,7 +180,11 @@
                         {% if name %}
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1 pt-4">
-                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                    {% if product in out_of_stock %}
+                                        <h5 class="mb-0 text-warning">₱{{ product.current_price }}</h5>
+                                    {% else %}
+                                        <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                    {% endif %}
                                 </li>
                             </ul>
 
@@ -208,12 +212,13 @@
                                                name="product">
 
                                         {% if product in waitlist %}
-                                            <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
+                                            <button class="btn btn-warning col-8 mr-auto ml-0" data-toggle="tooltip"
                                                     disabled>
                                                 Waitlisted
                                             </button>
                                         {% else %}
-                                            <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
+                                            <a href="#" class="btn btn-outline-warning col-8 mr-auto ml-0"
+                                               data-toggle="modal"
                                                data-target="#waitlist-modal-{{ product.id }}">Add to Waitlist</a>
 
                                         {% endif %}
@@ -299,9 +304,28 @@
                 </div>
 
                 <div class="modal-body">
-                    Would you like to waitlist {{ product.name }}? When stocks arrive, the waitlist for this product
+                    Would you like to waitlist <strong>{{ product.name }}</strong>? When stocks arrive, the waitlist for this product
                     will be
-                    converted into an order. Only one unit of this product will be placed into the order.
+                    converted into an order.
+
+                    <strong>Only one unit of this product can be waitlisted.</strong>
+
+                    <table class="table mt-5">
+                        <tbody>
+                        <tr>
+                            <th>Product</th>
+                            <td>{{ product.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Quantity</th>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>₱{{ product.current_price }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <form action="/orders/waitlist/{{ product.id }}/" method="POST" class="modal-footer">
                     {% csrf_token %}

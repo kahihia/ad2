@@ -52,63 +52,68 @@
                         <p class="card-text">{{ product.description }}</p>
                     </div>
 
-                    {% if name %}
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1 pt-4">
-                                <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
-                            </li>
-                        </ul>
+                                            {% if name %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1 pt-4">
+                                    {% if product in out_of_stock %}
+                                        <h5 class="mb-0 text-warning">₱{{ product.current_price }}</h5>
+                                    {% else %}
+                                        <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                    {% endif %}
+                                </li>
+                            </ul>
 
-                        <!-- Add to cart form -->
-                        <div class="card-footer border-top-0 pr-2">
-                            <div class="col-12 card-purchase-div pb-2">
-                                {% if product in cart.products %}
-                                    <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
-                                {% elif product not in out_of_stock %}
-                                    <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
+                            <!-- Add to cart form -->
+                            <div class="card-footer border-top-0 pr-2">
+                                <div class="col-12 card-purchase-div pb-2">
+                                    {% if product in cart.products %}
+                                        <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
+                                    {% elif product not in out_of_stock %}
+                                        <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
 
-                                        {% csrf_token %}
+                                            {% csrf_token %}
+                                            <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                                   name="product">
+                                            <button type="submit" class="btn btn-outline-primary col-8 mr-2">Add to Cart
+                                            </button>
+                                            <input type="number" class="form-control bg-faded col-3" min="1"
+                                                   max="100"
+                                                   value="1"
+                                                   name="quantity">
+                                        </form>
+                                    {% else %}
+
                                         <input type="hidden" class="product-id-input" value="{{ product.id }}"
                                                name="product">
-                                        <button type="submit" class="btn btn-outline-primary col-8 mr-2">Add to Cart
-                                        </button>
-                                        <input type="number" class="form-control bg-faded col-3" min="1"
-                                               max="100"
-                                               value="1"
-                                               name="quantity">
-                                    </form>
-                                {% else %}
 
-                                    <input type="hidden" class="product-id-input" value="{{ product.id }}"
-                                           name="product">
+                                        {% if product in waitlist %}
+                                            <button class="btn btn-warning col-8 mr-auto ml-0" data-toggle="tooltip"
+                                                    disabled>
+                                                Waitlisted
+                                            </button>
+                                        {% else %}
+                                            <a href="#" class="btn btn-outline-warning col-8 mr-auto ml-0"
+                                               data-toggle="modal"
+                                               data-target="#waitlist-modal-{{ product.id }}">Add to Waitlist</a>
 
-                                    {% if product in waitlist %}
-                                        <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
-                                                disabled>
-                                            Waitlisted
-                                        </button>
-                                    {% else %}
-                                        <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
-                                           data-target="#waitlist-modal-{{ product.id }}">Add to Waitlist</a>
-
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
 
-                                {% if product in wishlist %}
-                                    <a
-                                            class="d-block wish-link ml-0 mr-1 wished"
-                                            style="width: 40px; height: 40px;"
-                                            data-toggle="tooltip"
-                                            data-placement="top" title="Remove this from my Wishlist">
-                                {% else %}
-                                    <a
-                                            class="d-block wish-link ml-0 mr-1 "
-                                            style="width: 40px; height: 40px;"
-                                            data-toggle="tooltip"
-                                            data-placement="top" title="Add this to my Wishlist">
-                                {% endif %}
+                                    {% if product in wishlist %}
+                                        <a
+                                                class="d-block wish-link ml-0 mr-1 wished"
+                                                style="width: 40px; height: 40px;"
+                                                data-toggle="tooltip"
+                                                data-placement="top" title="Remove this from my Wishlist">
+                                    {% else %}
+                                        <a
+                                                class="d-block wish-link ml-0 mr-1 "
+                                                style="width: 40px; height: 40px;"
+                                                data-toggle="tooltip"
+                                                data-placement="top" title="Add this to my Wishlist">
+                                    {% endif %}
 
-                                <div>
+                                    <div>
                                                 <span class="wish-button">
                                                     <svg
                                                             xmlns:svg="http://www.w3.org/2000/svg"
@@ -124,18 +129,19 @@
                                                             </g>
                                                     </svg>
                                                 </span>
+                                    </div>
+                                    </a>
                                 </div>
-                                </a>
                             </div>
-                        </div>
 
-                    {% else %}
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item bg-faded mt-3 p-3">
-                                <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
-                            </li>
-                        </ul>
-                    {% endif %}
+                        {% else %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-faded mt-3 p-3">
+                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                                </li>
+                            </ul>
+                        {% endif %}
+
 
                 </div>
 
@@ -159,6 +165,52 @@
 
 
 </section>
+
+{% for product in out_of_stock %}
+    <div class="modal fade" id="waitlist-modal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="title"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Product Waitlisting</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Would you like to waitlist <strong>{{ product.name }}</strong>? When stocks arrive, the waitlist for this product
+                    will be
+                    converted into an order.
+
+                    <strong>Only one unit of this product can be waitlisted.</strong>
+
+                    <table class="table mt-5">
+                        <tbody>
+                        <tr>
+                            <th>Product</th>
+                            <td>{{ product.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Quantity</th>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>₱{{ product.current_price }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form action="/orders/waitlist/{{ product.id }}/" method="POST" class="modal-footer">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning">Confirm Waitlist</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 
 </body>
 </html>
