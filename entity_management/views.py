@@ -497,15 +497,28 @@ class ReplenishProductView(View):
     @login_required
     @admin_required
     def post(request, product_id):
+
+        add_selected = request.POST.get('add_selected', True)
+
         try:
             product = Product.objects.get(id=product_id)
         except:
             raise Http404("Product not found")
 
         try:
-            product.quantity = request.POST["quantity"]
+            restock_quantity = request.POST["quantity"]
+            restock_quantity = int(restock_quantity)
+            add_selected = int(add_selected)
         except:
             return HttpResponseBadRequest
+
+        if add_selected:
+            product.quantity += restock_quantity
+        else:
+            if product.quantity < restock_quantity:
+                product.quantity = 0
+            else:
+                product.quantity -= restock_quantity
 
         product.save()
         return redirect('/entity-management/replenish/')
