@@ -44,7 +44,7 @@
     <h1>Stall Sales</h1>
     <h6 class="text-muted">Generated {{ current_date }}</h6>
     <br>
-    <div class="mb-3">
+    <div class="d-flex mb-3">
         <form method="GET" class="form-group">
             <table class="table">
                 <thead>
@@ -58,10 +58,12 @@
                 <tbody>
                 <tr>
                     <td>
-                        <input class="form-control" type="date" id="start-date-input" name="start_date">
+                        <input class="form-control" type="date" id="start-date-input" name="start_date"
+                               value="{{ dates.start_date }}">
                     </td>
                     <td>
-                        <input class="form-control" type="date" id="end-date-input" name="end_date">
+                        <input class="form-control" type="date" id="end-date-input" name="end_date"
+                               value="{{ dates.end_date }}">
                     </td>
                     <td>
                         <button class="btn btn-primary">Filter</button>
@@ -74,14 +76,15 @@
             </table>
         </form>
     </div>
+
     {% if not date_is_conflict %}
         {% if dates %}
-            <h4 class="pt-4 pb-3">Showing sales from <span class="text-muted">{{ dates.start_date }}</span><span
-                    class="text-muted"></span> to <span
+            <h4 class="pt-4 pb-3">Showing sales from <span class="text-muted">{{ dates.start_date }}</span> to <span
                     class="text-muted">{{ dates.end_date }}</span>
             </h4>
         {% endif %}
     {% endif %}
+
     {% if sales_per_stall %}
         <table class="table table-striped table-hover">
             <thead>
@@ -119,7 +122,12 @@
         {% if not sales_per_stall %}
             <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
                 <div class="container text-center p-5 m-5">
-                    <h4 class="empty-message-text w-100">There are no sales for the given date range</h4>
+                    {% if dates %}
+                        <h4 class="empty-message-text w-100">There are no sales found for the given date range</h4>
+                    {% else %}
+                        <h2 class="empty-message-text w-100">There are no sales found</h2>
+                        <h6 class="text-muted">When sales are made, they will show up here.</h6>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
@@ -131,7 +139,8 @@
 
 <!-- Sales Details Modal -->
 {% for stall, orders in orders_per_stall.items %}
-    <div class="modal fade" id="stall-detail-{{ stall.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    <div class="modal fade" id="stall-detail-{{ stall.id }}" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLongTitle"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

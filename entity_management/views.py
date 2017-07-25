@@ -255,29 +255,24 @@ class SalesReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        current_date = datetime.now()
-
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
 
         orders = Order.objects.filter(Q(status="A") | Q(status="S"))
 
         if start_date and end_date:
-            orders = orders.filter(date_ordered__gte=start_date)
-            orders = orders.filter(date_ordered__lte=end_date)
-
-            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
-            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+            orders = filter_orders_by_date(orders, start_date, end_date)
 
             context["dates"] = {
                 "start_date": start_date,
                 "end_date": end_date
             }
 
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+
             if start_date > end_date:
-                print("DATES ARE WEIRD")
-                date_is_conflict = True
-                context["date_is_conflict"] = date_is_conflict
+                context["date_is_conflict"] = True
                 return render(request, 'sales_report.html', context)
 
         sales_per_stall = {}
@@ -299,7 +294,7 @@ class SalesReportView(View):
                     sales_per_stall[line_item_stall] = line_item_price
 
         context.update({
-            "current_date": current_date,
+            "current_date": datetime.now(),
             "sales_per_stall": sales_per_stall,
             "orders_per_stall": orders_per_stall
         })
@@ -323,29 +318,28 @@ class OrderReportView(View):
 
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
-        date_is_conflict = False
 
         orders = Order.objects.all()
 
         if start_date and end_date:
-            context.update({
+            orders = filter_orders_by_date(orders, start_date, end_date)
+
+            context["dates"] = {
                 "start_date": start_date,
                 "end_date": end_date
-            })
+            }
 
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
-            if start_date < end_date:
-                orders = filter_orders_by_date(orders, start_date, end_date)
-            else:
-                date_is_conflict = True
+            if start_date > end_date:
+                context["date_is_conflict"] = True
+                return render(request, 'orders_report.html', context)
 
         context.update({
             "orders": orders,
             "selected_type": "All",
             "current_date": current_date,
-            "date_is_conflict": date_is_conflict,
         })
 
         return render(request, 'orders_report.html', context)
@@ -357,27 +351,25 @@ class OrderTypeView(View):
     @admin_required
     def get(request, order_type):
         context = make_context(request)
-        date = datetime.now()
-
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
-        date_is_conflict = False
 
         orders = Order.objects.all()
 
         if start_date and end_date:
-            context.update({
+            orders = filter_orders_by_date(orders, start_date, end_date)
+
+            context["dates"] = {
                 "start_date": start_date,
                 "end_date": end_date
-            })
+            }
 
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
-            if start_date < end_date:
-                orders = filter_orders_by_date(orders, start_date, end_date)
-            else:
-                date_is_conflict = True
+            if start_date > end_date:
+                context["date_is_conflict"] = True
+                return render(request, 'sales_report.html', context)
 
         # Status filter
         order_type = order_type.title()
@@ -389,8 +381,7 @@ class OrderTypeView(View):
         context.update({
             "orders": orders,
             "selected_type": order_type,
-            "current_date": date,
-            "date_is_conflict": date_is_conflict,
+            "current_date": datetime.now(),
         })
 
         return render(request, 'orders_report.html', context)

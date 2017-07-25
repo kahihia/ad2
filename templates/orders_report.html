@@ -45,8 +45,8 @@
     <h1>View Orders</h1>
     <h6 class="text-muted">Generated {{ current_date }}</h6>
     <br>
-    <div class="d-flex">
-        <div class="mb-3">
+    <div class="d-flex mb-3">
+        <div>
 
             <table class="table">
                 <thead>
@@ -98,7 +98,7 @@
             </table>
         </div>
         <br>
-        <div class="mb-3">
+        <div>
             <form method="GET" class="form-group">
                 <table class="table">
                     <thead>
@@ -112,10 +112,12 @@
                     <tbody>
                     <tr>
                         <td>
-                            <input class="form-control" type="date" id="start-date-input" name="start_date">
+                            <input class="form-control" type="date" id="start-date-input" name="start_date"
+                                   value="{{ dates.start_date }}">
                         </td>
                         <td>
-                            <input class="form-control" type="date" id="end-date-input" name="end_date">
+                            <input class="form-control" type="date" id="end-date-input" name="end_date"
+                                   value="{{ dates.end_date }}">
                         </td>
                         <td>
                             <button class="btn btn-primary">Filter</button>
@@ -131,7 +133,7 @@
     </div>
     {% if not date_is_conflict %}
         {% if dates %}
-            <h4 class="p-3">Showing from {{ dates.start_date }}<span class="text-muted"></span> to <span
+            <h4 class="p-3">Showing from <span class="text-muted">{{ dates.start_date }}</span> to <span
                     class="text-muted">{{ dates.end_date }}</span>
             </h4>
         {% endif %}
@@ -191,13 +193,21 @@
         </table>
     {% else %}
 
+
         <!-- If there is nothing to show -->
         <!--No products message -->
         <div class="list-group-item empty-message container-fluid p-5" id="empty-stall-message">
             <div class="container text-center p-5 m-5">
-                <h4 class="empty-message-text w-100">There are no orders found for the given filter</h4>
+                {% if not dates and selected_type == "All" %}
+                    <h4 class="empty-message-text w-100">There are no orders found for the given filter</h4>
+                {% else %}
+                    <h4 class="empty-message-text w-100">There are no orders found</h4>
+                    <h6 class="text-muted">When sales are made, they will show up here.</h6>
+                {% endif %}
             </div>
         </div>
+
+
 
     {% endif %}
 </div>
