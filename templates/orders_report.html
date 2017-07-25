@@ -224,7 +224,11 @@
                                         </tr>
                                         <tr>
                                             <th>Date of Payment</th>
-                                            <td>[Template]</td>
+                                            {% if order.payment_date %}
+                                                <td>{{ order.payment_date }}</td>
+                                            {% else %}
+                                                <td class="text-muted">No payment date</td>
+                                            {% endif %}
                                         </tr>
                                         </tbody>
                                     </table>
