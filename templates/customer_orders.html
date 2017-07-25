@@ -128,14 +128,14 @@
                 {% for line_item in line_items %}
                     <tr>
                         <td>{{ line_item.product.name }}</td>
-                        <td>{{ line_item.line_price }}</td>
+                        <td>₱{{ line_item.line_price }}</td>
                         <td>{{ line_item.quantity }}</td>
                     </tr>
                 {% endfor %}
 
                 <tr>
                     <td><h4>Total Price</h4></td>
-                    <td><h4>₱ {{ total_price }}</h4></td>
+                    <td><h4>₱{{ total_price }}</h4></td>
                     <td></td>
                 </tr>
 
