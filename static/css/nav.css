@@ -15,15 +15,14 @@
 .wish-button g path {
     fill         : transparent;
     transition   : fill 250ms, stroke 250ms;
-    stroke       : #ccc;
-    stroke-width : 5px;
+    stroke       : #aaa;
+    stroke-width : 3px;
 }
 
 #wishlist_icon:hover g path,
 .wish-button:hover g path,
 .wish-link:hover g path,
-.wished .wish-button g path,
-.wish-link g path {
+.wished .wish-button g path {
     cursor       : pointer;
     fill         : rgb(255, 59, 48);
     color        : rgb(255, 59, 48);
