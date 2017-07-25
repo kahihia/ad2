@@ -300,6 +300,12 @@ class SalesReportView(View):
         return render(request, 'sales_report.html', context)
 
 
+def filter_orders_by_date(orders, start_date, end_date):
+    orders = orders.filter(date_ordered__gte=start_date)
+    orders = orders.filter(date_ordered__lte=end_date)
+    return orders
+
+
 class OrderReportView(View):
     @staticmethod
     @login_required
@@ -311,40 +317,28 @@ class OrderReportView(View):
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
         date_is_conflict = False
-        dict = {}
 
         orders = Order.objects.all()
 
         if start_date and end_date:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
-            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
-            dict = {
+            context.update({
                 "start_date": start_date,
                 "end_date": end_date
-            }
+            })
+
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date < end_date:
-                orders = orders.filter(date_ordered__gte=start_date)
-                orders = orders.filter(date_ordered__lte=end_date)
+                orders = filter_orders_by_date(orders, start_date, end_date)
             else:
                 date_is_conflict = True
 
-        pending_orders = orders.filter(status="P")
-        approved_orders = orders.filter(status="A")
-        shipped_orders = orders.filter(status="S")
-        cancelled_orders = orders.filter(status="C")
-
         context.update({
-            "orders": {
-                "Pending": pending_orders,
-                "Processing": approved_orders,
-                "Shipped": shipped_orders,
-                "Cancelled": cancelled_orders,
-            },
-            "selected_type": orders,
+            "orders": orders,
+            "selected_type": "All",
             "current_date": current_date,
             "date_is_conflict": date_is_conflict,
-            "dates": dict
         })
 
         return render(request, 'orders_report.html', context)
@@ -357,7 +351,6 @@ class OrderTypeView(View):
     def get(request, order_type):
         context = make_context(request)
         date = datetime.now()
-        dict = {}
 
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
@@ -366,45 +359,31 @@ class OrderTypeView(View):
         orders = Order.objects.all()
 
         if start_date and end_date:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
-            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
-            dict = {
+            context.update({
                 "start_date": start_date,
                 "end_date": end_date
-            }
+            })
+
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date < end_date:
-                orders = orders.filter(date_ordered__gte=start_date)
-                orders = orders.filter(date_ordered__lte=end_date)
+                orders = filter_orders_by_date(orders, start_date, end_date)
             else:
                 date_is_conflict = True
 
-            orders = orders.filter(date_ordered__lte=end_date)
-
-        try:
-            status = Order.ORDER_STATUSES
-            for key, value in status:
-                if order_type == value:
-                    selected_type = orders.filter(status=key)
-        except:
-            raise Http404("Order type does not exist!")
-
-        pending_orders = orders.filter(status="P")
-        approved_orders = orders.filter(status="A")
-        shipped_orders = orders.filter(status="S")
-        cancelled_orders = orders.filter(status="C")
+        # Status filter
+        order_type = order_type.title()
+        status = Order.ORDER_STATUSES
+        for status, status_display in status:
+            if order_type == status_display:
+                orders = orders.filter(status=status)
 
         context.update({
-            "orders": {
-                "Pending": pending_orders,
-                "Processing": approved_orders,
-                "Shipped": shipped_orders,
-                "Cancelled": cancelled_orders,
-            },
-            "selected_type": selected_type,
+            "orders": orders,
+            "selected_type": order_type,
             "current_date": date,
             "date_is_conflict": date_is_conflict,
-            "dates": dict
         })
 
         return render(request, 'orders_report.html', context)
@@ -455,21 +434,14 @@ class WaitlistReportView(View):
         return render(request, 'waitlists.html', context)
 
 
-# TODO: Confirm payments received from customers
 class ConfirmPaymentsView(View):
     @staticmethod
     @login_required
     @admin_required
     def get(request):
         context = make_context(request)
-        # The filtering should also take into consideration processed orders??
-
         orders_to_confirm = Order.objects.filter(status="A", payment_verified=False)
-
-        context.update({
-            "orders_to_confirm": orders_to_confirm
-        })
-
+        context["orders_to_confirm"] = orders_to_confirm
         return render(request, 'confirm_payments.html', context)
 
 

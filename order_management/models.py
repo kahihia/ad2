@@ -66,9 +66,6 @@ class Order(Model):
         self.payment_verified = True
         self.save()
 
-    def get_status(self):
-        return self.get_status_display()
-
     def has_products(self, *products):
         for product in products:
             if not self.has_product(product):
