@@ -99,7 +99,7 @@ class UserWishlistView(View):
     @login_required
     @customer_required
     def get(request):
-        context = make_context(request, include_stalls_and_products=False)
+        context = make_context(request)
         user = request.user
         customer = Customer.objects.get(user=user)
         products_wished = Wishlist.wishlist_products_for_customer(customer)

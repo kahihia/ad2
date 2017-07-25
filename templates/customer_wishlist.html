@@ -53,62 +53,62 @@
                     </div>
 
                     {% if name %}
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1">
-                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
-                                </li>
-                            </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1 pt-4">
+                                <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                            </li>
+                        </ul>
 
-                            <!-- Add to cart form -->
-                            <div class="card-footer border-top-0 pr-2">
-                                <div class="col-12 card-purchase-div">
-                                    {% if product in cart.products %}
-                                        <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
-                                    {% elif product not in out_of_stock %}
-                                        <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
+                        <!-- Add to cart form -->
+                        <div class="card-footer border-top-0 pr-2">
+                            <div class="col-12 card-purchase-div pb-2">
+                                {% if product in cart.products %}
+                                    <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
+                                {% elif product not in out_of_stock %}
+                                    <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
 
-                                            {% csrf_token %}
-                                            <input type="hidden" class="product-id-input" value="{{ product.id }}"
-                                                   name="product">
-                                            <input type="number" class="form-control bg-faded col-3  mr-2" min="1"
-                                                   max="100"
-                                                   value="1"
-                                                   name="quantity">
-                                            <button type="submit" class="btn btn-outline-primary col-8">Add to Cart
-                                            </button>
-                                        </form>
-                                    {% else %}
-
+                                        {% csrf_token %}
                                         <input type="hidden" class="product-id-input" value="{{ product.id }}"
                                                name="product">
+                                        <button type="submit" class="btn btn-outline-primary col-8 mr-2">Add to Cart
+                                        </button>
+                                        <input type="number" class="form-control bg-faded col-3" min="1"
+                                               max="100"
+                                               value="1"
+                                               name="quantity">
+                                    </form>
+                                {% else %}
 
-                                        {% if product in waitlist %}
-                                            <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
-                                                    disabled>
-                                                Waitlisted
-                                            </button>
-                                        {% else %}
-                                            <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
-                                               data-target="#waitlist-modal-{{ product.id }}">Add to Waitlist</a>
+                                    <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                           name="product">
 
-                                        {% endif %}
-                                    {% endif %}
-
-                                    {% if product in wishlist %}
-                                        <a
-                                                class="d-block wish-link ml-0 wished"
-                                                style="width: 40px; height: 40px;"
-                                                data-toggle="tooltip"
-                                                data-placement="top" title="Remove this from my Wishlist">
+                                    {% if product in waitlist %}
+                                        <button class="btn btn-warning col-8 mr-auto" data-toggle="tooltip"
+                                                disabled>
+                                            Waitlisted
+                                        </button>
                                     {% else %}
-                                        <a
-                                                class="d-block wish-link ml-0"
-                                                style="width: 40px; height: 40px;"
-                                                data-toggle="tooltip"
-                                                data-placement="top" title="Add this to my Wishlist">
-                                    {% endif %}
+                                        <a href="#" class="btn btn-warning col-8 mr-auto" data-toggle="modal"
+                                           data-target="#waitlist-modal-{{ product.id }}">Add to Waitlist</a>
 
-                                    <div>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if product in wishlist %}
+                                    <a
+                                            class="d-block wish-link ml-0 mr-1 wished"
+                                            style="width: 40px; height: 40px;"
+                                            data-toggle="tooltip"
+                                            data-placement="top" title="Remove this from my Wishlist">
+                                {% else %}
+                                    <a
+                                            class="d-block wish-link ml-0 mr-1 "
+                                            style="width: 40px; height: 40px;"
+                                            data-toggle="tooltip"
+                                            data-placement="top" title="Add this to my Wishlist">
+                                {% endif %}
+
+                                <div>
                                                 <span class="wish-button">
                                                     <svg
                                                             xmlns:svg="http://www.w3.org/2000/svg"
@@ -124,19 +124,18 @@
                                                             </g>
                                                     </svg>
                                                 </span>
-                                    </div>
-                                    </a>
                                 </div>
+                                </a>
                             </div>
+                        </div>
 
-                        {% else %}
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-faded mt-3 p-3">
-                                    <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
-                                </li>
-                            </ul>
-                        {% endif %}
-
+                    {% else %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-faded mt-3 p-3">
+                                <h5 class="mb-0 text-primary">₱{{ product.current_price }}</h5>
+                            </li>
+                        </ul>
+                    {% endif %}
 
                 </div>
 
