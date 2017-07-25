@@ -54,7 +54,7 @@
 
                         {% if name %}
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1 pt-4">
+                                <li class="list-group-item bg-faded mt-3 border-bottom-0 pb-1 pt-3">
                                     {% if product in out_of_stock %}
                                         <h5 class="mb-0 text-warning">₱{{ product.current_price }}</h5>
                                     {% else %}
@@ -64,8 +64,8 @@
                             </ul>
 
                             <!-- Add to cart form -->
-                            <div class="card-footer border-top-0 pr-2">
-                                <div class="col-12 card-purchase-div pb-2">
+                            <div class="card-footer border-top-0 pr-2 pb-3">
+                                <div class="col-12 card-purchase-div ">
                                     {% if product in cart.products %}
                                         <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
                                     {% elif product not in out_of_stock %}
