@@ -48,7 +48,7 @@ class Order(Model):
             total_price += float(order_item.line_price)
         return total_price
 
-    def add_customer_payment(self, deposit_photo, payment_date):
+    def approve_customer_payment(self, deposit_photo, payment_date):
         self.customer_deposit_photo = deposit_photo
         self.customer_payment_date = payment_date
         self.status = 'A'  # Change to Processing

@@ -472,38 +472,31 @@ class ConfirmPaymentsView(View):
 
         return render(request, 'confirm_payments.html', context)
 
-# TODO: This is incomplete!! and it has to change status from "Processing: A" to "Verified: V" not from "P" to "A"
-def approve_order(request, order_id):
-    if(request!='GET'):
-        try:
-            current_order = Order.objects.get(id=order_id)
-            current_order.status = 'A'
-            current_order.save()
 
-            current_order_status = current_order.status
-            print(current_order_status)
+class ApproveOrderView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request, order_id):
+        try:
+            order = Order.objects.get(id=order_id)
+            order.approve_customer_payment()
+            return redirect("/entity-management/confirm-payments/")
         except:
             raise Http404("Order does not exist")
 
-        # This has to reload back to the previous change
-        return render(request, 'confirm_payments.html')
 
-# TODO: This is incomplete. Status should revert back to "P" from "A"
-def cancel_order(request, order_id):
-    if(request!='GET'):
+class RejectOrderView(View):
+    @staticmethod
+    @login_required
+    @admin_required
+    def get(request, order_id):
         try:
-            current_order = Order.objects.get(id=order_id)
-            current_order.status = 'P'
-            current_order.save()
-
-            current_order_status = current_order.status
-            print(current_order_status)
+            order = Order.objects.get(id=order_id)
+            order.reject_customer_payment()
+            return redirect("/entity-management/confirm-payments/")
         except:
             raise Http404("Order does not exist")
-
-        # This has to reload back to the previous change
-        return render(request, 'confirm_payments.html')
-
 
 
 class ReplenishView(View):
