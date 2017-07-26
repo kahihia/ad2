@@ -2,6 +2,8 @@ from celery import Celery
 from celery.schedules import crontab
 from celery.task import periodic_task
 from order_management.models import Order
+import celery
+from django.contrib.auth.models import User
 
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
@@ -19,16 +21,21 @@ app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 #     object = "not expired"
 #     print(object)
 
-@app.task(name="expire")
-def expire(order_id):
-    print(order_id)
+@app.task(bind=True, name="expire")
+def expire(self,order_id):
     print("this works")
+    print(f"the id is {self.request.id}")
     try:
         order = Order.objects.get(id=order_id)
-        print(order)
+        print(f"the status is {order.status}")
     except:
         print(f"Failed retrieving order object of id {order_id}")
         return
+
+
+    if order.status == "C":
+        print(f"this process terminated, order status:{order.status}")
+        app.control.revoke(self.request.id, terminate = True)
 
     if order.status != "P":
         return
@@ -45,7 +52,20 @@ def expire(order_id):
 
     # Cancel order
     order.status = "C"
-    print(order.status)
     order.save()
+
+# @periodic_task(run_every=(crontab(minute=1)),name="ban the damn anime")
+# def ban_kammy():
+#     # kammy = User.objects.get(username="inoyamanaka")
+#     # if kammy: kammy.delete()
+#
+#     #lets step it up
+#     users = User.objects.all()
+#     kams_accounts = [user for user in users if user.username.includes("kam" or "ino" or "koreanshit")]
+#     for fake in kams_accounts:
+#         fake.delete()
+
+
+
 
 

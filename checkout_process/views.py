@@ -168,7 +168,7 @@ class PurchaseView(View):
         order = cart.convert_to_order(customer=customer)
         cart.reset_cart()
         print(order.status)
-        expire.apply_async(args=(order.id,), eta=datetime.utcnow() + timedelta(days=3))
+        expire.apply_async(args=(order.id,), eta=datetime.utcnow() + timedelta(minutes=5))
 
         context = make_context(request)
         context["total_price"] = order.total_price
