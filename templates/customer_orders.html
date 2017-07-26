@@ -65,11 +65,13 @@
                     <h4 class="text-muted mt-2 ml-3">{{ active_order.date }}</h4>
                 </div>
                 <!-- TODO: Cancelling of a pending order -->
+                {% if active_order.status == "P" %}
                 <div class="ml-auto">
                     <button class="btn btn-outline-danger" data-toggle="modal"
                             data-target="#cancel-product-modal">Cancel
                     </button>
                 </div>
+                {% endif %}
             </div>
 
             {% if active_order.status == "P" %}
