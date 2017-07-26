@@ -23,11 +23,10 @@ app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
 @app.task(bind=True, name="expire")
 def expire(self,order_id):
-    print("this works")
-    print(f"the id is {self.request.id}")
+    print(f"the task queue id is {self.request.id}")
     try:
         order = Order.objects.get(id=order_id)
-        print(f"the status is {order.status}")
+        print(f"the order status is {order.status}")
     except:
         print(f"Failed retrieving order object of id {order_id}")
         return
@@ -62,8 +61,8 @@ def expire(self,order_id):
 #     #lets step it up
 #     users = User.objects.all()
 #     kams_accounts = [user for user in users if user.username.includes("kam" or "ino" or "koreanshit")]
-#     for fake in kams_accounts:
-#         fake.delete()
+#     for account in kams_accounts:
+#         account.delete()
 
 
 
