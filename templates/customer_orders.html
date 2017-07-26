@@ -23,6 +23,10 @@
 
     <script>
         $(() => {
+
+            // This nasty hacks lets you collapse and show the accordion without affecting the others
+            $('.collapse').collapse('hide');
+
             const expand = "{{ expand }}";
             $('#' + expand + "-orders").collapse('show');
         });
@@ -49,6 +53,12 @@
                             {% else %}
                                 <a class="list-group-item" href="/orders/{{ order.id }}">Order #{{ order.id }}</a>
                             {% endif %}
+                        {% empty %}
+
+                            <div class="container-fluid p-5 text-center">
+                                <h5>There's nothing here</h5>
+                                <p class="text-muted">Orders that are {{ order_type }} will show up here.</p>
+                            </div>
                         {% endfor %}
                     </ul>
                 </div>
@@ -60,17 +70,35 @@
     <section id="order-products">
         {% if active_order %}
             <div class="d-flex">
-                <div class="d-flex mb-3">
-                    <h2>Order #{{ active_order.id }}</h2>
-                    <h4 class="text-muted mt-2 ml-3">{{ active_order.date }}</h4>
+                <div class="mb-3">
+                    <h2 class="d-block">Order #{{ active_order.id }}</h2>
+                    <h5 class="text-muted mt-2">Ordered {{ active_order.date_ordered }}</h5>
                 </div>
-                <!-- TODO: Cancelling of a pending order -->
-                <div class="ml-auto">
-                    <button class="btn btn-outline-danger" data-toggle="modal"
-                            data-target="#cancel-product-modal">Cancel
-                    </button>
-                </div>
+
+                {% if active_order.status == "P" %}
+                    <div class="ml-auto">
+                        <button class="btn btn-outline-danger" data-toggle="modal"
+                                data-target="#cancel-product-modal">Cancel
+                        </button>
+                    </div>
+                {% endif %}
             </div>
+
+            {% if active_order.status == "C" %}
+                <div class="alert alert-danger mr-auto d-flex" role="alert">
+                    <div>
+                        <p><strong>Note:</strong> This order has been cancelled.</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if active_order.status == "S" %}
+                <div class="alert alert-success mr-auto d-flex" role="alert">
+                    <div>
+                        <p><strong>Success!</strong> This order has been shipped.</p>
+                    </div>
+                </div>
+            {% endif %}
 
             {% if active_order.status == "P" %}
                 <div class="alert alert-warning mr-auto d-flex" role="alert">
@@ -223,22 +251,25 @@
 </div>
 
 <!-- Cancel Product Modal -->
-<div class="modal fade" id="cancel-product-modal" tabindex="-1" role="dialog" aria-labelledby="title"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="container p-4 mt-1">
-                    <h5>Are you sure you want to cancel this order?</h5>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Cancel Order</button>
+
+{% if active_order.status == "P" %}
+    <div class="modal fade" id="cancel-product-modal" tabindex="-1" role="dialog" aria-labelledby="title"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container p-4 mt-1">
+                        <h5>Are you sure you want to cancel this order?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/orders/{{ active_order.id }}/cancel/" class="btn btn-danger">Cancel Order</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+{% endif %}
 
 </body>
 </html>
