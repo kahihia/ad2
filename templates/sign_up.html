@@ -12,15 +12,16 @@
     <link rel="stylesheet" href="{% static '/css/nav.css' %}">
 
     <!-- Custom JS go here -->
-    <script type="text/javascript" src="{% static '/js/sign-up.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/sign_up.js' %}"></script>
 
 </head>
-<body class="bg-faded">
+<body class="bg-faded" id="content">
 
 <!-- Navigation Bar -->
 {% include 'customer_nav.html' %}
 
 <!-- Errors -->
+<!-- TODO: Change to "THESE FIELDS ARE REQUIRED". And then show the fields. -->
 {% if form %}
 
     <div class="alert alert-danger" role="alert">
@@ -47,24 +48,26 @@
     <div class="row">
         <div class="col-6 col-md-3"></div>
         <div class="col-6 col-md-6 text-center">
+            <!-- TODO: Sticky fields. Something to do with value. -->
             <form method="POST" class="col-12" id="inputs">
                 {% csrf_token %}
                 <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Username"
-                       name="username">
+                       name="username" value="">
                 <input type="password" class="form-control form-control-lg col-12 mb-1" placeholder="Password"
-                       name="password" id="password">
+                       name="password" id="password" value="">
                 <input type="password" class="form-control form-control-lg col-12 mb-1" placeholder="Re-type Password"
-                       id="re-type">
+                       id="re-type" value="">
                 <br>
                 <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Full Name"
-                       name="full_name">
+                       name="full_name" value="">
                 <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Address"
-                       name="address">
-                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="City" name="city">
+                       name="address" value="">
+                <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="City" name="city"
+                       value="">
                 <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Postal Code"
-                       name="postal_code">
+                       name="postal_code" value="">
                 <input type="text" class="form-control form-control-lg col-12 mb-1" placeholder="Phone Number"
-                       name="phone_number">
+                       name="phone_number" value="">
                 <br>
 
                 <button type="submit" class="btn btn-primary btn-lg m-3" id="sign-in-button">Sign me up!</button>
@@ -73,8 +76,6 @@
             <div id="sign-in-options">
                 <a href="/customer-sign-in/" id="sign-up-link">I have an account</a>
             </div>
-
-
         </div>
         <div class="col-6 col-md-3"></div>
     </div>
