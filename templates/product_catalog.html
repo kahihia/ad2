@@ -285,7 +285,37 @@
         {% endif %}
 
 
+
+        <!--Pagination-->
+        {% if products.paginator.num_pages > 1 %}
+
+            <nav class="ml-auto mr-auto p-5">
+                <ul class="pagination">
+                    {% if products.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for i in products.paginator.page_range %}
+                        {% if i == products.number %}
+                            <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if products.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        {% endif %}
+
+
     </section>
+
 </div>
 
 <!-- Input Payment Details Modal -->
@@ -303,7 +333,8 @@
                 </div>
 
                 <div class="modal-body">
-                    Would you like to waitlist <strong>{{ product.name }}</strong>? When stocks arrive, the waitlist for this product
+                    Would you like to waitlist <strong>{{ product.name }}</strong>? When stocks arrive, the waitlist for
+                    this product
                     will be
                     converted into an order.
 

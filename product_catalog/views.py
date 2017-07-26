@@ -1,14 +1,15 @@
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, Http404, redirect
 from django.views import View
+from django.db.models import Q
 
+from product_catalog.cart import Cart
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from customer_profile.models import Customer
 from entity_management.models import Stall, Product
 from order_management.tasks import get_recommended_products
-from product_catalog.cart import Cart
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def available_stalls():
@@ -17,11 +18,28 @@ def available_stalls():
             if len(stall.product_set.all()) > 0]
 
 
+def paginate_products(context, page):
+    products = context['products']
+    paginator = Paginator(products, 12)
+
+    try:
+        context['products'] = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        context['products'] = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        context['products'] = paginator.page(paginator.num_pages)
+
+    return context
+
+
 class ProductCatalogView(View):
     @staticmethod
     @customer_required
     def get(request):
         context = make_context(request)
+        paginate_products(context, page=request.GET.get('page'))
         return render(request, 'product_catalog.html', context)
 
     # Add to cart
@@ -50,6 +68,8 @@ class ProductCatalogView(View):
             'quantity': quantity,
             'recommendations': recommendations
         })
+
+        paginate_products(context, page=request.GET.get('page'))
 
         return render(request, 'product_catalog.html', context)
 
@@ -102,6 +122,7 @@ class StallView(View):
             raise Http404("Stall does not exist")
 
         context = make_context(request, active_stall=stall)
+        paginate_products(context, page=request.GET.get('page'))
         return render(request, 'product_catalog.html', context)
 
 
@@ -118,5 +139,5 @@ def search(request):
     context = make_context(request)
     context["products"] = products
     context["search_term"] = key
-
+    # paginate_products(context, page=request.GET.get('page')) #  TODO: Figure out solution
     return render(request, 'product_catalog.html', context)
