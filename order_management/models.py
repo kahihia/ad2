@@ -71,6 +71,10 @@ class Order(Model):
         self.payment_verified = True
         self.save()
 
+    def customer_cancel_order(self):
+        self.status = 'C'
+        self.save()
+
     def has_products(self, *products):
         for product in products:
             if not self.has_product(product):
@@ -126,7 +130,6 @@ class Waitlist(Model):
     @staticmethod
     def waitlist_products_for_customer(customer):
         return [waitlist.product for waitlist in Waitlist.objects.filter(customer=customer)]
-
 
     @staticmethod
     def waitlists_for_product(product):

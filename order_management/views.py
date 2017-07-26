@@ -162,3 +162,24 @@ class ConfirmPaymentView(View):
         order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
 
         return redirect(f"/orders/{order_id}/")
+
+
+class CancelOrderView(View):
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request, order_id):
+        try:
+            order = Order.objects.get(id=order_id)
+        except:
+            raise Http404('Order does not exist')
+
+        customer = Customer.objects.get(user=request.user)
+        if order.customer.id != customer.id:
+            raise Http404("Order not found in current user's list of orders")
+
+        if order.status == 'P':
+            # Only pending orders should be cancellable
+            order.customer_cancel_order()
+
+        return redirect(f"/orders/{order_id}")

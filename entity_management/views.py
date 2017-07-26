@@ -249,6 +249,73 @@ def make_context(request, active_stall=None, include_stalls_and_products=False):
     return context
 
 
+class SalesGenerator:
+    @staticmethod
+    def get_sales_per_product(orders):
+        products = Product.objects.all()
+        sales_per_product = {}
+
+        for product in products:
+            orders_with_product = [order for order in orders if order.has_product(product)]
+
+            line_items_per_product = []
+
+            for order in orders_with_product:
+                for line_item in order.orderlineitems_set.all():
+                    if line_item.product.id == product.id:
+                        line_items_per_product.append(line_item)
+
+            if not line_items_per_product:
+                # if there are no line items, then don't bother to compute
+                continue
+
+            total_quantity = 0
+            total_revenue_for_product = 0.00
+
+            for line_item in line_items_per_product:
+                total_quantity += line_item.quantity
+                total_revenue_for_product += line_item.line_price
+
+            sales_per_product[product] = {
+                "total_quantity": total_quantity,
+                "total_revenue": total_revenue_for_product
+            }
+
+        return sales_per_product
+
+    @staticmethod
+    def generate_sales_report(orders):
+        sales_per_product = SalesGenerator.get_sales_per_product(orders=orders)
+        sales_per_stall = {}
+
+        for product, product_sales in sales_per_product.items():
+            stall = product.stall
+            product_total_revenue = product_sales["total_revenue"]
+
+            if stall in sales_per_stall:
+                sales_per_stall[stall]["total_revenue"] += product_total_revenue
+                sales_per_stall[stall]["products"][product] = product_sales
+            else:
+                sales_per_stall[stall] = {
+                    "total_revenue": product_total_revenue,
+                    "products": {
+                        product: product_sales
+                    }
+                }
+
+        total_revenue_for_stalls = 0.00
+
+        print(sales_per_stall)
+
+        for stall, stall_sales in sales_per_stall.items():
+            total_revenue_for_stalls += stall_sales["total_revenue"]
+
+        return {
+            "sales_per_stall": sales_per_stall,
+            "total_revenue": total_revenue_for_stalls
+        }
+
+
 class SalesReportView(View):
     @staticmethod
     @login_required
@@ -275,29 +342,8 @@ class SalesReportView(View):
                 context["date_is_conflict"] = True
                 return render(request, 'sales_report.html', context)
 
-        sales_per_stall = {}
-        orders_per_stall = {}
-
-        for order in orders:
-            for line_item in order.orderlineitems_set.all():
-                line_item_stall = line_item.product.stall
-                line_item_price = line_item.line_price
-
-                if line_item_stall in orders_per_stall:
-                    orders_per_stall[line_item_stall].append(order)
-                else:
-                    orders_per_stall[line_item_stall] = [order]
-
-                if line_item_stall in sales_per_stall:
-                    sales_per_stall[line_item_stall] += line_item_price
-                else:
-                    sales_per_stall[line_item_stall] = line_item_price
-
-        context.update({
-            "current_date": datetime.now(),
-            "sales_per_stall": sales_per_stall,
-            "orders_per_stall": orders_per_stall
-        })
+        context["current_date"] = datetime.now()
+        context.update(SalesGenerator.generate_sales_report(orders=orders))
 
         return render(request, 'sales_report.html', context)
 
