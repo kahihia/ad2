@@ -64,7 +64,6 @@ class ProductView(View):
         }
 
         errors = handle_errors(dict)
-        print(not errors)
 
         if not errors:
             new_product = Product.objects.create(name=dict["product_name"],
@@ -198,7 +197,6 @@ def update_product(request, stall_id):
     }
 
     errors = handle_errors(request_data)
-    print(errors)
 
     if not errors:
         product = Product.objects.get(id=request.POST.get("product_id"))
@@ -304,8 +302,6 @@ class SalesGenerator:
                 }
 
         total_revenue_for_stalls = 0.00
-
-        print(sales_per_stall)
 
         for stall, stall_sales in sales_per_stall.items():
             total_revenue_for_stalls += stall_sales["total_revenue"]
@@ -447,8 +443,6 @@ class WaitlistReportView(View):
         for product in Product.objects.all():
             current_waitlists = Waitlist.waitlist_count_for_product(product)
             total_waitlists = WaitlistCount.total_waitlist_count_for_product(product)
-
-            print(current_waitlists)
 
             if current_waitlists:
                 products_currently_waitlisted.append({
