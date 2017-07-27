@@ -65,6 +65,12 @@ class ProductView(View):
 
         errors = handle_errors(dict)
 
+        if dict["price"] < 0:
+            dict["price"] = 0
+
+        if dict["quantity"] < 0:
+            dict["quantity"] = 0
+
         if not errors:
             new_product = Product.objects.create(name=dict["product_name"],
                                                  description=dict["description"],
@@ -202,6 +208,9 @@ def update_product(request, stall_id):
         product.description = request_data["description"]
 
         if product.current_price != request_data["price"]:
+            if request_data["price"] < 0:
+                request_data["price"] = 0
+                
             product.change_price(new_price=request_data["price"])
 
         if 'photo' in request.FILES:
