@@ -102,6 +102,8 @@ class CheckoutView(View):
         out_of_stock_errors = []
         dead_products = []
 
+        total_price = 0.00
+
         for line_item in line_items:
 
             product_id = line_item.product.id
@@ -127,10 +129,12 @@ class CheckoutView(View):
                 cart.update_quantity(product_id, quantity=stock_count)
                 line_item.quantity = stock_count
 
+            total_price += float(line_item.product.current_price) * line_item.quantity
+
         context = make_context(request)
 
         context.update({
-            "total_price": cart.total_price,
+            "total_price": total_price,
             "line_items": line_items,
             "customer": customer,
             "out_of_stock_errors": out_of_stock_errors,
