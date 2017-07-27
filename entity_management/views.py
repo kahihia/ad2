@@ -65,10 +65,10 @@ class ProductView(View):
 
         errors = handle_errors(dict)
 
-        if dict["price"] < 0:
+        if float(dict["price"]) < 0:
             dict["price"] = 0
 
-        if dict["quantity"] < 0:
+        if int(dict["quantity"]) < 0:
             dict["quantity"] = 0
 
         if not errors:
