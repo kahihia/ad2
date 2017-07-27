@@ -435,7 +435,6 @@ class WaitlistReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        waitlists = Waitlist.objects.all()
 
         products_currently_waitlisted = []
         products_not_waitlisted = []
