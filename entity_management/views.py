@@ -210,7 +210,7 @@ def update_product(request, stall_id):
         if product.current_price != request_data["price"]:
             if request_data["price"] < 0:
                 request_data["price"] = 0
-                
+
             product.change_price(new_price=request_data["price"])
 
         if 'photo' in request.FILES:
