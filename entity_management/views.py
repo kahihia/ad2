@@ -112,14 +112,12 @@ class StallView(View):
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
-            products = Product.objects.all().filter(stall=stall, is_active=True)
         except:
             raise Http404("Stall does not exist")
 
         if not stall.is_active:
             raise Http404("Stall is deactivated")
 
-        stalls = Stall.objects.all()
         context = make_context(request, active_stall=stall, include_stalls_and_products=True)
         return render(request, 'entity_management.html', context)
 
