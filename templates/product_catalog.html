@@ -287,10 +287,11 @@
 
 
         <!--Pagination-->
-        {% if products.paginator.num_pages > 1 %}
+        <!-- Note: We do not paginate search. -->
+        {% if not search_term and products.paginator.num_pages > 1 %}
 
-            <nav class="ml-auto mr-auto p-5">
-                <ul class="pagination">
+            <nav class="d-flex p-5 w-100">
+                <ul class="pagination ml-auto mr-auto ">
                     {% if products.has_previous %}
                         <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
                         </li>

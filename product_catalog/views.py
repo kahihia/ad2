@@ -139,5 +139,5 @@ def search(request):
     context = make_context(request)
     context["products"] = products
     context["search_term"] = key
-    # paginate_products(context, page=request.GET.get('page')) #  TODO: Figure out solution
+    # paginate_products(context, page=request.GET.get('page')) # TODO: Figure out solution for query param &search=page=
     return render(request, 'product_catalog.html', context)
