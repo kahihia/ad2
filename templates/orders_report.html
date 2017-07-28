@@ -19,7 +19,6 @@
 
     <!--Import custom JS here-->
     <script type="text/javascript" src="{% static "/js/general.js" %}"></script>
-    <script type="text/javascript" src="{% static "/js/jquery-3.1.1.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/entity_management.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/cookie.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/dates.js" %}"></script>
@@ -118,11 +117,11 @@
                     <tr>
                         <td>
                             <input class="form-control" type="date" id="start-date-input" name="start_date"
-                                   value="{{ dates.start_date }}">
+                                   value="{{ dates.start_date|date:"Y-m-d" }}">
                         </td>
                         <td>
                             <input class="form-control" type="date" id="end-date-input" name="end_date"
-                                   value="{{ dates.end_date }}">
+                                   value="{{ dates.end_date|date:"Y-m-d" }}">
                         </td>
                         <td>
                             <button class="btn btn-primary">Filter</button>
@@ -138,8 +137,8 @@
     </div>
     {% if not date_is_conflict %}
         {% if dates %}
-            <h4 class="p-3">Showing from <span class="text-muted">{{ dates.start_date }}</span> to <span
-                    class="text-muted">{{ dates.end_date }}</span>
+            <h4 class="p-3">Showing from <span class="text-muted">{{ dates.start_date|date:"F d, o" }}</span> to <span
+                    class="text-muted">{{ dates.end_date|date:"F d, o" }}</span>
             </h4>
         {% endif %}
     {% endif %}

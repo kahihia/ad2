@@ -4,7 +4,7 @@ import json
 from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def admin_sign_out(request):
@@ -333,21 +333,27 @@ class SalesReportView(View):
         if start_date and end_date:
             orders = filter_orders_by_date(orders, start_date, end_date)
 
-            context["dates"] = {
-                "start_date": start_date,
-                "end_date": end_date
-            }
-
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date > end_date:
                 context["date_is_conflict"] = True
                 return render(request, 'sales_report.html', context)
+        else:
+            start_date = datetime.now() - timedelta(weeks=1)
+            end_date = datetime.now()
 
-        context["current_date"] = datetime.now()
+            orders = filter_orders_by_date(orders, start_date, end_date)
+
+        context.update({
+            "current_date": datetime.now(),
+            "dates": {
+                "start_date": start_date,
+                "end_date": end_date
+            },
+        })
+
         context.update(SalesGenerator.generate_sales_report(orders=orders))
-
         return render(request, 'sales_report.html', context)
 
 
@@ -363,7 +369,6 @@ class OrderReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        current_date = datetime.now()
 
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
@@ -373,22 +378,26 @@ class OrderReportView(View):
         if start_date and end_date:
             orders = filter_orders_by_date(orders, start_date, end_date)
 
-            context["dates"] = {
-                "start_date": start_date,
-                "end_date": end_date
-            }
-
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date > end_date:
                 context["date_is_conflict"] = True
                 return render(request, 'orders_report.html', context)
+        else:
+            start_date = datetime.now() - timedelta(weeks=1)
+            end_date = datetime.now()
+
+            orders = filter_orders_by_date(orders, start_date, end_date)
 
         context.update({
             "orders": orders,
             "selected_type": "All",
-            "current_date": current_date,
+            "current_date": datetime.now(),
+            "dates": {
+                "start_date": start_date,
+                "end_date": end_date
+            },
         })
 
         return render(request, 'orders_report.html', context)
@@ -408,17 +417,17 @@ class OrderTypeView(View):
         if start_date and end_date:
             orders = filter_orders_by_date(orders, start_date, end_date)
 
-            context["dates"] = {
-                "start_date": start_date,
-                "end_date": end_date
-            }
-
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date > end_date:
                 context["date_is_conflict"] = True
                 return render(request, 'sales_report.html', context)
+        else:
+            start_date = datetime.now() - timedelta(weeks=1)
+            end_date = datetime.now()
+
+            orders = filter_orders_by_date(orders, start_date, end_date)
 
         # Status filter
         order_type = order_type.title()
@@ -431,6 +440,10 @@ class OrderTypeView(View):
             "orders": orders,
             "selected_type": order_type,
             "current_date": datetime.now(),
+            "dates": {
+                "start_date": start_date,
+                "end_date": end_date
+            },
         })
 
         return render(request, 'orders_report.html', context)
