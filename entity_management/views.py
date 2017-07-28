@@ -620,9 +620,8 @@ class OrderSetCancelled(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
+            order.customer_cancel_order()
         except:
             raise Http404()
 
-        order.status = "C"
-        order.save()
         return redirect("/entity-management/orders-report/")

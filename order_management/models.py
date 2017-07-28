@@ -73,6 +73,13 @@ class Order(Model):
 
     def customer_cancel_order(self):
         self.status = 'C'
+
+        # Return product to inventory
+        for line_item in self.orderlineitems_set.all():
+            product = line_item.product
+            product.quantity += line_item.quantity
+            product.save()
+
         self.save()
 
     def has_products(self, *products):
@@ -193,8 +200,7 @@ def on_product_save(sender, instance, **kwargs):
         waitlist.convert_to_order()
         print(instance.quantity)
 
-
-        instance.quantity = int(instance.quantity) # For some reason it isn't int
+        instance.quantity = int(instance.quantity)  # For some reason it isn't int
         instance.quantity -= 1
 
 
