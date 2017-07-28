@@ -620,7 +620,7 @@ class OrderSetCancelled(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
-            order.customer_cancel_order()
+            order.cancel()
         except:
             raise Http404()
 

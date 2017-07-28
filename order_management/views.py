@@ -179,6 +179,6 @@ class CancelOrderView(View):
 
         if order.status == 'P':
             # Only pending orders should be cancellable
-            order.customer_cancel_order()
+            order.cancel()
 
         return redirect(f"/orders/{order_id}")

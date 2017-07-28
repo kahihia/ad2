@@ -71,7 +71,7 @@ class Order(Model):
         self.payment_verified = True
         self.save()
 
-    def customer_cancel_order(self):
+    def cancel(self):
         self.status = 'C'
 
         # Return product to inventory
