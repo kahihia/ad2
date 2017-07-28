@@ -64,7 +64,7 @@ class SignUpView(View):
         conflicts = User.objects.filter(username=username)
         if conflicts:
             return render(request, 'sign_up.html', {
-                'error': f'User with e-mail {username} already exists.'
+                'error': f'User with username {username} already exists.'
             })
 
         user = User.objects.create_user(username=username, password=password)
