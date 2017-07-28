@@ -193,6 +193,8 @@
                                 <div class="col-12 card-purchase-div ">
                                     {% if product in cart.products %}
                                         <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
+                                        <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                                   name="product">
                                     {% elif product not in out_of_stock %}
                                         <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
 
