@@ -52,7 +52,6 @@ class UserWaitlistView(View):
         customer = Customer.objects.get(user=user)
 
         context["waitlists"] = Waitlist.objects.filter(customer=customer)
-        print(context["waitlists"])
 
         return render(request, 'customer_waitlist.html', context)
 
@@ -134,11 +133,11 @@ class WaitlistView(View):
         except:
             raise Http404
 
-        context = make_context(request)
-
         # Waitlist only products that are out of stock
         if product.quantity == 0:
             Waitlist.objects.get_or_create(customer=customer, product=product)
+
+            context = make_context(request)
 
             context.update({
                 'waitlisted': product
@@ -183,6 +182,6 @@ class CancelOrderView(View):
 
         if order.status == 'P':
             # Only pending orders should be cancellable
-            order.customer_cancel_order()
+            order.cancel()
 
         return redirect(f"/orders/{order_id}")

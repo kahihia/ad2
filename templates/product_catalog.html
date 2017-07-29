@@ -152,7 +152,7 @@
     <!-- Items to be retrieved by the database -->
     <section id="product-showcase">
         {% if search_term or active_stall %}
-            <div class="container mb-3 text-center">
+            <div class="container mb-3 text-center w-100">
                 {% if search_term %}
                     <h2>Search results for <span class="text-muted">{{ search_term }}</span></h2>
                 {% endif %}
@@ -193,6 +193,8 @@
                                 <div class="col-12 card-purchase-div ">
                                     {% if product in cart.products %}
                                         <button class="btn btn-primary col-8 mr-auto" disabled>Already in cart</button>
+                                        <input type="hidden" class="product-id-input" value="{{ product.id }}"
+                                                   name="product">
                                     {% elif product not in out_of_stock %}
                                         <form method="POST" action="/product-catalog/" class="d-flex p-0 mr-auto">
 
@@ -287,10 +289,11 @@
 
 
         <!--Pagination-->
-        {% if products.paginator.num_pages > 1 %}
+        <!-- Note: We do not paginate search. -->
+        {% if not search_term and products.paginator.num_pages > 1 %}
 
-            <nav class="ml-auto mr-auto p-5">
-                <ul class="pagination">
+            <nav class="d-flex p-5 w-100">
+                <ul class="pagination ml-auto mr-auto ">
                     {% if products.has_previous %}
                         <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
                         </li>

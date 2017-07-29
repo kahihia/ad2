@@ -4,9 +4,13 @@ import json
 from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
+<<<<<<< HEAD
 from datetime import datetime
 from celery import Celery
 from IrisOnline.tasks import expire
+=======
+from datetime import datetime, timedelta
+>>>>>>> 7db73d4dc5a6aae634e68c4141d9030f28dfebb1
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
@@ -67,7 +71,12 @@ class ProductView(View):
         }
 
         errors = handle_errors(dict)
-        print(not errors)
+
+        if float(dict["price"]) < 0:
+            dict["price"] = 0
+
+        if int(dict["quantity"]) < 0:
+            dict["quantity"] = 0
 
         if not errors:
             new_product = Product.objects.create(name=dict["product_name"],
@@ -116,14 +125,12 @@ class StallView(View):
     def get(request, stall_id):
         try:
             stall = Stall.objects.get(id=stall_id)
-            products = Product.objects.all().filter(stall=stall, is_active=True)
         except:
             raise Http404("Stall does not exist")
 
         if not stall.is_active:
             raise Http404("Stall is deactivated")
 
-        stalls = Stall.objects.all()
         context = make_context(request, active_stall=stall, include_stalls_and_products=True)
         return render(request, 'entity_management.html', context)
 
@@ -201,7 +208,6 @@ def update_product(request, stall_id):
     }
 
     errors = handle_errors(request_data)
-    print(errors)
 
     if not errors:
         product = Product.objects.get(id=request.POST.get("product_id"))
@@ -209,6 +215,9 @@ def update_product(request, stall_id):
         product.description = request_data["description"]
 
         if product.current_price != request_data["price"]:
+            if request_data["price"] < 0:
+                request_data["price"] = 0
+
             product.change_price(new_price=request_data["price"])
 
         if 'photo' in request.FILES:
@@ -308,8 +317,6 @@ class SalesGenerator:
 
         total_revenue_for_stalls = 0.00
 
-        print(sales_per_stall)
-
         for stall, stall_sales in sales_per_stall.items():
             total_revenue_for_stalls += stall_sales["total_revenue"]
 
@@ -333,21 +340,27 @@ class SalesReportView(View):
         if start_date and end_date:
             orders = filter_orders_by_date(orders, start_date, end_date)
 
-            context["dates"] = {
-                "start_date": start_date,
-                "end_date": end_date
-            }
-
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date > end_date:
                 context["date_is_conflict"] = True
                 return render(request, 'sales_report.html', context)
+        else:
+            start_date = datetime.now() - timedelta(weeks=1)
+            end_date = datetime.now()
 
-        context["current_date"] = datetime.now()
+            orders = filter_orders_by_date(orders, start_date, end_date)
+
+        context.update({
+            "current_date": datetime.now(),
+            "dates": {
+                "start_date": start_date,
+                "end_date": end_date
+            },
+        })
+
         context.update(SalesGenerator.generate_sales_report(orders=orders))
-
         return render(request, 'sales_report.html', context)
 
 
@@ -363,7 +376,6 @@ class OrderReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        current_date = datetime.now()
 
         start_date = request.GET.get('start_date', None)
         end_date = request.GET.get('end_date', None)
@@ -373,22 +385,26 @@ class OrderReportView(View):
         if start_date and end_date:
             orders = filter_orders_by_date(orders, start_date, end_date)
 
-            context["dates"] = {
-                "start_date": start_date,
-                "end_date": end_date
-            }
-
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date > end_date:
                 context["date_is_conflict"] = True
                 return render(request, 'orders_report.html', context)
+        else:
+            start_date = datetime.now() - timedelta(weeks=1)
+            end_date = datetime.now()
+
+            orders = filter_orders_by_date(orders, start_date, end_date)
 
         context.update({
             "orders": orders,
             "selected_type": "All",
-            "current_date": current_date,
+            "current_date": datetime.now(),
+            "dates": {
+                "start_date": start_date,
+                "end_date": end_date
+            },
         })
 
         return render(request, 'orders_report.html', context)
@@ -408,17 +424,17 @@ class OrderTypeView(View):
         if start_date and end_date:
             orders = filter_orders_by_date(orders, start_date, end_date)
 
-            context["dates"] = {
-                "start_date": start_date,
-                "end_date": end_date
-            }
-
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
             if start_date > end_date:
                 context["date_is_conflict"] = True
                 return render(request, 'sales_report.html', context)
+        else:
+            start_date = datetime.now() - timedelta(weeks=1)
+            end_date = datetime.now()
+
+            orders = filter_orders_by_date(orders, start_date, end_date)
 
         # Status filter
         order_type = order_type.title()
@@ -431,6 +447,10 @@ class OrderTypeView(View):
             "orders": orders,
             "selected_type": order_type,
             "current_date": datetime.now(),
+            "dates": {
+                "start_date": start_date,
+                "end_date": end_date
+            },
         })
 
         return render(request, 'orders_report.html', context)
@@ -442,7 +462,6 @@ class WaitlistReportView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        waitlists = Waitlist.objects.all()
 
         products_currently_waitlisted = []
         products_not_waitlisted = []
@@ -450,8 +469,6 @@ class WaitlistReportView(View):
         for product in Product.objects.all():
             current_waitlists = Waitlist.waitlist_count_for_product(product)
             total_waitlists = WaitlistCount.total_waitlist_count_for_product(product)
-
-            print(current_waitlists)
 
             if current_waitlists:
                 products_currently_waitlisted.append({
@@ -625,11 +642,15 @@ class OrderSetCancelled(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
+            order.cancel()
         except:
             raise Http404()
 
+<<<<<<< HEAD
         order.status = "C"
         order.save()
         print(order.queue_id)
         app.control.revoke(order.queue_id, terminate=True)
+=======
+>>>>>>> 7db73d4dc5a6aae634e68c4141d9030f28dfebb1
         return redirect("/entity-management/orders-report/")

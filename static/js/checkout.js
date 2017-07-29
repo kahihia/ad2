@@ -45,11 +45,15 @@ function recalculateTotal() {
     $('.line-item-row').get().forEach((item) => {
        const lineItem = $(item);
        const unitPrice = parseFloat($(lineItem.find('.unit-price')[0]).val());
-       const quantity = parseFloat($(lineItem.find('.line-item-quantity-input')).val());
+       let quantity = parseFloat($(lineItem.find('.line-item-quantity-input')).val());
 
        if(quantity <= 0) {
            lineItem.remove();
            return;
+       }
+
+       if(isNaN(quantity)) {
+            quantity = 1;
        }
 
        const linePrice = unitPrice * quantity;
