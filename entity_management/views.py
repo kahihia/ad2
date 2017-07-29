@@ -4,13 +4,9 @@ import json
 from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
-<<<<<<< HEAD
-from datetime import datetime
 from celery import Celery
 from IrisOnline.tasks import expire
-=======
 from datetime import datetime, timedelta
->>>>>>> 7db73d4dc5a6aae634e68c4141d9030f28dfebb1
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
@@ -643,14 +639,9 @@ class OrderSetCancelled(View):
         try:
             order = Order.objects.get(id=order_id)
             order.cancel()
+            print(order.queue_id)
+            app.control.revoke(order.queue_id, terminate=True)
         except:
             raise Http404()
 
-<<<<<<< HEAD
-        order.status = "C"
-        order.save()
-        print(order.queue_id)
-        app.control.revoke(order.queue_id, terminate=True)
-=======
->>>>>>> 7db73d4dc5a6aae634e68c4141d9030f28dfebb1
         return redirect("/entity-management/orders-report/")
