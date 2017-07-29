@@ -4,25 +4,26 @@ from celery.task import periodic_task
 from order_management.models import Order
 import celery
 from django.contrib.auth.models import User
+from datetime import datetime
+from celery.schedules import timedelta
 
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
-
-# @app.task
-# def printthis(*args,**kwargs):
-#     order_id = args[0]
-#     # Order.objects.get(id=)
-#     print("Keiths a dolt")
-
-#
-# @periodic_task(run_every=(crontab(hour='4', minute='3', day_of_week="*")), name="test_function", ignore_result=True)
-# def testfunction():
-#     object = "not expired"
-#     print(object)
-
 @app.task(bind=True, name="expire")
 def expire(self,order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        order.queue_id = self.request.id
+        print(f"queue_id: {order.queue_id}")
+        order.save()
+        expire_async.apply_async(args=(order.id,), eta=datetime.utcnow() + timedelta(minutes=2),task_id=self.request.id)
+    except:
+        print(f"Failed retrieving order object of id {order_id}")
+        return
+
+@app.task(bind=True, name="expire_async")
+def expire_async(self,order_id):
     print(f"the task queue id is {self.request.id}")
     try:
         order = Order.objects.get(id=order_id)
@@ -30,11 +31,6 @@ def expire(self,order_id):
     except:
         print(f"Failed retrieving order object of id {order_id}")
         return
-
-
-    if order.status == "C":
-        print(f"this process terminated, order status:{order.status}")
-        app.control.revoke(self.request.id, terminate = True)
 
     if order.status != "P":
         return

@@ -8,6 +8,9 @@ from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from .models import *
 from .forms import ConfirmPaymentForm
+from celery import Celery
+
+
 
 
 class UserOrdersView(View):

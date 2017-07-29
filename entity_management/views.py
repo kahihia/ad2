@@ -5,7 +5,10 @@ from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
 from datetime import datetime
+from celery import Celery
+from IrisOnline.tasks import expire
 
+app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
 def admin_sign_out(request):
     logout(request)
@@ -579,6 +582,8 @@ class OrderSetPending(View):
             raise Http404()
 
         order.status = "P"
+        expire.apply_async(args=(order.id,), countdown=0)
+
         order.save()
         return redirect("/entity-management/orders-report/")
 
@@ -625,4 +630,6 @@ class OrderSetCancelled(View):
 
         order.status = "C"
         order.save()
+        print(order.queue_id)
+        app.control.revoke(order.queue_id, terminate=True)
         return redirect("/entity-management/orders-report/")

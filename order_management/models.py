@@ -30,6 +30,7 @@ class Order(Model):
     customer_deposit_photo = FileField(blank=True, null=True, default=None)
     customer_payment_date = DateField(null=True, blank=True, default=None)
     payment_verified = BooleanField(default=False)
+    queue_id=CharField(null=True,max_length=64)
 
     @staticmethod
     def print_orders_containing_product(product):
