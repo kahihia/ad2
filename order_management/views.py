@@ -154,6 +154,7 @@ class ConfirmPaymentView(View):
         context = make_context(request)
 
 
+
         if('photo' not in request.FILES):
             has_error = True
             context["photo_error"] = True
@@ -168,6 +169,7 @@ class ConfirmPaymentView(View):
             photo = request.FILES.get('deposit-slip')
 
             order = Order.objects.get(id=order_id)
+            context["order"] = order
             order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
 
             return redirect(f"/orders/{order_id}/")
