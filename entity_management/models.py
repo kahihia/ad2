@@ -13,6 +13,7 @@ from django.db.models import (
 )
 
 
+
 class Stall(Model):
     name = CharField(max_length=64)
     is_active = BooleanField(default=True)

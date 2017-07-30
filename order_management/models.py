@@ -14,6 +14,12 @@ from django.db.models import (
     FloatField,
     BooleanField
 )
+from celery import Celery
+from IrisOnline.tasks import expire
+from datetime import datetime, timedelta
+
+
+app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
 
 class Order(Model):
@@ -58,14 +64,14 @@ class Order(Model):
     def approve_customer_payment(self):
         self.status = 'A'  # Change to Processing
         self.payment_verified = True
-        # TODO: Cancel initial timer (Jason)
+        app.control.revoke(self.queue_id, terminate=True)
         self.save()
 
     def reject_customer_payment(self):
         self.customer_deposit_photo = None
         self.customer_payment_date = None
         self.status = 'P'
-        # TODO: Reset 3 day timer (Jason)
+        expire.apply_async(args=(self.id,), countdown=0)
         self.save()
 
     def accept_customer_payment(self):
