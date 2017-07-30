@@ -168,6 +168,10 @@ class ConfirmPaymentView(View):
             date_paid = request.POST.get('date')
             photo = request.FILES.get('deposit-slip')
             order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
+            context.update({
+                "photo_error": False,
+                "date_error": True
+            })
 
             return redirect(f"/orders/{order_id}/")
 
