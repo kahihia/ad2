@@ -657,6 +657,7 @@ class OrderSetCancelled(View):
         try:
             order = Order.objects.get(id=order_id)
             order.cancel()
+            app.control.revoke(order.queue_id, terminate=True)
         except:
             raise Http404()
 

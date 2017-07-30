@@ -1,6 +1,7 @@
 from django.dispatch import receiver
 from entity_management.models import Product
 from customer_profile.models import Customer
+from celery import Celery
 from django.db.models.signals import post_save, pre_save
 from django.db.models import (
     Model,
@@ -14,10 +15,8 @@ from django.db.models import (
     FloatField,
     BooleanField
 )
-from celery import Celery
-from IrisOnline.tasks import expire
-from datetime import datetime, timedelta
 
+from datetime import datetime, timedelta
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
