@@ -16,8 +16,6 @@ from django.db.models import (
     BooleanField
 )
 
-from datetime import datetime, timedelta
-
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
 
@@ -59,7 +57,7 @@ class Order(Model):
         self.customer_deposit_photo = deposit_photo
         self.customer_payment_date = payment_date
         self.status = 'A'
-        self.remove_expiration()
+        
         self.save()
 
     def approve_customer_payment(self):
@@ -73,7 +71,6 @@ class Order(Model):
         self.customer_payment_date = None
         self.status = 'P'
 
-        self.set_to_expire()
         self.save()
 
     def accept_customer_payment(self):
