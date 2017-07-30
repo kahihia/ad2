@@ -235,10 +235,21 @@
                 <div>
                     <div class="p-3">
                         <div class="modal-body">
-                            <div class="d-flex mb-4">
+                            <!-- Alert goes here -->
+                            {% if order.payment_verified and order.status == "A" %}
+                                <div class="alert alert-success mb-5" role="alert">
+                                    <strong>Payment Verified.</strong> This order's payment has been marked as verified.
+                                </div>
+                            {% elif not order.payment_verified and order.status == "A" %}
+                                <div class="alert alert-warning mb-5" role="alert">
+                                    <strong>Payment not verified.</strong> Payment details can be verified
+                                    through the confirm payments page.
+                                </div>
+                            {% endif %}
+                            <div class="d-flex mb-5">
                                 <!-- Customer Details -->
-                                <div class="mr-5">
-                                    <h5 class="mb-3">Customer Details</h5>
+                                <div class="mr-3" style="flex-grow: 1">
+                                    <h5 class="mb-3 ml-2">Customer Details</h5>
                                     <table class="table">
                                         <tbody>
                                         <tr>
@@ -262,8 +273,8 @@
                                 </div>
 
                                 <!-- Address -->
-                                <div>
-                                    <h5 class="mb-3">Customer Address</h5>
+                                <div style="flex-grow: 1">
+                                    <h5 class="mb-3 ml-2">Customer Address</h5>
                                     <table class="table">
                                         <tbody>
                                         <tr>
@@ -282,108 +293,72 @@
                                     </table>
                                 </div>
                             </div>
+                            <!-- Order Details -->
+                            <div class="mb-5">
+                                <h5 class="mb-3 ml-2">Order Details</h5>
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <th>Order No.</th>
+                                        <td>{{ order.id }}</td>
+                                    </tr>
+                                    <tr>
 
-                            <div class="d-flex">
-                                <!-- Order Details -->
-                                <div class="mr-5">
-                                    <h5 class="mb-3">Order Details</h5>
-                                    <table class="table" style="width: 300px;">
-                                        <tbody>
-                                        <tr>
-                                            <th>Order No.</th>
-                                            <td>{{ order.id }}</td>
-                                        </tr>
-                                        <tr>
+                                        <th>Order Date</th>
+                                        <td>{{ order.date_ordered }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total</th>
+                                        <td>₱{{ order.total_price }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                            <th>Order Date</th>
-                                            <td>{{ order.date_ordered }}</td>
-                                        </tr>
+                            <div>
+                                <h5 class="mb-3 ml-2">Order Products</h5>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for line_item in order.orderlineitems_set.all %}
                                         <tr>
-                                            <th>Total</th>
-                                            <td>₱{{ order.total_price }}</td>
+                                            <td>{{ line_item.product.name }}</td>
+                                            <td>{{ line_item.quantity }}</td>
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <hr>
-                        <div class="container-fluid p-3">
-                            <h4 class="mb-3">Order Products</h4>
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>Quantity</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for line_item in order.orderlineitems_set.all %}
-                                    <tr>
-                                        <td>{{ line_item.product.name }}</td>
-                                        <td>{{ line_item.quantity }}</td>
-                                    </tr>
-                                {% endfor %}
 
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <h6 class="mt-2 ml-3 mr-auto">Change Order Status</h6>
-                        <div class="btn-group mr-2" role="group" aria-label="status-group">
+                    <div class="modal-footer p-3">
+                        <h5 class="mr-auto mb-0 p-3">Order Status</h5>
+                        {% if order.status == "C" %}
+                            <h5 class="text-danger mb-0 p-3">Cancelled</h5>
 
-                            {% if order.status == "C" %}
-                                <button type="button" class="btn disabled" disabled="disabled">Pending</button>
-                                <button type="button" class="btn disabled" disabled="disabled">Processing</button>
-                                <button type="button" class="btn disabled" disabled="disabled">Shipped</button>
-                                <button type="button" class="btn btn-danger">Cancelled</button>
+                        {% elif order.status == "P" %}
 
-                            {% elif order.status == "P" %}
-                                <button type="button" class="btn btn-warning">Pending</button>
-                                <button type="button" class="btn disabled" disabled="disabled">Processing</button>
-                                <button type="button" class="btn disabled" disabled="disabled">Shipped</button>
-                                <button type="button" class="btn disabled" disabled="disabled">Cancelled</button>
+                            <h5 class="text-warning mb-0 d-inline-block p-3">Pending</h5>
+                            <a href="/entity-management/orders/{{ order.id }}/set-cancelled/"
+                               class="btn btn-danger d-inline-block mr-3">Cancel Order</a>
 
-                            {% elif order.status == "A" %}
-                                {#                            {% if order.status == "P" %}#}
-                                <button type="button" class="btn disabled" disabled="disabled">Pending</button>
-                                {#                            {% else %}#}
-                                {#                                <a href="/entity-management/orders/{{ order.id }}/set-pending/" type="button"#}
-                                {#                                   class="btn btn-secondary">Pending</a>#}
-                                {#                            {% endif %}#}
+                        {% elif order.status == "A" %}
 
-                                {#                                {% if order.status == "A" %}#}
-                                <button type="button" class="btn btn-primary">Processing</button>
-                                {#                                {% else %}#}
-                                {#                                    <a href="/entity-management/orders/{{ order.id }}/set-processing/" type="button"#}
-                                {#                                       class="btn btn-secondary">Processing</a>#}
-                                {#                                {% endif %}#}
+                            <h5 class="text-primary mb-0 d-inline-block p-3">Processing</h5>
+                            <a href="/entity-management/orders/{{ order.id }}/set-shipped/"
+                               class="btn btn-success mr-3">Mark as Shipped</a>
 
-                                {% if order.status == "S" %}
-                                    <button type="button" class="btn btn-success">Shipped</button>
-                                {% else %}
-                                    <a href="/entity-management/orders/{{ order.id }}/set-shipped/" type="button"
-                                       class="btn btn-secondary">Shipped</a>
-                                {% endif %}
+                        {% elif order.status == "S" %}
+                            <h5 class="text-success mb-0 p-3">Shipped</h5>
 
-                                {#                                {% if order.status == "C" %}#}
-                                <button type="button" class="btn disabled" disabled="disabled">Cancelled</button>
-                                {#                                {% else %}#}
-                                {#                                    <a href="/entity-management/orders/{{ order.id }}/set-cancelled/" type="button"#}
-                                {#                                       class="btn btn-secondary">Cancelled</a>#}
-                                {#                                {% endif %}#}
-
-                            {% elif order.status == "S" %}
-                                <button type="button" class="btn disabled" disabled="disabled">Pending</button>
-                                <button type="button" class="btn disabled" disabled="disabled">Processing</button>
-                                <button type="button" class="btn btn-success">Shipped</button>
-                                <button type="button" class="btn disabled" disabled="disabled">Cancelled</button>
-
-
-                            {% endif %}
-
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

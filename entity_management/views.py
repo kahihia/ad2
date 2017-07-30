@@ -1,5 +1,6 @@
 from .models import *
 import json
+from django.http import HttpResponse
 from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
@@ -564,16 +565,15 @@ class ReplenishView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        out_of_stock = Product.objects.filter(quantity=0)
-        low_stock = Product.objects.filter(quantity__range=(1, 20)).order_by("quantity")
-        others = Product.objects.filter(quantity__gt=20).order_by("quantity")
-        products = Product.objects.all()
+        products = Product.objects.filter(is_active=True)
+        out_of_stock = products.filter(quantity=0)
+        low_stock = products.filter(quantity__range=(1, 20)).order_by("quantity")
+        others = products.filter(quantity__gt=20).order_by("quantity")
 
         context.update({
             "out_of_stock": out_of_stock,
             "low_stock": low_stock,
             "others": others,
-            "products": products
         })
 
         return render(request, 'replenish_stocks.html', context)
@@ -611,44 +611,6 @@ class ReplenishProductView(View):
         product.save()
         return redirect('/entity-management/replenish/')
 
-
-class OrderSetPending(View):
-    @staticmethod
-    @login_required
-    @admin_required
-    def get(request, order_id):
-        try:
-            order = Order.objects.get(id=order_id)
-
-            if order.status != "C":
-                order.reject_customer_payment()  # Similar behavior as setting to 'P'
-                expire.apply_async(args=(order.id,), countdown=0)
-                
-
-        except:
-            raise Http404()
-
-        return redirect("/entity-management/orders-report/")
-
-
-class OrderSetProcessing(View):
-    @staticmethod
-    @login_required
-    @admin_required
-    def get(request, order_id):
-        try:
-            order = Order.objects.get(id=order_id)
-
-            # Cannot change status of cancelled order
-            if order.status != "C":
-                order.status = "A"
-                order.save()
-        except:
-            raise Http404()
-
-        return redirect("/entity-management/orders-report/")
-
-
 class OrderSetShipping(View):
     @staticmethod
     @login_required
@@ -657,8 +619,8 @@ class OrderSetShipping(View):
         try:
             order = Order.objects.get(id=order_id)
 
-            # Cannot change status of cancelled order
-            if order.status != "C":
+            # Only a processing order can be set shipping
+            if order.status == 'A':
                 order.status = "S"
                 order.save()
 
@@ -676,8 +638,8 @@ class OrderSetCancelled(View):
         try:
             order = Order.objects.get(id=order_id)
 
-            # Cannot change status of a cancelled order
-            if order.status != "C":
+            # Only a pending order can be cancelled
+            if order.status == 'P':
                 order.cancel()
                 expire.apply_async(args=(order.id,), countdown=0)
 

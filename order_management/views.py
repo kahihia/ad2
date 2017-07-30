@@ -1,14 +1,10 @@
-from django.shortcuts import render, Http404, redirect
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import render, Http404
 from django.views import View
-
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from .models import *
-from .forms import ConfirmPaymentForm
-from celery import Celery
 
 
 class UserOrdersView(View):
@@ -157,12 +153,14 @@ class ConfirmPaymentView(View):
 
         context = make_context(request)
 
+
         if('photo' not in request.FILES):
             has_error = True
             context["photo_error"] = True
         if ('date' not in request.POST):
             has_error = True
             context["date_error"] = True
+
 
         if(not has_error):
             order_id = request.POST.get('order-id')
