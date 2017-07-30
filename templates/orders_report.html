@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{% static 'css/general.css' %}">
     <style>
         tr {
-            cursor: pointer;
+            cursor : pointer;
         }
     </style>
 
@@ -144,6 +144,11 @@
     {% endif %}
 
     {% if orders %}
+        {% if selected_type == "Cancelled" %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Warning:</strong> These orders cannot be reverted.
+            </div>
+        {% endif %}
         <table class="table table-striped table-hover">
             <thead>
             <tr>
