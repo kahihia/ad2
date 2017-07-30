@@ -564,16 +564,15 @@ class ReplenishView(View):
     @admin_required
     def get(request):
         context = make_context(request)
-        out_of_stock = Product.objects.filter(quantity=0)
-        low_stock = Product.objects.filter(quantity__range=(1, 20)).order_by("quantity")
-        others = Product.objects.filter(quantity__gt=20).order_by("quantity")
-        products = Product.objects.all()
+        products = Product.objects.filter(is_active=True)
+        out_of_stock = products.filter(quantity=0)
+        low_stock = products.filter(quantity__range=(1, 20)).order_by("quantity")
+        others = products.filter(quantity__gt=20).order_by("quantity")
 
         context.update({
             "out_of_stock": out_of_stock,
             "low_stock": low_stock,
             "others": others,
-            "products": products
         })
 
         return render(request, 'replenish_stocks.html', context)
