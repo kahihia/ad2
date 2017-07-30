@@ -48,7 +48,8 @@
             <tbody>
             {% for line_item in cart.line_items %}
                 <tr class="line-item-row">
-                    <td><img class="cart-product-image rounded-circle" src="{{ line_item.product.photo.url }}"></td>
+                    <td><img class="cart-product-image rounded-circle" src="{{ line_item.product.photo.url }}"
+                             draggable="false"></td>
                     <td>{{ line_item.product.name }}</td>
                     <td>
                         ₱{{ line_item.product.current_price }}
