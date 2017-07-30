@@ -36,5 +36,5 @@ $(() => {
             makePrimary(subtractButton);
             isAddInput.val('0');
         })
-    })
-})
+    });
+});

@@ -10,8 +10,7 @@ from product_catalog.cart import Cart
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from order_management.models import *
-from IrisOnline.tasks import expire
-from celery.schedules import datetime, timedelta
+# from IrisOnline.tasks import expire
 
 
 class CartView(View):
@@ -170,10 +169,8 @@ class PurchaseView(View):
 
         customer = Customer.objects.get(user=request.user)
         order = cart.convert_to_order(customer=customer)
+        order.set_to_expire()
         cart.reset_cart()
-        print(order.status)
-        expire.apply_async(args=(order.id,),countdown=0)
-
         context = make_context(request)
         context["total_price"] = order.total_price
 

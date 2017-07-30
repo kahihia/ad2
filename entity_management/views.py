@@ -1,5 +1,4 @@
 from .models import *
-from django.http import HttpResponseBadRequest
 import json
 from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
@@ -8,8 +7,8 @@ from celery import Celery
 from IrisOnline.tasks import expire
 from datetime import datetime, timedelta
 
-
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
+
 
 def admin_sign_out(request):
     logout(request)
@@ -67,7 +66,7 @@ class ProductView(View):
             "quantity": request.POST.get('quantity')
         }
 
-        errors = handle_errors(dict,method="create")
+        errors = handle_errors(dict, method="create")
         print(errors)
 
         if not errors:
@@ -79,7 +78,7 @@ class ProductView(View):
 
             new_product = Product.objects.create(name=dict["product_name"],
                                                  description=dict["description"],
-                                                 photo = request.FILES.get('photo'),
+                                                 photo=request.FILES.get('photo'),
                                                  stall=Stall.objects.get(id=stall_id),
                                                  quantity=dict["quantity"])
 
@@ -182,7 +181,7 @@ class StallView(View):
         return HttpResponse(200)
 
 
-def handle_errors(dict,method):
+def handle_errors(dict, method):
     errors = []
     if is_invalid(dict["product_name"]):
         errors.append("Error Missing: Name field required")
@@ -190,11 +189,11 @@ def handle_errors(dict,method):
         errors.append("Error Missing: Price field required")
     if is_invalid(dict["description"]):
         errors.append("Error Missing: Description field required")
-    if(method == "create"):
+    if (method == "create"):
         if is_invalid(dict["quantity"]):
             errors.append("Error Missing: Quantity field required")
 
-#NEVER USED ANYWAY
+            # NEVER USED ANYWAY
     # try:
     #     int(dict["quantity"])
     # except:
@@ -218,7 +217,7 @@ def update_product(request, stall_id):
         "price": request.POST.get('price'),
     }
 
-    errors = handle_errors(request_data,method="update")
+    errors = handle_errors(request_data, method="update")
 
     if not errors:
         product = Product.objects.get(id=request.POST.get("product_id"))
@@ -244,7 +243,7 @@ def update_product(request, stall_id):
             content_type="application/json"
         )
     dict = {
-        "errors":errors
+        "errors": errors
     }
 
     return HttpResponse(
@@ -530,8 +529,12 @@ class ApproveOrderView(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=int(order_id))
-            order.approve_customer_payment()
-            app.control.revoke(order.queue_id, terminate=True)
+
+            # Cannot change status of a cancelled order
+            if order.status != 'C':
+                order.approve_customer_payment()
+                app.control.revoke(order.queue_id, terminate=True)
+
             return redirect("/entity-management/confirm-payments/")
         except:
             raise Http404("Order does not exist")
@@ -544,8 +547,12 @@ class RejectOrderView(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
-            order.reject_customer_payment()
-            expire.apply_async(args=(order.id,), countdown=0)
+
+            # Cannot change status of a cancelled order
+            if order.status != 'C':
+                order.reject_customer_payment()
+                expire.apply_async(args=(order.id,), countdown=0)
+
             return redirect("/entity-management/confirm-payments/")
         except:
             raise Http404("Order does not exist")
@@ -590,7 +597,8 @@ class ReplenishProductView(View):
             restock_quantity = int(restock_quantity)
             add_selected = int(add_selected)
         except:
-            return HttpResponseBadRequest
+            restock_quantity = 0
+            add_selected = 0
 
         if add_selected:
             product.quantity += restock_quantity
@@ -611,13 +619,13 @@ class OrderSetPending(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
+
+            if order.status != "C":
+                order.reject_customer_payment()  # Similar behavior as setting to 'P'
+
         except:
             raise Http404()
 
-        order.status = "P"
-        expire.apply_async(args=(order.id,), countdown=0)
-
-        order.save()
         return redirect("/entity-management/orders-report/")
 
 
@@ -628,11 +636,14 @@ class OrderSetProcessing(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
+
+            # Cannot change status of cancelled order
+            if order.status != "C":
+                order.status = "A"
+                order.save()
         except:
             raise Http404()
 
-        order.status = "A"
-        order.save()
         return redirect("/entity-management/orders-report/")
 
 
@@ -643,11 +654,15 @@ class OrderSetShipping(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
+
+            # Cannot change status of cancelled order
+            if order.status != "C":
+                order.status = "S"
+                order.save()
+
         except:
             raise Http404()
 
-        order.status = "S"
-        order.save()
         return redirect("/entity-management/orders-report/")
 
 
@@ -658,7 +673,10 @@ class OrderSetCancelled(View):
     def get(request, order_id):
         try:
             order = Order.objects.get(id=order_id)
-            order.cancel()
+
+            # Cannot change status of a cancelled order
+            if order.status != "C":
+                order.cancel()
         except:
             raise Http404()
 
