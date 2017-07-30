@@ -17,7 +17,7 @@ def expire(self, order_id):
         order.queue_id = self.request.id
         print(f"queue_id: {order.queue_id}")
         order.save()
-        expire_async.apply_async(args=(order.id,), eta=datetime.utcnow() + timedelta(days=2),
+        expire_async.apply_async(args=(order.id,), eta=datetime.utcnow() + timedelta(days=3),
                                  task_id=self.request.id)
     except:
         print(f"Failed retrieving order object of id {order_id}")
