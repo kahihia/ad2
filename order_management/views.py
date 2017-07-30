@@ -144,7 +144,7 @@ class ConfirmPaymentView(View):
     @staticmethod
     @login_required()
     @customer_required
-    def post(request):
+    def post(request,order_id):
         try:
             Customer.objects.get(user=request.user)
         except:
@@ -152,8 +152,6 @@ class ConfirmPaymentView(View):
         has_error = False
 
         context = make_context(request)
-
-
 
         if('photo' not in request.FILES):
             has_error = True
@@ -169,10 +167,34 @@ class ConfirmPaymentView(View):
             photo = request.FILES.get('deposit-slip')
 
             order = Order.objects.get(id=order_id)
-            context["order"] = order
             order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
 
             return redirect(f"/orders/{order_id}/")
+
+        customer = Customer.objects.get(user=request.user)
+        orders = Order.objects.all().filter(customer=customer)
+
+        pending_orders = orders.filter(status="P")
+        approved_orders = orders.filter(status="A")
+        shipped_orders = orders.filter(status="S")
+        cancelled_orders = orders.filter(status="C")
+        order = Order.objects.get(order_id=order_id)
+        expand = order.get_status_display().lower()
+        line_items = OrderLineItems.objects.all().filter(parent_order=order_id)
+
+        context.update({
+            "line_items": line_items,
+            "active_order": order,
+            "customer": customer,
+            "total_price": order.total_price,
+            "orders": {
+                "pending": pending_orders,
+                "processing": approved_orders,
+                "shipped": shipped_orders,
+                "cancelled": cancelled_orders,
+            },
+            "expand": expand
+        })
 
         return render(request,'customer_orders.html',context)
 
