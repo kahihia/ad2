@@ -138,13 +138,11 @@
                     <strong>Error:</strong> Please make sure to upload the deposit slip and input the date
                     of payment!
                 </div>
-            {% endif %}
-            {% if photo_error %}
+            {% elif photo_error %}
                 <div class="alert alert-danger" role="alert">
                     <strong>Error:</strong> Please make sure to upload the deposit slip!
                 </div>
-            {% endif %}
-            {% if date_error %}
+            {% elif date_error %}
                 <div class="alert alert-danger" role="alert">
                     <strong>Error:</strong> Please make sure to input the date of payment!
                 </div>
