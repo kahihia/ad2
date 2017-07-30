@@ -662,7 +662,5 @@ class OrderSetCancelled(View):
 
         order.status = "C"
         order.save()
-        print(order.queue_id)
-        app.control.revoke(order.queue_id, terminate=True)
 
         return redirect("/entity-management/orders-report/")
