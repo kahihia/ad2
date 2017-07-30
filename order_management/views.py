@@ -142,31 +142,31 @@ class WaitlistView(View):
 
 class ConfirmPaymentView(View):
     @staticmethod
-    @login_required()
+    @login_required
     @customer_required
-    def post(request,order_id):
+    def post(request):
         try:
             Customer.objects.get(user=request.user)
         except:
             Http404('Could not get Customer object')
         has_error = False
+        order_id = request.POST.get('order-id')
+        order = Order.objects.get(id=order_id)
 
-        context = make_context(request)
+        context = make_context(request,include_stalls_and_products=False)
 
-        if('photo' not in request.FILES):
+        if 'photo' not in request.FILES:
             has_error = True
             context["photo_error"] = True
-        if ('date' not in request.POST):
+
+        if request.POST.get("date_error") is None:
             has_error = True
             context["date_error"] = True
 
 
         if(not has_error):
-            order_id = request.POST.get('order-id')
             date_paid = request.POST.get('date')
             photo = request.FILES.get('deposit-slip')
-
-            order = Order.objects.get(id=order_id)
             order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
 
             return redirect(f"/orders/{order_id}/")
@@ -178,7 +178,6 @@ class ConfirmPaymentView(View):
         approved_orders = orders.filter(status="A")
         shipped_orders = orders.filter(status="S")
         cancelled_orders = orders.filter(status="C")
-        order = Order.objects.get(order_id=order_id)
         expand = order.get_status_display().lower()
         line_items = OrderLineItems.objects.all().filter(parent_order=order_id)
 
@@ -195,6 +194,7 @@ class ConfirmPaymentView(View):
             },
             "expand": expand
         })
+
 
         return render(request,'customer_orders.html',context)
 
