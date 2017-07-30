@@ -55,27 +55,33 @@ class Order(Model):
             total_price += float(order_item.line_price)
         return total_price
 
+    def set_to_expire(self):
+        # TODO: Set order to expire here
+        # expire.apply_async(args=(self.id,), countdown=0)
+        pass
+
+    def remove_expiration(self):
+        # TODO: Cancel order expiration here
+        # app.control.revoke(self.queue_id, terminate=True)
+        pass
+
     def submit_customer_payment(self, deposit_photo, payment_date):
         self.customer_deposit_photo = deposit_photo
         self.customer_payment_date = payment_date
         self.status = 'A'
+        self.remove_expiration()
         self.save()
 
     def approve_customer_payment(self):
         self.status = 'A'  # Change to Processing
         self.payment_verified = True
-
-        app.control.revoke(self.queue_id, terminate=True)
-
         self.save()
 
     def reject_customer_payment(self):
         self.customer_deposit_photo = None
         self.customer_payment_date = None
         self.status = 'P'
-
-        # expire.apply_async(args=(self.id,), countdown=0)
-
+        self.set_to_expire()
         self.save()
 
     def accept_customer_payment(self):

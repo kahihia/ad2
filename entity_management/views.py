@@ -1,10 +1,10 @@
 from .models import *
-from django.http import HttpResponseBadRequest
 import json
 from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
 from celery import Celery
+# from IrisOnline.tasks import expire
 from datetime import datetime, timedelta
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
@@ -595,7 +595,8 @@ class ReplenishProductView(View):
             restock_quantity = int(restock_quantity)
             add_selected = int(add_selected)
         except:
-            return HttpResponseBadRequest
+            restock_quantity = 0
+            add_selected = 0
 
         if add_selected:
             product.quantity += restock_quantity

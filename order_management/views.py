@@ -11,8 +11,6 @@ from .forms import ConfirmPaymentForm
 from celery import Celery
 
 
-
-
 class UserOrdersView(View):
     @staticmethod
     @login_required
