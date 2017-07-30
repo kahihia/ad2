@@ -149,21 +149,24 @@ class ConfirmPaymentView(View):
             Customer.objects.get(user=request.user)
         except:
             Http404('Could not get Customer object')
-        has_error = False
+
         order_id = request.POST.get('order-id')
         order = Order.objects.get(id=order_id)
 
         context = make_context(request,include_stalls_and_products=False)
+        has_error = False
 
-        if 'photo' not in request.FILES:
+        if request.FILES.get('deposit-slip') is None:
             has_error = True
+            print(has_error)
             context["photo_error"] = True
 
-        if request.POST.get("date_error") is None:
+        if request.POST.get("date") is None:
             has_error = True
+            print(has_error)
             context["date_error"] = True
 
-
+        print(has_error)
         if(not has_error):
             date_paid = request.POST.get('date')
             photo = request.FILES.get('deposit-slip')
