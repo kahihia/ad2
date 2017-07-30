@@ -660,7 +660,4 @@ class OrderSetCancelled(View):
         except:
             raise Http404()
 
-        order.status = "C"
-        order.save()
-
         return redirect("/entity-management/orders-report/")

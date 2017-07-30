@@ -30,7 +30,10 @@ class Order(Model):
     customer_deposit_photo = FileField(blank=True, null=True, default=None)
     customer_payment_date = DateField(null=True, blank=True, default=None)
     payment_verified = BooleanField(default=False)
-    queue_id=CharField(null=True,max_length=64)
+    queue_id = CharField(null=True, max_length=64)
+
+    # Are stocks held hostage by this order?
+    stock_held = BooleanField(default=True)
 
     @staticmethod
     def print_orders_containing_product(product):
@@ -75,11 +78,15 @@ class Order(Model):
     def cancel(self):
         self.status = 'C'
 
-        # Return product to inventory
-        for line_item in self.orderlineitems_set.all():
-            product = line_item.product
-            product.quantity += line_item.quantity
-            product.save()
+        if self.stock_held:
+            # Return product to inventory
+            for line_item in self.orderlineitems_set.all():
+                product = line_item.product
+                product.quantity += line_item.quantity
+                product.save()
+
+            # Stocks have been released
+            self.stock_held = False
 
         self.save()
 
