@@ -27,8 +27,6 @@ urlpatterns = [
     url(r'^confirm-payments/(?P<order_id>(\d+))/reject/$', views.RejectOrderView.as_view()),
 
     # Order statuses
-    url(r'orders/(?P<order_id>(\d+))/set-pending/$', views.OrderSetPending.as_view()),
-    url(r'orders/(?P<order_id>(\d+))/set-processing/$', views.OrderSetProcessing.as_view()),
     url(r'orders/(?P<order_id>(\d+))/set-shipped/$', views.OrderSetShipping.as_view()),
     url(r'orders/(?P<order_id>(\d+))/set-cancelled/$', views.OrderSetCancelled.as_view()),
 ]
