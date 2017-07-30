@@ -198,6 +198,33 @@ class ConfirmPaymentView(View):
 
         return render(request,'customer_orders.html',context)
 
+    @staticmethod
+    @login_required
+    @customer_required
+    def get(request):
+        context = make_context(request, include_stalls_and_products=False)
+        user = request.user
+        customer = Customer.objects.get(user=user)
+
+        orders = Order.objects.all().filter(customer=customer)
+
+        pending_orders = orders.filter(status="P")
+        approved_orders = orders.filter(status="A")
+        shipped_orders = orders.filter(status="S")
+        cancelled_orders = orders.filter(status="C")
+
+        context.update({
+            "customer": customer,
+            "expand": "pending",
+            "orders": {
+                "pending": pending_orders,
+                "processing": approved_orders,
+                "shipped": shipped_orders,
+                "cancelled": cancelled_orders,
+            }
+        })
+        return render(request, 'customer_orders.html', context)
+
 
 class CancelOrderView(View):
     @staticmethod
