@@ -622,6 +622,8 @@ class OrderSetPending(View):
 
             if order.status != "C":
                 order.reject_customer_payment()  # Similar behavior as setting to 'P'
+                expire.apply_async(args=(order.id,), countdown=0)
+                
 
         except:
             raise Http404()
@@ -677,6 +679,8 @@ class OrderSetCancelled(View):
             # Cannot change status of a cancelled order
             if order.status != "C":
                 order.cancel()
+                expire.apply_async(args=(order.id,), countdown=0)
+
         except:
             raise Http404()
 

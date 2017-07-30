@@ -57,7 +57,7 @@ class Order(Model):
         self.customer_deposit_photo = deposit_photo
         self.customer_payment_date = payment_date
         self.status = 'A'
-        
+
         self.save()
 
     def approve_customer_payment(self):
