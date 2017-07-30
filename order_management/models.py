@@ -36,7 +36,10 @@ class Order(Model):
     customer_deposit_photo = FileField(blank=True, null=True, default=None)
     customer_payment_date = DateField(null=True, blank=True, default=None)
     payment_verified = BooleanField(default=False)
-    queue_id=CharField(null=True,max_length=64)
+    queue_id = CharField(null=True, max_length=64)
+
+    # Are stocks held hostage by this order?
+    stock_held = BooleanField(default=True)
 
     @staticmethod
     def print_orders_containing_product(product):
@@ -64,14 +67,18 @@ class Order(Model):
     def approve_customer_payment(self):
         self.status = 'A'  # Change to Processing
         self.payment_verified = True
+
         app.control.revoke(self.queue_id, terminate=True)
+
         self.save()
 
     def reject_customer_payment(self):
         self.customer_deposit_photo = None
         self.customer_payment_date = None
         self.status = 'P'
+        
         expire.apply_async(args=(self.id,), countdown=0)
+
         self.save()
 
     def accept_customer_payment(self):
@@ -81,11 +88,17 @@ class Order(Model):
     def cancel(self):
         self.status = 'C'
 
-        # Return product to inventory
-        for line_item in self.orderlineitems_set.all():
-            product = line_item.product
-            product.quantity += line_item.quantity
-            product.save()
+        app.control.revoke(self.queue_id, terminate=True)
+
+        if self.stock_held:
+            # Return product to inventory
+            for line_item in self.orderlineitems_set.all():
+                product = line_item.product
+                product.quantity += line_item.quantity
+                product.save()
+
+            # Stocks have been released
+            self.stock_held = False
 
         self.save()
 
