@@ -131,33 +131,6 @@ $(function () {
 
     }
 
-    function populateProductModal() {
-
-        const location = window.location.pathname + "products/";
-
-
-        console.log(location);
-        attachCSRF();
-        dict = {
-            "product_id": $("#product-id").val()
-        };
-        console.log(JSON.stringify(dict["product_id"]));
-
-        $.ajax({
-            url: location,
-            method: "GET",
-            data: JSON.stringify(dict),
-            success: function (data) {
-                console.log(data["name"]);
-            },
-            error: function () {
-                alert("something went wrong");
-            }
-
-        })
-
-    }
-
     function displayErrors(errorArray) {
 
         if (errorArray.length == 0) {
@@ -279,13 +252,15 @@ function editProduct(productID) {
         data: form,
         contentType: false,
         processData: false,
-        success: function () {
-            location.reload();
+        success: function (data) {
         },
         error: function (data) {
-            if (data.responseJSON) {
-                displayErrors(data.responseJSON);
+            var new_array = [];
+            var array = data["responseJSON"]["errors"];
+            for(i=0;i<array.length;i++){
+                new_array += array[i] + "\n"
             }
+            alert(new_array);
         }
 
     })

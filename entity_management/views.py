@@ -4,13 +4,10 @@ import json
 from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
-<<<<<<< HEAD
-from datetime import datetime
 from celery import Celery
 from IrisOnline.tasks import expire
-=======
 from datetime import datetime, timedelta
->>>>>>> 7db73d4dc5a6aae634e68c4141d9030f28dfebb1
+
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
 
@@ -61,7 +58,7 @@ class ProductView(View):
     def post(request, stall_id):
 
         if 'photo' not in request.FILES:
-            return HttpResponse(status=400)
+            return Http404('image not found')
 
         dict = {
             "product_name": request.POST.get('name'),
@@ -70,18 +67,19 @@ class ProductView(View):
             "quantity": request.POST.get('quantity')
         }
 
-        errors = handle_errors(dict)
-
-        if float(dict["price"]) < 0:
-            dict["price"] = 0
-
-        if int(dict["quantity"]) < 0:
-            dict["quantity"] = 0
+        errors = handle_errors(dict,method="create")
+        print(errors)
 
         if not errors:
+            if float(dict["price"]) < 0:
+                dict["price"] = 0
+
+            if int(dict["quantity"]) < 0:
+                dict["quantity"] = 0
+
             new_product = Product.objects.create(name=dict["product_name"],
                                                  description=dict["description"],
-                                                 photo=request.FILES.get('photo'),
+                                                 photo = request.FILES.get('photo'),
                                                  stall=Stall.objects.get(id=stall_id),
                                                  quantity=dict["quantity"])
 
@@ -184,7 +182,7 @@ class StallView(View):
         return HttpResponse(200)
 
 
-def handle_errors(dict):
+def handle_errors(dict,method):
     errors = []
     if is_invalid(dict["product_name"]):
         errors.append("Error Missing: Name field required")
@@ -192,6 +190,19 @@ def handle_errors(dict):
         errors.append("Error Missing: Price field required")
     if is_invalid(dict["description"]):
         errors.append("Error Missing: Description field required")
+    if(method == "create"):
+        if is_invalid(dict["quantity"]):
+            errors.append("Error Missing: Quantity field required")
+
+#NEVER USED ANYWAY
+    # try:
+    #     int(dict["quantity"])
+    # except:
+    #     errors.append("Error Invalid: Quantity must be an Integer")
+    # try:
+    #     float(dict["price"])
+    # except:
+    #     errors.append("Error Invalid: Price must be a valid value")
 
     return errors
 
@@ -207,15 +218,15 @@ def update_product(request, stall_id):
         "price": request.POST.get('price'),
     }
 
-    errors = handle_errors(request_data)
+    errors = handle_errors(request_data,method="update")
 
     if not errors:
         product = Product.objects.get(id=request.POST.get("product_id"))
         product.name = request_data["product_name"]
         product.description = request_data["description"]
 
-        if product.current_price != request_data["price"]:
-            if request_data["price"] < 0:
+        if product.current_price != float(request_data["price"]):
+            if float(request_data["price"]) < 0:
                 request_data["price"] = 0
 
             product.change_price(new_price=request_data["price"])
@@ -232,9 +243,12 @@ def update_product(request, stall_id):
             json.dumps(data),
             content_type="application/json"
         )
+    dict = {
+        "errors":errors
+    }
 
     return HttpResponse(
-        json.dumps(errors),
+        json.dumps(dict),
         content_type="application/json",
         status=400
     )
@@ -646,11 +660,9 @@ class OrderSetCancelled(View):
         except:
             raise Http404()
 
-<<<<<<< HEAD
         order.status = "C"
         order.save()
         print(order.queue_id)
         app.control.revoke(order.queue_id, terminate=True)
-=======
->>>>>>> 7db73d4dc5a6aae634e68c4141d9030f28dfebb1
+
         return redirect("/entity-management/orders-report/")
