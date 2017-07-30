@@ -332,32 +332,39 @@
                     <div class="modal-footer">
                         <h6 class="mt-2 ml-3 mr-auto">Change Order Status</h6>
                         <div class="btn-group mr-2" role="group" aria-label="status-group">
-                            {% if order.status == "P" %}
-                                <button type="button" class="btn btn-warning">Pending</button>
-                            {% else %}
-                                <a href="/entity-management/orders/{{ order.id }}/set-pending/" type="button"
-                                   class="btn btn-secondary">Pending</a>
-                            {% endif %}
+                            {% if order.status != "C" %}
+                                {% if order.status == "P" %}
+                                    <button type="button" class="btn btn-warning">Pending</button>
+                                {% else %}
+                                    <a href="/entity-management/orders/{{ order.id }}/set-pending/" type="button"
+                                       class="btn btn-secondary">Pending</a>
+                                {% endif %}
 
-                            {% if order.status == "A" %}
-                                <button type="button" class="btn btn-primary">Processing</button>
-                            {% else %}
-                                <a href="/entity-management/orders/{{ order.id }}/set-processing/" type="button"
-                                   class="btn btn-secondary">Processing</a>
-                            {% endif %}
+                                {% if order.status == "A" %}
+                                    <button type="button" class="btn btn-primary">Processing</button>
+                                {% else %}
+                                    <a href="/entity-management/orders/{{ order.id }}/set-processing/" type="button"
+                                       class="btn btn-secondary">Processing</a>
+                                {% endif %}
 
-                            {% if order.status == "S" %}
-                                <button type="button" class="btn btn-success">Shipped</button>
-                            {% else %}
-                                <a href="/entity-management/orders/{{ order.id }}/set-shipped/" type="button"
-                                   class="btn btn-secondary">Shipped</a>
-                            {% endif %}
+                                {% if order.status == "S" %}
+                                    <button type="button" class="btn btn-success">Shipped</button>
+                                {% else %}
+                                    <a href="/entity-management/orders/{{ order.id }}/set-shipped/" type="button"
+                                       class="btn btn-secondary">Shipped</a>
+                                {% endif %}
 
-                            {% if order.status == "C" %}
+                                {% if order.status == "C" %}
+                                    <button type="button" class="btn btn-danger">Cancelled</button>
+                                {% else %}
+                                    <a href="/entity-management/orders/{{ order.id }}/set-cancelled/" type="button"
+                                       class="btn btn-secondary">Cancelled</a>
+                                {% endif %}
+                            {% else %}
+                                <button type="button" class="btn disabled" disabled="disabled">Pending</button>
+                                <button type="button" class="btn disabled" disabled="disabled">Processing</button>
+                                <button type="button" class="btn disabled" disabled="disabled">Shipped</button>
                                 <button type="button" class="btn btn-danger">Cancelled</button>
-                            {% else %}
-                                <a href="/entity-management/orders/{{ order.id }}/set-cancelled/" type="button"
-                                   class="btn btn-secondary">Cancelled</a>
                             {% endif %}
                         </div>
                     </div>
