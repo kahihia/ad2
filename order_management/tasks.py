@@ -13,7 +13,8 @@ def get_recommended_products(product):
 
 # @periodic_task(run_every=(crontab(hour='*/24')), name="calculate_recommendations")
 def calculate_recommendations():
-    for product in Product.objects.all():
+    products = Product.objects.filter(is_active=True)
+    for product in products:
         print(f"Calculating Recommendations for {product.name}...")
         product_recommendations = calculate_recommendations_for_product(root_product=product)
 
@@ -30,7 +31,8 @@ def calculate_recommendations():
 def calculate_recommendations_for_product(root_product):
     recommended_products = []
 
-    for associated_product in Product.objects.all():
+    products = Product.objects.filter(is_active=True)
+    for associated_product in products:
         if associated_product.id == root_product.id:
             continue
 
