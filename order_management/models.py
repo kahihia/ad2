@@ -2,7 +2,7 @@ from django.dispatch import receiver
 from entity_management.models import Product
 from customer_profile.models import Customer
 from celery import Celery
-from IrisOnline.tasks import expire
+# from IrisOnline.tasks import expire
 from django.db.models.signals import post_save, pre_save
 from django.db.models import (
     Model,
@@ -74,7 +74,7 @@ class Order(Model):
         self.customer_payment_date = None
         self.status = 'P'
 
-        expire.apply_async(args=(self.id,), countdown=0)
+        # expire.apply_async(args=(self.id,), countdown=0)
 
         self.save()
 

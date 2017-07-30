@@ -1,66 +1,52 @@
-from celery import Celery
-from celery.schedules import crontab
-from celery.task import periodic_task
-from order_management.models import Order
-import celery
-from django.contrib.auth.models import User
-from datetime import datetime
-from celery.schedules import timedelta
-
-
-app = Celery('IrisOnline', broker='redis://localhost:6379/0')
-
-@app.task(bind=True, name="expire")
-def expire(self,order_id):
-    try:
-        order = Order.objects.get(id=order_id)
-        order.queue_id = self.request.id
-        print(f"queue_id: {order.queue_id}")
-        order.save()
-        expire_async.apply_async(args=(order.id,), eta=datetime.utcnow() + timedelta(minutes=2),task_id=self.request.id)
-    except:
-        print(f"Failed retrieving order object of id {order_id}")
-        return
-
-@app.task(bind=True, name="expire_async")
-def expire_async(self,order_id):
-    print(f"the task queue id is {self.request.id}")
-    try:
-        order = Order.objects.get(id=order_id)
-        print(f"the order status is {order.status}")
-    except:
-        print(f"Failed retrieving order object of id {order_id}")
-        return
-
-    if order.status != "P":
-        return
-
-    # Place products back to inventory
-    line_items = order.orderlineitems_set.all()
-
-    for line_item in line_items:
-        product = line_item.product
-        quantity = line_item.quantity
-
-        product.quantity += quantity
-        product.save()
-
-    # Cancel order
-    order.status = "C"
-    order.save()
-
-# @periodic_task(run_every=(crontab(minute=1)),name="ban the damn anime")
-# def ban_kammy():
-#     # kammy = User.objects.get(username="inoyamanaka")
-#     # if kammy: kammy.delete()
+# from celery import Celery
+# from celery.schedules import crontab
+# from celery.task import periodic_task
+# from order_management.models import Order
+# import celery
+# from django.contrib.auth.models import User
+# from datetime import datetime
+# from celery.schedules import timedelta
 #
-#     #lets step it up
-#     users = User.objects.all()
-#     kams_accounts = [user for user in users if user.username.includes("kam" or "ino" or "koreanshit")]
-#     for account in kams_accounts:
-#         account.delete()
-
-
-
-
-
+# app = Celery('IrisOnline', broker='redis://localhost:6379/0')
+#
+#
+# @app.task(bind=True, name="expire")
+# def expire(self, order_id):
+#     try:
+#         order = Order.objects.get(id=order_id)
+#         order.queue_id = self.request.id
+#         print(f"queue_id: {order.queue_id}")
+#         order.save()
+#         expire_async.apply_async(args=(order.id,), eta=datetime.utcnow() + timedelta(minutes=2),
+#                                  task_id=self.request.id)
+#     except:
+#         print(f"Failed retrieving order object of id {order_id}")
+#         return
+#
+#
+# @app.task(bind=True, name="expire_async")
+# def expire_async(self, order_id):
+#     print(f"the task queue id is {self.request.id}")
+#     try:
+#         order = Order.objects.get(id=order_id)
+#         print(f"the order status is {order.status}")
+#     except:
+#         print(f"Failed retrieving order object of id {order_id}")
+#         return
+#
+#     if order.status != "P":
+#         return
+#
+#     # Place products back to inventory
+#     line_items = order.orderlineitems_set.all()
+#
+#     for line_item in line_items:
+#         product = line_item.product
+#         quantity = line_item.quantity
+#
+#         product.quantity += quantity
+#         product.save()
+#
+#     # Cancel order
+#     order.status = "C"
+#     order.save()

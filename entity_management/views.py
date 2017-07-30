@@ -5,7 +5,6 @@ from IrisOnline.decorators import admin_required
 from django.contrib.auth import login, logout, authenticate
 from order_management.views import *
 from celery import Celery
-from IrisOnline.tasks import expire
 from datetime import datetime, timedelta
 
 app = Celery('IrisOnline', broker='redis://localhost:6379/0')
@@ -551,7 +550,7 @@ class RejectOrderView(View):
             # Cannot change status of a cancelled order
             if order.status != 'C':
                 order.reject_customer_payment()
-                
+
             return redirect("/entity-management/confirm-payments/")
         except:
             raise Http404("Order does not exist")

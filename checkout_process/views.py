@@ -10,7 +10,7 @@ from product_catalog.cart import Cart
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from order_management.models import *
-from IrisOnline.tasks import expire
+# from IrisOnline.tasks import expire
 from celery.schedules import datetime, timedelta
 
 
