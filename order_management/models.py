@@ -37,9 +37,6 @@ class Order(Model):
     payment_verified = BooleanField(default=False)
     queue_id = CharField(null=True, max_length=64)
 
-    # Are stocks held hostage by this order?
-    stock_held = BooleanField(default=True)
-
     @staticmethod
     def print_orders_containing_product(product):
         orders = [order for order in Order.objects.all() if order.has_product(product)]
@@ -75,7 +72,7 @@ class Order(Model):
         self.customer_deposit_photo = None
         self.customer_payment_date = None
         self.status = 'P'
-        
+
         expire.apply_async(args=(self.id,), countdown=0)
 
         self.save()
@@ -88,16 +85,11 @@ class Order(Model):
         self.status = 'C'
 
         app.control.revoke(self.queue_id, terminate=True)
-
-        if self.stock_held:
-            # Return product to inventory
-            for line_item in self.orderlineitems_set.all():
-                product = line_item.product
-                product.quantity += line_item.quantity
-                product.save()
-
-            # Stocks have been released
-            self.stock_held = False
+        # Return product to inventory
+        for line_item in self.orderlineitems_set.all():
+            product = line_item.product
+            product.quantity += line_item.quantity
+            product.save()
 
         self.save()
 
