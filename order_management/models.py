@@ -2,7 +2,6 @@ from django.dispatch import receiver
 from entity_management.models import Product
 from customer_profile.models import Customer
 from celery import Celery
-from IrisOnline.tasks import expire
 from django.db.models.signals import post_save, pre_save
 from django.db.models import (
     Model,
@@ -68,16 +67,12 @@ class Order(Model):
         self.status = 'A'  # Change to Processing
         self.payment_verified = True
 
-        app.control.revoke(self.queue_id, terminate=True)
-
         self.save()
 
     def reject_customer_payment(self):
         self.customer_deposit_photo = None
         self.customer_payment_date = None
         self.status = 'P'
-        
-        expire.apply_async(args=(self.id,), countdown=0)
 
         self.save()
 

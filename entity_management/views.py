@@ -531,6 +531,7 @@ class ApproveOrderView(View):
         try:
             order = Order.objects.get(id=int(order_id))
             order.approve_customer_payment()
+            app.control.revoke(order.queue_id, terminate=True)
             return redirect("/entity-management/confirm-payments/")
         except:
             raise Http404("Order does not exist")
@@ -544,6 +545,7 @@ class RejectOrderView(View):
         try:
             order = Order.objects.get(id=order_id)
             order.reject_customer_payment()
+            expire.apply_async(args=(order.id,), countdown=0)
             return redirect("/entity-management/confirm-payments/")
         except:
             raise Http404("Order does not exist")
