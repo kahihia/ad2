@@ -153,15 +153,28 @@ class ConfirmPaymentView(View):
             Customer.objects.get(user=request.user)
         except:
             Http404('Could not get Customer object')
+        has_error = False
 
-        order_id = request.POST.get('order-id')
-        date_paid = request.POST.get('date')
-        photo = request.FILES.get('deposit-slip')
+        context = make_context(request)
 
-        order = Order.objects.get(id=order_id)
-        order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
+        if('photo' not in request.FILES):
+            has_error = True
+            context["photo_error"] = True
+        if ('date' not in request.POST):
+            has_error = True
+            context["date_error"] = True
 
-        return redirect(f"/orders/{order_id}/")
+        if(not has_error):
+            order_id = request.POST.get('order-id')
+            date_paid = request.POST.get('date')
+            photo = request.FILES.get('deposit-slip')
+
+            order = Order.objects.get(id=order_id)
+            order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
+
+            return redirect(f"/orders/{order_id}/")
+
+        return render(request,'customer_orders.html',context)
 
 
 class CancelOrderView(View):
