@@ -66,14 +66,18 @@ class Order(Model):
     def approve_customer_payment(self):
         self.status = 'A'  # Change to Processing
         self.payment_verified = True
+
         app.control.revoke(self.queue_id, terminate=True)
+
         self.save()
 
     def reject_customer_payment(self):
         self.customer_deposit_photo = None
         self.customer_payment_date = None
         self.status = 'P'
+        
         expire.apply_async(args=(self.id,), countdown=0)
+
         self.save()
 
     def accept_customer_payment(self):
@@ -82,6 +86,8 @@ class Order(Model):
 
     def cancel(self):
         self.status = 'C'
+
+        app.control.revoke(self.queue_id, terminate=True)
 
         if self.stock_held:
             # Return product to inventory
