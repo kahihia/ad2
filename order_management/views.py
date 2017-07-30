@@ -1,14 +1,10 @@
-from django.shortcuts import render, Http404, redirect
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import render, Http404
 from django.views import View
-
 from IrisOnline.contexts import make_context
 from IrisOnline.decorators import customer_required
 from .models import *
-from .forms import ConfirmPaymentForm
-from celery import Celery
 
 
 class UserOrdersView(View):
@@ -159,7 +155,12 @@ class ConfirmPaymentView(View):
         photo = request.FILES.get('deposit-slip')
 
         order = Order.objects.get(id=order_id)
-        order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
+
+        try:
+            order.submit_customer_payment(deposit_photo=photo, payment_date=date_paid)
+        except:
+            # Cannot do anything if items have not been provided
+            pass
 
         return redirect(f"/orders/{order_id}/")
 
