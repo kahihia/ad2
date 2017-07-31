@@ -53,7 +53,7 @@
             </thead>
             <tbody>
             {% for order in orders_to_confirm %}
-                <tr class="clickable-row" data-toggle="modal" data-target="#details">
+                <tr class="clickable-row" data-toggle="modal" data-target="#{{ order.id }}-details">
                     <td>{{ order.id }}</td>
                     <td>{{ order.customer_payment_date }}</td>
                     <td>P {{ order.total_price }}</td>
@@ -78,7 +78,7 @@
 {% for order in orders_to_confirm %}
 
     <!-- Payment Details Modal -->
-    <div class="modal fade" id="details">
+    <div class="modal fade" id="{{ order.id }}-details">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
