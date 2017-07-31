@@ -253,6 +253,7 @@ function editProduct(productID) {
         contentType: false,
         processData: false,
         success: function (data) {
+            location.reload();
         },
         error: function (data) {
             var new_array = [];
