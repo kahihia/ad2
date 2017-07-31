@@ -11,7 +11,7 @@ def get_recommended_products(product):
     return products
 
 
-# @periodic_task(run_every=(crontab(hour='*/24')), name="calculate_recommendations")
+@periodic_task(run_every=(crontab(hour='*/24')), name="calculate_recommendations")
 def calculate_recommendations():
     products = Product.objects.filter(is_active=True)
     for product in products:
