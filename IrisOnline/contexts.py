@@ -6,7 +6,7 @@ from product_catalog.cart import Cart
 
 def available_stalls():
     return [stall for stall in Stall.objects.all()
-            if len(stall.product_set.all()) > 0]
+            if len(stall.product_set.filter(is_active=True)) > 0]
 
 
 def make_context(request, active_stall=None, include_stalls_and_products=True):
