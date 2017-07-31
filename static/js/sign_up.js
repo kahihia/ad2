@@ -26,37 +26,15 @@ $(document).ready(function () {
             $('#sign-in-button').addClass('disabled').attr('disabled', 'disabled');
         }
 
-        if ($('#username').hasClass('form-control-success')) {
-            var username = true;
-        }
+        const username = $('#username').hasClass('form-control-success');
+        const password = $('#password').hasClass('form-control-success');
+        const retype = $('#re-type').hasClass('form-control-success');
+        const name = $('#name').hasClass('form-control-success');
+        const address = $('#address').hasClass('form-control-success');
+        const city = $('#city').hasClass('form-control-success');
+        const postal = $('#postal-code').hasClass('form-control-success');
+        const number = $('#number').hasClass('form-control-success');
 
-        if ($('#password').hasClass('form-control-success')) {
-            var password = true;
-        }
-
-        if ($('#re-type').hasClass('form-control-success')) {
-            var retype = true;
-        }
-
-        if ($('#name').hasClass('form-control-success')) {
-            var name = true;
-        }
-
-        if ($('#address').hasClass('form-control-success')) {
-            var address = true;
-        }
-
-        if ($('#city').hasClass('form-control-success')) {
-            var city = true;
-        }
-
-        if ($('#postal-code').hasClass('form-control-success')) {
-            var postal = true;
-        }
-
-        if ($('#number').hasClass('form-control-success')) {
-            var number = true;
-        }
         if (username && password && retype && name && address && city && postal && number && matching) {
             $('#sign-in-button').removeClass('disabled').removeAttr('disabled');
         }
