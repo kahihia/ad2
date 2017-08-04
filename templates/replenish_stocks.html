@@ -145,8 +145,13 @@
                                        min="0">
                                 <input type="hidden" class="add-selected-input" name="add_selected" value="1">
                                 <div class="btn-group col-4">
-                                    <button type="button" class="btn btn-primary add-button">Add</button>
-                                    <button type="button" class="btn btn-secondary subtract-button">Subtract</button>
+                                    {% if product in out_of_stock %}
+                                        <button type="button" class="btn btn-primary add-button">Add</button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-primary add-button">Add</button>
+                                        <button type="button" class="btn btn-secondary subtract-button">Subtract
+                                        </button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
