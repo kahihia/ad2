@@ -6,7 +6,7 @@ from product_catalog.cart import Cart
 
 def available_stalls():
     return [stall for stall in Stall.objects.all()
-            if len(stall.product_set.all()) > 0]
+            if len(stall.product_set.filter(is_active=True)) > 0]
 
 
 def make_context(request, active_stall=None, include_stalls_and_products=True):
@@ -22,10 +22,10 @@ def make_context(request, active_stall=None, include_stalls_and_products=True):
         stalls = available_stalls()
 
         if active_stall:
-            products = Product.objects.all().filter(stall=active_stall)
+            products = Product.objects.filter(stall=active_stall, is_active=True)
         else:
             active_stall = None
-            products = Product.objects.all()
+            products = Product.objects.filter(is_active=True)
 
         out_of_stock = products.filter(quantity=0)
 

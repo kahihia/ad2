@@ -83,8 +83,8 @@ $(function () {
             url: window.location.pathname,
             method: "PUT",
             data: JSON.stringify(dict),
-            success: function (data) {
-                location.href = "/entity-management/";
+            success: function () {
+                location.reload();
             },
             error: function () {
                 alert("something went wrong");
@@ -253,6 +253,7 @@ function editProduct(productID) {
         contentType: false,
         processData: false,
         success: function (data) {
+            location.reload();
         },
         error: function (data) {
             var new_array = [];

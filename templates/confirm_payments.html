@@ -53,12 +53,13 @@
             </thead>
             <tbody>
             {% for order in orders_to_confirm %}
-                <tr class="clickable-row" data-toggle="modal" data-target="#details">
+                <tr class="clickable-row" data-toggle="modal" data-target="#{{ order.id }}-details">
                     <td>{{ order.id }}</td>
                     <td>{{ order.customer_payment_date }}</td>
                     <td>P {{ order.total_price }}</td>
                     {% if order.customer_deposit_photo %}
-                        <td><a class="btn btn-primary" href="{{ order.customer_deposit_photo.url }}">View Photo</a></td>
+                        <td><a class="btn btn-primary" href="{{ order.customer_deposit_photo.url }}" target="_blank">View
+                            Photo</a></td>
                     {% else %}
                         <td class="text-muted">No deposit photo</td>
                     {% endif %}
@@ -69,16 +70,16 @@
         </table>
     {% else %}
         <div class="container-fluid alert alert-success p-5 text-center">
-                <h3 class="mb-2 pt-3">There are no payments to confirm</h3>
-                <h6 class="text-muted pb-3">Orders require require payment confirmation will show up here.</h6>
-            </div>
+            <h3 class="mb-2 pt-3">There are no payments to confirm</h3>
+            <h6 class="text-muted pb-3">Orders require require payment confirmation will show up here.</h6>
+        </div>
     {% endif %}
 </div>
 
 {% for order in orders_to_confirm %}
 
     <!-- Payment Details Modal -->
-    <div class="modal fade" id="details">
+    <div class="modal fade" id="{{ order.id }}-details">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">

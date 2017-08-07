@@ -134,7 +134,7 @@ def search(request):
     products = Product.objects.filter(
         Q(name__icontains=key) |
         Q(description__icontains=key)
-    ).order_by("pk").reverse()
+    ).filter(is_active=True).order_by("pk").reverse()
 
     context = make_context(request)
     context["products"] = products
