@@ -158,12 +158,10 @@ class ConfirmPaymentView(View):
 
         if request.FILES.get('deposit-slip') is None:
             has_error = True
-            print(has_error)
             context["photo_error"] = True
 
         if request.POST.get("date") is None:
             has_error = True
-            print(has_error)
             context["date_error"] = True
 
         print(has_error)
