@@ -14,6 +14,7 @@ import os
 from celery import Celery
 import celery
 from celery.schedules import crontab
+import dj_database_url
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -143,7 +144,38 @@ LOGIN_URL = '/customer-sign-in/'
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TIMEZONE = 'Asia/Manila'
-CELERY_IGNORE_RESULT=True
+
+DATABASES['default'] =  dj_database_url.config()
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+
+
+# Email
+
+SENDGRID_USERNAME = os.environ.get('SENDGRID_USERNAME', None)  # noqa: F405
+SENDGRID_PASSWORD = os.environ.get('SENDGRID_PASSWORD', None)  # noqa: F405
+
+# Use SendGrid if we have the addon installed, else just print to console which
+# is accessible via Heroku logs
+if SENDGRID_USERNAME and SENDGRID_PASSWORD:
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_USER = SENDGRID_USERNAME
+    EMAIL_HOST_PASSWORD = SENDGRID_PASSWORD
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_TIMEOUT = 60
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+FROM_EMAIL = 'noreply@capitalgain.crypto'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+BROKER_URL=os.environ.get('REDIS_URL', ''),
+CELERY_RESULT_BACKEND=os.environ.get('REDIS_URL', '')# CELERY SETTINGS
+
+CELERY_BROKER_URL = BROKER_URL
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
 
 
 
