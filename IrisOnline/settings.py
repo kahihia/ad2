@@ -30,7 +30,7 @@ SECRET_KEY = 'v^v=_$hi$rgdj=lr17gsya3q9389hn39nd*#)$jj3)941la&1&=5-gawo05t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['enigmatic-fjord-70478.herokuapp.com']
 
 
 # Application definition
